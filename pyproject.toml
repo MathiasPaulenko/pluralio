@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pluralio"
-version = "0.1.0"
+version = "1.0.0"
 description = "Pluralization and singularization for Python — ES/EN, zero deps, type-safe"
 readme = "README.md"
 license = { text = "MIT" }
@@ -12,7 +12,7 @@ requires-python = ">=3.10"
 authors = [{ name = "Mathias Paulenko", email = "mathias.paulenko@outlook.com" }]
 keywords = ["pluralize", "singularize", "plural", "spanish", "english", "inflection"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
