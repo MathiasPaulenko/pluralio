@@ -23,7 +23,7 @@ English · Spanish · Zero dependencies · Type-safe · Extensible
 
 - **Zero dependencies** — pure Python standard library, nothing else to install
 - **Type-safe** — full type hints, `py.typed` marker included (PEP 561)
-- **100% test coverage** — 690 tests, every line is verified
+- **100% test coverage** — 869 tests, every line is verified
 - **Extensible at runtime** — add irregulars, rules, uncountables, or entire languages without touching source code
 - **Case preservation** — `"Library"` → `"Libraries"`, `"BOX"` → `"BOXES"`
 - **Count-aware** — `pluralize("item", count=1)` → `"item"`
@@ -268,23 +268,20 @@ How does pluralio compare to other Python inflection libraries?
 
 | Language | Code | Regex rules | Irregulars | Uncountables | Status |
 | --- | --- | --- | --- | --- | --- |
-| English | `en` | 6 | ~80 | ~50 | ✅ Complete |
-| Spanish | `es` | 9 | ~60 + ~35 extra singles | ~50 | ✅ Complete |
+| English | `en` | 6 | 131 | 76 | ✅ Complete |
+| Spanish | `es` | 9 | 61 + 34 extra singles | 62 | ✅ Complete |
 | Portuguese | `pt` | — | — | — | 🔜 Planned |
 | French | `fr` | — | — | — | 🔜 Planned |
 | Italian | `it` | — | — | — | 🔜 Planned |
-
-See [`ref/rules.md`](ref/rules.md) for the full rules reference.
 
 ## Roadmap
 
 | Version | Goal | Status |
 | --- | --- | --- |
-| `0.1.0` | English + Spanish, core engine, extensibility API | ✅ Done |
-| `0.2.0` | Portuguese (`pt`) | 🔜 Planned |
-| `0.3.0` | French (`fr`) | 🔜 Planned |
-| `0.4.0` | Italian (`it`) | 🔜 Planned |
-| `1.0.0` | API freeze, docs site, benchmarks | 🔜 Planned |
+| `1.0.0` | English + Spanish, core engine, extensibility API | ✅ Released |
+| `1.1.0` | Portuguese (`pt`) | 🔜 Planned |
+| `1.2.0` | French (`fr`) | 🔜 Planned |
+| `1.3.0` | Italian (`it`) | 🔜 Planned |
 
 ## Contributing
 
