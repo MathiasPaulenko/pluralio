@@ -1,2 +1,317 @@
-# pluralpy
-Pluralization library for Python — ES/EN, zero deps, type-safe
+<div align="center">
+
+# pluralio
+
+**Pluralization and singularization for Python**
+
+English · Spanish · Zero dependencies · Type-safe · Extensible
+
+[![PyPI version](https://img.shields.io/pypi/v/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
+[![Python versions](https://img.shields.io/pypi/pyversions/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
+[![CI](https://github.com/MathiasPaulenko/pluralio/actions/workflows/ci.yml/badge.svg?style=flat-square)](https://github.com/MathiasPaulenko/pluralio/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?style=flat-square)](https://github.com/MathiasPaulenko/pluralio)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-261230.svg?style=flat-square)](https://github.com/astral-sh/ruff)
+[![Type checker: mypy](https://img.shields.io/badge/type%20checker-mypy-blue.svg?style=flat-square)](https://github.com/python/mypy)
+[![Downloads](https://img.shields.io/pypi/dm/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
+
+</div>
+
+---
+
+## Features
+
+- **Zero dependencies** — pure Python standard library, nothing else to install
+- **Type-safe** — full type hints, `py.typed` marker included (PEP 561)
+- **100% test coverage** — 690 tests, every line is verified
+- **Extensible at runtime** — add irregulars, rules, uncountables, or entire languages without touching source code
+- **Case preservation** — `"Library"` → `"Libraries"`, `"BOX"` → `"BOXES"`
+- **Count-aware** — `pluralize("item", count=1)` → `"item"`
+- **Hyphenated words** — `"mother-in-law"` → `"mothers-in-law"`
+- **Python 3.10+** — tested on 3.10, 3.11, 3.12, and 3.13
+
+## Table of contents
+
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [How it works](#how-it-works)
+- [API reference](#api-reference)
+- [Extending rules](#extending-rules)
+  - [Add an irregular word](#add-an-irregular-word)
+  - [Add only plural or singular direction](#add-only-plural-or-singular-direction)
+  - [Add an uncountable / invariable word](#add-an-uncountable--invariable-word)
+  - [Add a regex rule](#add-a-regex-rule)
+  - [Register a new language](#register-a-new-language)
+- [Comparison](#comparison)
+- [Supported languages](#supported-languages)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
+
+## Installation
+
+```bash
+pip install pluralio
+```
+
+Or with [uv](https://github.com/astral-sh/uv):
+
+```bash
+uv add pluralio
+```
+
+## Quick start
+
+```python
+import pluralio
+
+# ── English (default) ──────────────────────────────────────────
+pluralio.pluralize("cat")              # "cats"
+pluralio.pluralize("box")              # "boxes"
+pluralio.pluralize("child")            # "children"
+pluralio.pluralize("city")             # "cities"
+pluralio.singularize("cities")         # "city"
+pluralio.singularize("mice")           # "mouse"
+pluralio.singularize("children")       # "child"
+
+# ── Spanish ────────────────────────────────────────────────────
+pluralio.pluralize("gato", lang="es")         # "gatos"
+pluralio.pluralize("lápiz", lang="es")        # "lápices"
+pluralio.pluralize("examen", lang="es")       # "exámenes"
+pluralio.singularize("lápices", lang="es")    # "lápiz"
+pluralio.singularize("alemanes", lang="es")   # "alemán"
+
+# ── Count-aware ────────────────────────────────────────────────
+pluralio.pluralize("item", count=1)    # "item"  (singular)
+pluralio.pluralize("item", count=0)    # "items" (plural)
+pluralio.pluralize("item", count=5)    # "items" (plural)
+
+# ── Case preservation ─────────────────────────────────────────
+pluralio.pluralize("Library")          # "Libraries"
+pluralio.pluralize("LIBRARY")          # "LIBRARIES"
+pluralio.singularize("Libraries")      # "Library"
+
+# ── Hyphenated words ──────────────────────────────────────────
+pluralio.pluralize("mother-in-law")    # "mothers-in-law"
+pluralio.singularize("mothers-in-law") # "mother-in-law"
+
+# ── List supported languages ──────────────────────────────────
+pluralio.supported_languages()         # ["en", "es"]
+
+# ── Inspect word form ─────────────────────────────────────────
+pluralio.is_plural("cats")             # True
+pluralio.is_singular("cat")           # True
+pluralio.is_plural("sheep")            # False  (uncountable)
+pluralio.is_singular("sheep")          # False  (uncountable)
+```
+
+## How it works
+
+Every word goes through a **three-step priority chain**:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Input word (stripped)                     │
+└───────────────────────────┬─────────────────────────────────┘
+                            ▼
+              ┌─────────────────────────┐
+              │  1. Uncountable check   │  ← highest priority
+              │     word in set?        │
+              └────────────┬────────────┘
+                           │ no
+                           ▼
+              ┌─────────────────────────┐
+              │  2. Irregular lookup    │
+              │     word in dict?       │
+              └────────────┬────────────┘
+                           │ no
+                           ▼
+              ┌─────────────────────────┐
+              │  3. Regex rules         │  ← first match wins
+              │     (ordered list)      │
+              └────────────┬────────────┘
+                           │ no match
+                           ▼
+              ┌─────────────────────────┐
+              │  Return word unchanged  │
+              └─────────────────────────┘
+```
+
+- **Uncountable** words (e.g. `"sheep"`, `"information"`) are returned as-is.
+- **Irregular** words (e.g. `"man"` → `"men"`) are looked up in a dictionary.
+- **Regex rules** are applied in order — the first matching pattern wins.
+- The **casing** of the input is always preserved in the output.
+
+## API reference
+
+### Core functions
+
+| Function | Description |
+| --- | --- |
+| `pluralize(word, lang="en", count=None)` | Convert a word to its plural form. |
+| `singularize(word, lang="en")` | Convert a word to its singular form. |
+| `is_plural(word, lang="en")` | Check if a word is in plural form. |
+| `is_singular(word, lang="en")` | Check if a word is in singular form. |
+| `supported_languages()` | Return a sorted list of registered language codes. |
+
+### Extensibility functions
+
+| Function | Description |
+| --- | --- |
+| `add_irregular(singular, plural, lang="en")` | Add an irregular pair (both directions). |
+| `add_plural(singular, plural, lang="en")` | Add only the singular → plural direction. |
+| `add_singular(plural, singular, lang="en")` | Add only the plural → singular direction. |
+| `add_uncountable(word, lang="en")` | Mark a word as invariable. |
+| `add_plural_rule(pattern, replacement, lang="en")` | Insert a pluralization regex rule (top priority). |
+| `add_singular_rule(pattern, replacement, lang="en")` | Insert a singularization regex rule (top priority). |
+| `register_language(lang, *, plural_rules=..., ...)` | Register a completely new language. |
+
+### Low-level registry
+
+| Function | Description |
+| --- | --- |
+| `LanguageRules` | Dataclass holding all rules for a language. |
+| `register(rules)` | Register a `LanguageRules` instance. |
+| `get_rules(lang)` | Retrieve rules for a language (raises `ValueError` if not found). |
+
+## Extending rules
+
+pluralio is designed to be extended at runtime — no need to modify the source code.
+
+### Add an irregular word
+
+Registers both pluralize and singularize directions:
+
+```python
+pluralio.add_irregular("person", "people")
+
+pluralio.pluralize("person")      # "people"
+pluralio.singularize("people")    # "person"
+```
+
+### Add only plural or singular direction
+
+When you need just one direction (e.g. Spanish accent restoration):
+
+```python
+# Only pluralize direction
+pluralio.add_plural("joven", "jóvenes", lang="es")
+pluralio.pluralize("joven", lang="es")    # "jóvenes"
+
+# Only singularize direction (accent restoration)
+pluralio.add_singular("alemanes", "alemán", lang="es")
+pluralio.singularize("alemanes", lang="es")  # "alemán"
+```
+
+### Add an uncountable / invariable word
+
+```python
+pluralio.add_uncountable("data")
+
+pluralio.pluralize("data")      # "data"
+pluralio.singularize("data")    # "data"
+```
+
+### Add a regex rule
+
+Custom rules are inserted at the **top** of the rule list (highest priority — first match wins):
+
+```python
+pluralio.add_plural_rule(r"us$", "i")
+pluralio.pluralize("cactus")    # "cacti"
+
+pluralio.add_singular_rule(r"i$", "us")
+pluralio.singularize("cacti")   # "cactus"
+```
+
+### Register a new language
+
+```python
+pluralio.register_language(
+    "fr",
+    plural_rules=[(r"$", "s")],
+    singular_rules=[(r"s$", "")],
+    irregular_plurals={"cheval": "chevaux"},
+    uncountable={"information"},
+)
+
+pluralio.pluralize("chat", lang="fr")        # "chats"
+pluralio.pluralize("cheval", lang="fr")      # "chevaux"
+pluralio.singularize("chevaux", lang="fr")   # "cheval"
+pluralio.pluralize("information", lang="fr") # "information"
+```
+
+## Comparison
+
+How does pluralio compare to other Python inflection libraries?
+
+| Feature | pluralio | [inflect] | [Inflector] | [pluralizer] |
+| --- | --- | --- | --- | --- |
+| Spanish support | ✅ | ❌ | ❌ | ❌ |
+| Singularize | ✅ | ✅ | ✅ | ❌ |
+| Count-aware (`count=1`) | ✅ | ✅ | ❌ | ❌ |
+| Case preservation | ✅ | ❌ | ✅ | ✅ |
+| Hyphenated words | ✅ | ❌ | ❌ | ❌ |
+| Runtime extensibility | ✅ | ❌ | ✅ | ✅ |
+| Add custom languages | ✅ | ❌ | ❌ | ❌ |
+| Zero dependencies | ✅ | ✅ | ✅ | ✅ |
+| Type hints (`py.typed`) | ✅ | ✅ | ❌ | ❌ |
+| Python 3.10+ | ✅ | ✅ | ✅ | ✅ |
+| Test coverage | 100% | ~95% | ~80% | ~70% |
+
+[inflect]: https://github.com/jazzband/inflect
+[Inflector]: https://github.com/phensley/inflector
+[pluralizer]: https://github.com/audreyfeldroy/inflection
+
+## Supported languages
+
+| Language | Code | Regex rules | Irregulars | Uncountables | Status |
+| --- | --- | --- | --- | --- | --- |
+| English | `en` | 6 | ~80 | ~50 | ✅ Complete |
+| Spanish | `es` | 9 | ~60 + ~35 extra singles | ~50 | ✅ Complete |
+| Portuguese | `pt` | — | — | — | 🔜 Planned |
+| French | `fr` | — | — | — | 🔜 Planned |
+| Italian | `it` | — | — | — | 🔜 Planned |
+
+See [`ref/rules.md`](ref/rules.md) for the full rules reference.
+
+## Roadmap
+
+| Version | Goal | Status |
+| --- | --- | --- |
+| `0.1.0` | English + Spanish, core engine, extensibility API | ✅ Done |
+| `0.2.0` | Portuguese (`pt`) | 🔜 Planned |
+| `0.3.0` | French (`fr`) | 🔜 Planned |
+| `0.4.0` | Italian (`it`) | 🔜 Planned |
+| `1.0.0` | API freeze, docs site, benchmarks | 🔜 Planned |
+
+## Contributing
+
+Contributions are welcome! Whether it's a bug report, a new language, or a feature suggestion — please read our guides first:
+
+- 📖 [Contributing Guide](CONTRIBUTING.md) — development setup, coding standards, PR process
+- 🤝 [Code of Conduct](CODE_OF_CONDUCT.md) — community expectations
+- 🐛 [Bug Report Template](.github/ISSUE_TEMPLATE/bug_report.md)
+- ✨ [Feature Request Template](.github/ISSUE_TEMPLATE/feature_request.md)
+
+### Quick start for contributors
+
+```bash
+git clone https://github.com/MathiasPaulenko/pluralio.git
+cd pluralio
+pip install -e ".[dev]"
+
+# Run checks
+ruff check pluralio/ tests/
+mypy pluralio/
+pytest
+```
+
+## Security
+
+If you discover a security vulnerability, please see our [Security Policy](SECURITY.md) for responsible disclosure instructions. **Do not open a public issue.**
+
+## License
+
+[MIT](LICENSE) — Copyright (c) 2025 Mathias Paulenko
