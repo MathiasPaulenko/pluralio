@@ -1130,6 +1130,15 @@ class TestEnNewUncountables:
     def test_uncountable_singularize(self, word: str) -> None:
         assert singularize(word) == word
 
+    @pytest.mark.parametrize("word", [
+        "amoyese", "pekingese", "yengeese", "lucchese", "piedmontese",
+        "blowfish", "catfish", "goldfish", "starfish", "swordfish",
+        "chickenpox", "smallpox", "monkeypox", "mousepox", "skunkpox",
+    ])
+    def test_uncountable_is_singular_and_plural(self, word: str) -> None:
+        assert is_singular(word) is True
+        assert is_plural(word) is True
+
 
 class TestEnForeignOWords:
     """Fase 4: Foreign -o words that pluralize with -os (not -oes)."""
