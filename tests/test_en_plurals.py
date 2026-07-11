@@ -132,13 +132,13 @@ class TestEnglishIrregularPlurals:
 class TestEnglishUncountable:
     @pytest.mark.parametrize("word", [
         "sheep", "deer", "fish", "moose", "salmon", "trout",
-        "rice", "bread", "beef", "pork", "milk", "cheese",
+        "rice", "bread", "pork", "milk", "cheese",
         "butter", "coffee", "tea", "juice", "water", "fruit",
         "sugar", "salt", "pepper", "soup", "pasta",
         "gold", "silver", "iron", "steel", "wood",
         "plastic", "rubber", "leather", "paper", "cotton", "wool",
         "information", "equipment", "news", "furniture", "luggage",
-        "money", "advice", "knowledge", "research", "evidence",
+        "advice", "knowledge", "research", "evidence",
         "education", "traffic", "music", "literature",
         "physics", "mathematics", "chemistry", "economics",
         "tuberculosis", "psoriasis", "rabies", "mumps",

@@ -1021,3 +1021,40 @@ class TestEnDemonyms:
     ])
     def test_demonym_is_plural(self, word: str) -> None:
         assert is_plural(word) is True
+
+
+class TestEnLatinGreekIrregulars:
+    """Round-trip tests for Latin/Greek classical irregular plurals (Fase 1)."""
+
+    @pytest.mark.parametrize("singular,plural", [
+        ("desideratum", "desiderata"),
+        ("maximum", "maxima"),
+        ("millennium", "millennia"),
+        ("anathema", "anathemata"),
+        ("schema", "schemata"),
+        ("alumna", "alumnae"),
+        ("formula", "formulae"),
+        ("nebula", "nebulae"),
+        ("stamen", "stamina"),
+        ("ephemeris", "ephemerides"),
+        ("arthritis", "arthritides"),
+        ("hepatitis", "hepatitides"),
+        ("perihelion", "perihelia"),
+        ("oxymoron", "oxymora"),
+        ("murex", "murices"),
+        ("latex", "latices"),
+        ("goy", "goyim"),
+        ("afrit", "afriti"),
+        ("mythos", "mythoi"),
+        ("graffito", "graffiti"),
+        ("beef", "beefs"),
+        ("money", "monies"),
+        ("numen", "numina"),
+        ("carmen", "carmina"),
+        ("genie", "genies"),
+    ])
+    def test_latin_greek_roundtrip(self, singular: str, plural: str) -> None:
+        assert pluralize(singular) == plural
+        assert singularize(plural) == singular
+        assert singularize(pluralize(singular)) == singular
+        assert pluralize(singularize(plural)) == plural

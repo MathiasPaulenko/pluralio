@@ -175,6 +175,76 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "passerby": "passersby",
     # Words ending in s (not ss) that need +es
     "walrus": "walruses", "iris": "irises",
+    # 1.1 -um → -a (unconditional)
+    "desideratum": "desiderata", "extremum": "extrema",
+    "candelabrum": "candelabra",
+    # 1.2 -um → -a (classical)
+    "maximum": "maxima", "minimum": "minima", "momentum": "momenta",
+    "optimum": "optima", "quantum": "quanta", "cranium": "crania",
+    "dictum": "dicta", "phylum": "phyla", "aquarium": "aquaria",
+    "compendium": "compendia", "emporium": "emporia", "encomium": "encomia",
+    "gymnasium": "gymnasia", "honorarium": "honoraria", "interregnum": "interregna",
+    "lustrum": "lustra", "millennium": "millennia", "rostrum": "rostra",
+    "speculum": "specula", "stadium": "stadia", "trapezium": "trapezia",
+    "ultimatum": "ultimata", "vacuum": "vacua", "velum": "vela",
+    "consortium": "consortia", "arboretum": "arboreta",
+    # 1.3 -a → -ata (classical)
+    "anathema": "anathemata", "bema": "bemata", "carcinoma": "carcinomata",
+    "charisma": "charismata", "diploma": "diplomata", "dogma": "dogmata",
+    "drama": "dramata", "edema": "edemata", "enema": "enemata",
+    "enigma": "enigmata", "lemma": "lemmata", "lymphoma": "lymphomata",
+    "magma": "magmata", "melisma": "melismata", "miasma": "miasmata",
+    "oedema": "oedemata", "sarcoma": "sarcomata", "schema": "schemata",
+    "soma": "somata", "stigma": "stigmata", "stoma": "stomata",
+    "trauma": "traumata", "gumma": "gummata", "pragma": "pragmata",
+    # 1.4 -a → -ae (unconditional)
+    "alumna": "alumnae", "alga": "algae", "vertebra": "vertebrae",
+    "persona": "personae", "vita": "vitae",
+    # 1.5 -a → -ae (classical)
+    "amoeba": "amoebae", "antenna": "antennae", "formula": "formulae",
+    "hyperbola": "hyperbolae", "medusa": "medusae", "nebula": "nebulae",
+    "parabola": "parabolae", "abscissa": "abscissae", "hydra": "hydrae",
+    "nova": "novae", "lacuna": "lacunae", "aurora": "aurorae",
+    "umbra": "umbrae", "flora": "florae", "fauna": "faunae",
+    # 1.6 -en → -ina (classical)
+    "stamen": "stamina", "foramen": "foramina", "lumen": "lumina",
+    # 1.7 -is → -ides (classical)
+    "ephemeris": "ephemerides", "clitoris": "clitorides",
+    "chrysalis": "chrysalides", "epididymis": "epididymides",
+    # 1.8 -itis → -itides
+    "arthritis": "arthritides", "bronchitis": "bronchitides",
+    "bursitis": "bursitides", "colitis": "colitides",
+    "dermatitis": "dermatitides", "encephalitis": "encephalitides",
+    "gastroenteritis": "gastroenteritides", "hepatitis": "hepatitides",
+    "meningitis": "meningitides", "neuritis": "neuritides",
+    "peritonitis": "peritonitides", "pharyngitis": "pharyngitides",
+    "sinusitis": "sinusitides", "tonsillitis": "tonsillitides",
+    "vasculitis": "vasculitides",
+    # 1.11 -on → -a (unconditional)
+    "perihelion": "perihelia", "aphelion": "aphelia",
+    "prolegomenon": "prolegomena", "noumenon": "noumena",
+    "organon": "organa", "asyndeton": "asyndeta", "hyperbaton": "hyperbata",
+    # 1.12 -on → -a (classical)
+    "oxymoron": "oxymora",
+    # 1.13 -ix/ex → -ices (unconditional)
+    "murex": "murices", "silex": "silices",
+    # 1.14 -ix/ex → -ices (classical)
+    "latex": "latices", "pontifex": "pontifices", "simplex": "simplices",
+    # 1.15 Hebrew → -im
+    "goy": "goyim", "seraph": "seraphim", "cherub": "cherubim",
+    # 1.16 Arabic → -i
+    "afrit": "afriti", "afreet": "afreeti", "efreet": "efreeti",
+    # 1.17 Other irregulars
+    "mythos": "mythoi", "penis": "penises", "testis": "testes",
+    "chili": "chilis", "brother": "brothers", "infinity": "infinities",
+    "lore": "lores", "beef": "beefs", "money": "monies",
+    "mongoose": "mongooses", "cow": "cows", "graffito": "graffiti",
+    "genie": "genies", "ganglion": "ganglions", "trilby": "trilbys",
+    "numen": "numina", "atman": "atmas", "occiput": "occiputs",
+    "sabretooth": "sabretooths", "sabertooth": "sabertooths",
+    "lowlife": "lowlifes", "flatfoot": "flatfoots", "tenderfoot": "tenderfoots",
+    "romany": "romanies", "jerry": "jerries", "mary": "maries",
+    "rom": "roma", "carmen": "carmina",
 }
 """Mapping of singular → plural for irregular English words.
 
@@ -271,13 +341,13 @@ Note:
 
 _UNCOUNTABLE: set[str] = {
     "sheep", "deer", "fish", "moose", "salmon", "trout",
-    "rice", "bread", "beef", "pork", "milk", "cheese",
+    "rice", "bread", "pork", "milk", "cheese",
     "butter", "coffee", "tea", "juice", "water", "fruit",
     "sugar", "salt", "pepper", "soup", "pasta",
     "gold", "silver", "iron", "steel", "wood",
     "plastic", "rubber", "leather", "paper", "cotton", "wool",
     "information", "equipment", "news", "furniture", "luggage",
-    "money", "advice", "knowledge", "research", "evidence",
+    "advice", "knowledge", "research", "evidence",
     "education", "traffic", "music", "literature",
     "physics", "mathematics", "chemistry", "economics",
     "tuberculosis", "psoriasis", "rabies", "mumps",
