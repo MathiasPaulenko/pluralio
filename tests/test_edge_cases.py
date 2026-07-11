@@ -1307,3 +1307,91 @@ class TestEnFase3InverseSingularization:
     ])
     def test_minor_subphases(self, plural: str, singular: str) -> None:
         assert singularize(plural) == singular
+
+
+class TestEnProperNounCasePreservation:
+    """Fase 5: Proper nouns ending in -ie with case preservation."""
+
+    @pytest.mark.parametrize("word,expected", [
+        ("Barbie", "Barbies"), ("Charlie", "Charlies"),
+        ("BILLIE", "BILLIES"), ("barbie", "barbies"),
+        ("charlie", "charlies"), ("Billie", "Billies"),
+        ("Annie", "Annies"), ("ANNIE", "ANNIES"),
+        ("Archie", "Archies"), ("artie", "arties"),
+        ("ARTIE", "ARTIES"), ("Bessie", "Bessies"),
+        ("BESSIE", "BESSIES"), ("bessie", "bessies"),
+        ("Betty", "Betties"), ("BETTY", "BETTIES"),
+        ("betty", "betties"), ("Bobbie", "Bobbies"),
+        ("Connie", "Connies"), ("connie", "connies"),
+        ("Curie", "Curies"), ("CURIE", "CURIES"),
+        ("Debbie", "Debbies"), ("Eddie", "Eddies"),
+        ("EDDIE", "EDDIES"), ("Ellie", "Ellies"),
+        ("Frankie", "Frankies"), ("Gracie", "Gracies"),
+        ("Jackie", "Jackies"), ("Jamie", "Jamies"),
+        ("Julie", "Julies"), ("JULIE", "JULIES"),
+        ("Katie", "Katies"), ("katie", "katies"),
+        ("KATIE", "KATIES"), ("Leslie", "Leslies"),
+        ("Maggie", "Maggies"), ("Millie", "Millies"),
+        ("Nellie", "Nellies"), ("nellie", "nellies"),
+        ("NELLIE", "NELLIES"), ("Ollie", "Ollies"),
+        ("Reggie", "Reggies"), ("Richie", "Richies"),
+        ("Rosie", "Rosies"), ("Sadie", "Sadies"),
+        ("sophie", "sophies"), ("Sophie", "Sophies"),
+        ("SOPHIE", "SOPHIES"), ("Susie", "Susies"),
+        ("Tommie", "Tommies"), ("Willie", "Willies"),
+        ("Winnie", "Winnies"), ("Yorkie", "Yorkies"),
+        ("yorkie", "yorkies"), ("YORKIE", "YORKIES"),
+        ("Sherry", "Sherries"), ("sherry", "sherries"),
+        ("SHERRY", "SHERRIES"),
+    ])
+    def test_proper_noun_pluralize_case(self, word: str, expected: str) -> None:
+        assert pluralize(word) == expected
+
+    @pytest.mark.parametrize("word,expected", [
+        ("Barbies", "Barbie"), ("Charlies", "Charlie"),
+        ("BILLIES", "BILLIE"), ("barbies", "barbie"),
+        ("charlies", "charlie"), ("Billies", "Billie"),
+        ("Annies", "Annie"), ("ANNIES", "ANNIE"),
+        ("Archies", "Archie"), ("Bessies", "Bessie"),
+        ("BESSIES", "BESSIE"), ("bessies", "bessie"),
+        ("Betties", "Betty"), ("BETTIES", "BETTY"),
+        ("betties", "betty"), ("Bobbies", "Bobbie"),
+        ("Connies", "Connie"), ("Curies", "Curie"),
+        ("CURIES", "CURIE"), ("Debbies", "Debbie"),
+        ("Eddies", "Eddie"), ("EDDIES", "EDDIE"),
+        ("Ellies", "Ellie"), ("Frankies", "Frankie"),
+        ("Gracies", "Gracie"), ("Jackies", "Jackie"),
+        ("Jamies", "Jamie"), ("Julies", "Julie"),
+        ("JULIES", "JULIE"), ("Katies", "Katie"),
+        ("katies", "katie"), ("KATIES", "KATIE"),
+        ("Leslies", "Leslie"), ("Maggies", "Maggie"),
+        ("Millies", "Millie"), ("Nellies", "Nellie"),
+        ("nellies", "nellie"), ("NELLIES", "NELLIE"),
+        ("Ollies", "Ollie"), ("Reggies", "Reggie"),
+        ("Richies", "Richie"), ("Rosies", "Rosie"),
+        ("Sadies", "Sadie"), ("sophies", "sophie"),
+        ("Sophies", "Sophie"), ("SOPHIES", "SOPHIE"),
+        ("Susies", "Susie"), ("Tommies", "Tommie"),
+        ("Willies", "Willie"), ("Winnies", "Winnie"),
+        ("Yorkies", "Yorkie"), ("yorkies", "yorkie"),
+        ("YORKIES", "YORKIE"), ("Sherries", "Sherry"),
+        ("sherries", "sherry"), ("SHERRIES", "SHERRY"),
+    ])
+    def test_proper_noun_singularize_case(self, word: str, expected: str) -> None:
+        assert singularize(word) == expected
+
+    @pytest.mark.parametrize("singular,plural", [
+        ("Barbie", "Barbies"), ("Charlie", "Charlies"),
+        ("Billie", "Billies"), ("Annie", "Annies"),
+        ("Bessie", "Bessies"), ("Betty", "Betties"),
+        ("Curie", "Curies"), ("Eddie", "Eddies"),
+        ("Julie", "Julies"), ("Katie", "Katies"),
+        ("Maggie", "Maggies"), ("Nellie", "Nellies"),
+        ("Reggie", "Reggies"), ("Sophie", "Sophies"),
+        ("Willie", "Willies"), ("Yorkie", "Yorkies"),
+        ("Sherry", "Sherries"), ("Bobbie", "Bobbies"),
+        ("Connie", "Connies"), ("Gracie", "Gracies"),
+    ])
+    def test_proper_noun_roundtrip(self, singular: str, plural: str) -> None:
+        assert singularize(pluralize(singular)) == singular
+        assert pluralize(singularize(plural)) == plural
