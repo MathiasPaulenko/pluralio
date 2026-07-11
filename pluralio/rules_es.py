@@ -78,6 +78,10 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "bistec": "bisteces", "coñac": "coñaces",
     "gas": "gases", "bus": "buses", "vals": "valses",
     "compás": "compases",
+    # Words ending in -é (need explicit mapping to fix -és idempotency bug)
+    "café": "cafés", "té": "tés", "bebé": "bebés",
+    "puré": "purés", "cliché": "clichés", "paté": "patés",
+    "rosé": "rosés", "bidé": "bidés", "frappé": "frappés",
     # Words ending in -y (invariable or -yes)
     "ley": "leyes", "rey": "reyes", "buey": "bueyes",
     "hoy": "hoyes", "convoy": "convoyes",

@@ -75,6 +75,9 @@ SPANISH_WORDS = [
     "nube", "nieve", "adobe", "pibe", "nene", "mole",
     # compás fix
     "compás",
+    # -é words (idempotency fix)
+    "café", "té", "bebé", "puré", "cliché", "paté",
+    "rosé", "bidé", "frappé",
     # -y words
     "ley", "rey", "buey", "hoy", "convoy",
     # loanwords -r
