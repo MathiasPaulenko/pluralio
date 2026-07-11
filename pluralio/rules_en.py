@@ -787,7 +787,7 @@ _UNCOUNTABLE: set[str] = {
     "portuguese", "javanese", "sundanese", "senegalese", "congolese",
     "sudanese", "maltese", "siamese",
     # 2.1 Animals/herd (invariable)
-    "bison", "buffalo", "caribou", "elk", "swine", "wildebeest", "eland",
+    "bison", "buffalo", "caribou", "elk", "rhinoceros", "swine", "wildebeest", "eland",
     # 2.2 Fish (invariable)
     "cod", "flounder", "grouse", "haddock", "hake", "halibut", "herring",
     "mackerel", "pike", "roe", "shad", "snipe", "teal", "turbot",
