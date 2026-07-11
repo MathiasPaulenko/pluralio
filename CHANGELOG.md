@@ -2,6 +2,24 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2025-07-11
+
+### Added
+
+- ~130 Latin/Greek classical irregular plurals (Fase 1): -um→-a, -a→-ata, -a→-ae, -en→-ina, -is→-ides, -itis→-itides, -on→-a, -ix/ex→-ices, Hebrew -im, Arabic -i, and other irregulars
+- ~40 English uncountables (Fase 2): herd animals, fish, and other invariable nouns
+- ~300 explicit inverse singularizations (Fase 3): -uses→-use, -eses→-esis, -oes→-oe, -xes→-xe, -zzes→-zz, -ois→-oi
+- ~98 foreign -o words with -os pluralization (Fase 4): musical terms, food, animals, and general loanwords
+- ~130 proper noun irregulars with case preservation (Fase 5): names ending in -ie/-y→-ies
+- ~22 singular -s words with -es pluralization (Fase 6): acropolis, aegis, alias, cosmos, ethos, etc.
+- ~52 suffix-based uncountables (Fase 7): demonyms in -ese, fish names, pox diseases
+- `rhinoceros` to `_UNCOUNTABLE`
+- `octopi`, `hippopotami`, `platypi` to `_IRREGULAR_SINGLES` for correct singularization of Latin plural forms
+
+### Changed
+
+- Roadmap Fase 8 (verbs/pronouns) evaluated and explicitly marked as out of scope
+
 ## [1.2.0] - 2025-07-11
 
 ### Changed
