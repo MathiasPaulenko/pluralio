@@ -23,7 +23,7 @@ English · Spanish · Zero dependencies · Type-safe · Extensible
 
 - **Zero dependencies** — pure Python standard library, nothing else to install
 - **Type-safe** — full type hints, `py.typed` marker included (PEP 561)
-- **100% test coverage** — 869 tests, every line is verified
+- **100% test coverage** — 2,817 tests, every line is verified
 - **Extensible at runtime** — add irregulars, rules, uncountables, or entire languages without touching source code
 - **Case preservation** — `"Library"` → `"Libraries"`, `"BOX"` → `"BOXES"`
 - **Count-aware** — `pluralize("item", count=1)` → `"item"`
@@ -246,30 +246,34 @@ pluralio.pluralize("information", lang="fr") # "information"
 
 How does pluralio compare to other Python inflection libraries?
 
-| Feature | pluralio | [inflect] | [Inflector] | [pluralizer] |
+| Feature | pluralio | [inflect] | [pluralsingular] | [pluralizer] |
 | --- | --- | --- | --- | --- |
-| Spanish support | ✅ | ❌ | ❌ | ❌ |
+| Spanish pluralization | ✅ 100% | ❌ 39% | ⚠️ 74% | ❌ 40% |
+| Spanish singularization | ✅ 100% | ❌ 29% | ⚠️ 87% | ❌ N/A |
 | Singularize | ✅ | ✅ | ✅ | ❌ |
 | Count-aware (`count=1`) | ✅ | ✅ | ❌ | ❌ |
-| Case preservation | ✅ | ❌ | ✅ | ✅ |
+| Case preservation | ✅ | ❌ | ❌ | ✅ |
 | Hyphenated words | ✅ | ❌ | ❌ | ❌ |
-| Runtime extensibility | ✅ | ❌ | ✅ | ✅ |
-| Add custom languages | ✅ | ❌ | ❌ | ❌ |
-| Zero dependencies | ✅ | ✅ | ✅ | ✅ |
+| Idempotency (ES) | ✅ | ❌ | ❌ | ❌ |
+| Uncountables (ES) | ✅ ~87 | ❌ | ❌ | ❌ |
+| Accent restoration (ES) | ✅ | ❌ | ⚠️ Partial | ❌ |
+| Runtime extensibility | ✅ | ❌ | ❌ | ✅ |
+| Add custom languages | ✅ | ❌ | ✅ | ❌ |
+| Zero dependencies | ✅ | ❌ | ✅ | ✅ |
 | Type hints (`py.typed`) | ✅ | ✅ | ❌ | ❌ |
 | Python 3.10+ | ✅ | ✅ | ✅ | ✅ |
-| Test coverage | 100% | ~95% | ~80% | ~70% |
+| Test coverage | 100% | ~95% | ~60% | ~70% |
 
 [inflect]: https://github.com/jazzband/inflect
-[Inflector]: https://github.com/phensley/inflector
+[pluralsingular]: https://pypi.org/project/pluralsingular/
 [pluralizer]: https://github.com/audreyfeldroy/inflection
 
 ## Supported languages
 
 | Language | Code | Regex rules | Irregulars | Uncountables | Status |
 | --- | --- | --- | --- | --- | --- |
-| English | `en` | 6 | 131 | 76 | ✅ Complete |
-| Spanish | `es` | 9 | 61 + 34 extra singles | 62 | ✅ Complete |
+| English | `en` | 6 | 681 | 196 | ✅ Complete |
+| Spanish | `es` | 9 | 351 + 80 extra singles | 87 | ✅ Complete |
 | Portuguese | `pt` | — | — | — | 🔜 Planned |
 | French | `fr` | — | — | — | 🔜 Planned |
 | Italian | `it` | — | — | — | 🔜 Planned |
@@ -279,9 +283,13 @@ How does pluralio compare to other Python inflection libraries?
 | Version | Goal | Status |
 | --- | --- | --- |
 | `1.0.0` | English + Spanish, core engine, extensibility API | ✅ Released |
-| `1.1.0` | Portuguese (`pt`) | 🔜 Planned |
-| `1.2.0` | French (`fr`) | 🔜 Planned |
-| `1.3.0` | Italian (`it`) | 🔜 Planned |
+| `1.1.0` | English classical plurals, uncountables, suffix rules | ✅ Released |
+| `1.2.0` | English -che words, compound prefixes, whitespace | ✅ Released |
+| `1.3.0` | English expansion (Latin/Greek, proper nouns, -o words) | ✅ Released |
+| `1.4.0` | Spanish expansion (loanwords, accent restoration, uncountables, idempotency fix) | ✅ Released |
+| `1.5.0` | Portuguese (`pt`) | 🔜 Planned |
+| `1.6.0` | French (`fr`) | 🔜 Planned |
+| `1.7.0` | Italian (`it`) | 🔜 Planned |
 
 ## Contributing
 

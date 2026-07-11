@@ -2,6 +2,31 @@
 
 ## [Unreleased]
 
+## [1.4.0] - 2025-07-11
+
+### Added
+
+- `compás` → `compases` irregular plural (was incorrectly handled by regex)
+- 17 Spanish loanwords ending in `-r` with `-s` pluralization: `monitor`, `scanner`, `manager`, `browser`, `printer`, `computer`, `editor`, `visitor`, `sponsor`, `partner`, `provider`, `supplier`, `investor`, `founder`, `developer`, `sender`, `receiver`
+- 9 Spanish words ending in `-é` as explicit irregulars: `café`, `té`, `bebé`, `puré`, `cliché`, `paté`, `rosé`, `bidé`, `frappé`
+- 10 Spanish accent restoration mappings in `_EXTRA_SINGLES`: `caimanes`→`caimán`, `guardianes`→`guardián`, `sotanes`→`sotán`, `comodines`→`comodín`, `edenes`→`edén`, `limones`→`limón`, `melones`→`melón`, `dragones`→`dragón`, `campeones`→`campeón`
+- 20 Spanish uncountables: medical/scientific (`parálisis`, `tuberculosis`, `psoriasis`, `elefantiasis`, `pediculosis`, `rabies`, `mumps`), biblical (`génesis`, `apocalipsis`), anatomical (`biceps`, `triceps`, `cuádriceps`, `forceps`), compound words (`lavacoches`, `sacamuelas`, `cortaplumas`, `abrelatas`, `parachoques`, `rompecorazones`, `sacaorchos`)
+- 5 Spanish `-y` words: `ley`, `rey`, `buey`, `hoy`, `convoy`
+- 4 non-tech loanwords: `sandwich`, `whisky`, `ponche`, `parche`
+
+### Fixed
+
+- Idempotency bug: `pluralize(pluralize("café", lang="es"), lang="es")` returned `"cafeses"` instead of `"cafés"`. The regex rule `-és$` → `-eses` was incorrectly matching already-plural forms like `cafés`, `tés`, `bebés`. Fixed by adding these words as explicit irregulars.
+
+### Changed
+
+- Spanish irregular plurals: 61 → 351
+- Spanish extra singles: 34 → 80
+- Spanish uncountables: 62 → 87
+- Test suite: 2,799 → 2,817 tests
+- Updated comparison table in README to include `pluralsingular` as competitor
+- Updated roadmap to reflect actual release history
+
 ## [1.3.0] - 2025-07-11
 
 ### Added
