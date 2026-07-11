@@ -158,18 +158,18 @@ class TestWordsWithNumbers:
 
 
 class TestWhitespaceHandling:
-    def test_strips_whitespace_pluralize(self) -> None:
-        assert pluralize("  cat  ") == "cats"
+    def test_preserves_whitespace_pluralize(self) -> None:
+        assert pluralize("  cat  ") == "  cats  "
 
-    def test_strips_whitespace_singularize(self) -> None:
-        assert singularize("  cats  ") == "cat"
+    def test_preserves_whitespace_singularize(self) -> None:
+        assert singularize("  cats  ") == "  cat  "
 
     def test_whitespace_only_returns_as_is(self) -> None:
         assert pluralize("   ") == "   "
         assert singularize("   ") == "   "
 
-    def test_count_one_strips_whitespace(self) -> None:
-        assert pluralize("  cat  ", count=1) == "cat"
+    def test_count_one_preserves_whitespace(self) -> None:
+        assert pluralize("  cat  ", count=1) == "  cat  "
 
 
 class TestMixedCase:
@@ -881,3 +881,143 @@ class TestEsHipotesisUncountable:
 
     def test_is_plural(self) -> None:
         assert is_plural("hipótesis", lang="es") is True
+
+
+class TestEnChSingularization:
+    """Words ending in -ch (not -che) must singularize correctly.
+
+    The old ([aeiou])ches$ rule broke words like beach, teach, coach
+    by returning beache, teache, coache. Now they use the standard
+    (ss|sh|ch|x|zz)es$ rule.
+    """
+
+    @pytest.mark.parametrize("word", [
+        "beach", "peach", "reach", "teach", "preach", "bleach",
+        "coach", "approach", "broach", "encroach", "crouch",
+        "lunch", "crunch", "bunch", "punch", "hunch",
+        "branch", "ranch", "starch", "march", "torch", "porch",
+    ])
+    def test_ch_roundtrip(self, word: str) -> None:
+        plural = pluralize(word)
+        assert singularize(plural) == word
+
+    @pytest.mark.parametrize("word,expected", [
+        ("beaches", "beach"), ("peaches", "peach"), ("reaches", "reach"),
+        ("teaches", "teach"), ("coaches", "coach"), ("approaches", "approach"),
+        ("lunches", "lunch"), ("branches", "branch"), ("torches", "torch"),
+    ])
+    def test_ch_plural_singularizes(self, word: str, expected: str) -> None:
+        assert singularize(word) == expected
+
+    @pytest.mark.parametrize("word", [
+        "ache", "cache", "niche", "apache", "creche", "machete",
+        "mustache", "moustache", "avalanche", "psyche", "demarche",
+        "tranche", "thelarche",
+    ])
+    def test_che_roundtrip(self, word: str) -> None:
+        plural = pluralize(word)
+        assert singularize(plural) == word
+
+
+class TestWhitespacePreservation:
+    """Leading/trailing whitespace must be preserved in output."""
+
+    @pytest.mark.parametrize("word,expected", [
+        ("  cat  ", "  cats  "),
+        (" cat", " cats"),
+        ("cat ", "cats "),
+        ("\tcat\t", "\tcats\t"),
+    ])
+    def test_pluralize_whitespace(self, word: str, expected: str) -> None:
+        assert pluralize(word) == expected
+
+    @pytest.mark.parametrize("word,expected", [
+        ("  cats  ", "  cat  "),
+        (" cats", " cat"),
+        ("cats ", "cat "),
+        ("\tcats\t", "\tcat\t"),
+    ])
+    def test_singularize_whitespace(self, word: str, expected: str) -> None:
+        assert singularize(word) == expected
+
+    def test_count_1_preserves_whitespace(self) -> None:
+        assert pluralize("  cat  ", count=1) == "  cat  "
+        assert pluralize(" cat ", count=1) == " cat "
+
+    def test_irregular_preserves_whitespace(self) -> None:
+        assert pluralize("  child  ") == "  children  "
+        assert singularize("  children  ") == "  child  "
+
+    def test_uncountable_preserves_whitespace(self) -> None:
+        assert pluralize("  sheep  ") == "  sheep  "
+        assert singularize("  sheep  ") == "  sheep  "
+
+
+class TestEnHyphenatedPrefixes:
+    """Hyphenated words with prefix first segments pluralize the last segment."""
+
+    @pytest.mark.parametrize("singular,plural", [
+        ("meta-analysis", "meta-analyses"),
+        ("post-analysis", "post-analyses"),
+        ("re-analysis", "re-analyses"),
+        ("pre-screening", "pre-screenings"),
+        ("anti-inflammatory", "anti-inflammatories"),
+        ("co-pilot", "co-pilots"),
+        ("ex-president", "ex-presidents"),
+        ("non-intervention", "non-interventions"),
+        ("sub-committee", "sub-committees"),
+        ("inter-agency", "inter-agencies"),
+    ])
+    def test_prefix_pluralize(self, singular: str, plural: str) -> None:
+        assert pluralize(singular) == plural
+
+    @pytest.mark.parametrize("singular,plural", [
+        ("meta-analysis", "meta-analyses"),
+        ("post-analysis", "post-analyses"),
+        ("re-analysis", "re-analyses"),
+        ("pre-screening", "pre-screenings"),
+        ("co-pilot", "co-pilots"),
+        ("ex-president", "ex-presidents"),
+    ])
+    def test_prefix_singularize(self, singular: str, plural: str) -> None:
+        assert singularize(plural) == singular
+
+    @pytest.mark.parametrize("singular,plural", [
+        ("meta-analysis", "meta-analyses"),
+        ("post-analysis", "post-analyses"),
+        ("co-pilot", "co-pilots"),
+        ("ex-president", "ex-presidents"),
+    ])
+    def test_prefix_roundtrip(self, singular: str, plural: str) -> None:
+        assert singularize(pluralize(singular)) == singular
+        assert pluralize(singularize(plural)) == plural
+
+
+class TestEnDemonyms:
+    """Demonyms ending in -ese are invariable (same singular and plural)."""
+
+    @pytest.mark.parametrize("word", [
+        "japanese", "chinese", "vietnamese", "burmese", "lebanese",
+        "portuguese", "javanese", "sundanese", "senegalese", "congolese",
+        "sudanese", "maltese", "siamese",
+    ])
+    def test_demonym_pluralize_unchanged(self, word: str) -> None:
+        assert pluralize(word) == word
+
+    @pytest.mark.parametrize("word", [
+        "japanese", "chinese", "vietnamese", "portuguese", "lebanese",
+    ])
+    def test_demonym_singularize_unchanged(self, word: str) -> None:
+        assert singularize(word) == word
+
+    @pytest.mark.parametrize("word", [
+        "japanese", "chinese", "vietnamese", "portuguese",
+    ])
+    def test_demonym_is_singular(self, word: str) -> None:
+        assert is_singular(word) is True
+
+    @pytest.mark.parametrize("word", [
+        "japanese", "chinese", "vietnamese", "portuguese",
+    ])
+    def test_demonym_is_plural(self, word: str) -> None:
+        assert is_plural(word) is True

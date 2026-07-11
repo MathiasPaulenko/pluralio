@@ -110,16 +110,28 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "gulf": "gulfs", "reef": "reefs", "scurf": "scurfs",
     # -f → -ves irregulars (need explicit entry for singularize)
     "elf": "elves",
-    # Words ending in -che (singularize would strip ch+es, leaving wrong stem)
-    # Most -che words are now handled by the ([aeiou])ches$ -> \1che regex rule.
-    # These remain for explicit singular protection:
+    # Words ending in -che (singular ends in -che, plural adds -s)
+    # Must be explicit because (ss|sh|ch|x|zz)es$ rule would strip -es
+    # leaving wrong stem (e.g. caches -> cach instead of cache)
+    "ache": "aches",
     "cache": "caches", "niche": "niches", "creche": "creches",
     "apache": "apaches", "machete": "machetes",
     "mustache": "mustaches", "moustache": "moustaches",
     "avalanche": "avalanches",
-    # -che words not caught by ([aeiou])ches$ regex (consonant+y before ches)
     "psyche": "psyches", "demarche": "demarches",
     "thelarche": "thelarches", "tranche": "tranches",
+    "cliche": "cliches", "quiche": "quiches", "panache": "panaches",
+    "brioche": "brioches", "pastiche": "pastiches",
+    "douche": "douches", "gouache": "gouaches",
+    "cloche": "cloches", "barouche": "barouches",
+    "cartouche": "cartouches", "caliche": "caliches",
+    "huarache": "huaraches", "seiche": "seiches",
+    "troche": "troches", "microfiche": "microfiches",
+    "attache": "attaches", "synecdoche": "synecdoches",
+    # Compound -ache words (headache, earache, etc.)
+    "headache": "headaches", "earache": "earaches",
+    "toothache": "toothaches", "backache": "backaches",
+    "heartache": "heartaches", "stomachache": "stomachaches",
     # Words ending in -ie (singularize ies->y would give wrong stem)
     "brownie": "brownies", "calorie": "calories",
     "auntie": "aunties", "aussie": "aussies",
@@ -201,8 +213,6 @@ Order matters: more specific patterns must come before generic ones.
 
 _SINGULAR_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(.+)([^aeiou])ies$"), r"\1\2y"),
-    # vowel + che + s → vowel + che (ache→aches, cache→caches, niche→niches)
-    (re.compile(r"([aeiou])ches$"), r"\1che"),
     (re.compile(r"(ss|sh|ch|x|zz)es$"), r"\1"),
     (re.compile(r"ses$"), "se"),
     (re.compile(r"zes$"), "ze"),
@@ -232,22 +242,22 @@ _SINGULAR_RULES: list[tuple[re.Pattern[str], str]] = [
 
 Order matters: more specific patterns must come before generic ones.
 1. Words ending in ``ies`` → replace with ``y``.
-2. Words ending in vowel + ``ches`` → replace with vowel + ``che``
-   (e.g. ``"aches" → "ache"``, ``"caches" → "cache"``).
-3. Words ending in ``s``, ``ss``, ``sh``, ``ch``, ``x``, ``z`` + ``es``
-   → strip ``es``.
-4. Words ending in ``ses`` → replace with ``se``.
-5. Words ending in ``zes`` → replace with ``ze``.
-6. Words ending in consonant + ``oes`` → replace with consonant + ``o``.
-7. Words ending in ``is``, ``us``, ``ness`` → unchanged (Latin/Greek singular).
-8. Compound ``f→ves`` words → singularize back to ``f`` form
+2. Words ending in ``s``, ``ss``, ``sh``, ``ch``, ``x``, ``z`` + ``es``
+   → strip ``es`` (e.g. ``"beaches" → "beach"``, ``"boxes" → "box"``).
+   Words ending in ``-che`` (e.g. ``"caches"``) are handled by
+   irregulars, not this rule.
+3. Words ending in ``ses`` → replace with ``se``.
+4. Words ending in ``zes`` → replace with ``ze``.
+5. Words ending in consonant + ``oes`` → replace with consonant + ``o``.
+6. Words ending in ``is``, ``us``, ``ness`` → unchanged (Latin/Greek singular).
+7. Compound ``f→ves`` words → singularize back to ``f`` form
    (e.g. ``"afterlives" → "afterlife"``, ``"housewives" → "housewife"``).
    Base words (``life``, ``wife``, etc.) are handled by irregulars.
    The ``[^aeiou]`` guard on ``lives$`` prevents false positives
    like ``"olives" → "olife"``.
-9. Words ending in ``ss`` → unchanged (already singular, e.g. ``"glass"``,
+8. Words ending in ``ss`` → unchanged (already singular, e.g. ``"glass"``,
    ``"dress"``, ``"loss"``).
-10. Default: strip trailing ``s``.
+9. Default: strip trailing ``s``.
 
 Note:
     The ``ves → f`` rule was removed because it caused false positives
@@ -281,6 +291,10 @@ _UNCOUNTABLE: set[str] = {
     "jodhpurbreeches", "kneebreeches", "ridingbreeches",
     # Common non-noun words ending in s (should not be singularized)
     "is", "this", "was", "has", "us", "as", "thus",
+    # Demonyms ending in -ese (invariable: same for singular and plural)
+    "japanese", "chinese", "vietnamese", "burmese", "lebanese",
+    "portuguese", "javanese", "sundanese", "senegalese", "congolese",
+    "sudanese", "maltese", "siamese",
 }
 """Set of English uncountable/invariable words.
 

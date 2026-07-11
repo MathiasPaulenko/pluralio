@@ -2,18 +2,21 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-07-11
+
 ### Changed
 
-- `LanguageRules` is now `frozen=True` — prevents accidental attribute reassignment while allowing in-place extension via the public API
-- `register()` now raises `ValueError` if `code` is empty
-- English pluralization rules expanded: `fe → ves`, `consonant+f → ves`, `consonant+o → oes` added as regex rules (previously handled only as irregulars)
-- English singularization rules expanded: `ves → f`, `oes → o` added as regex rules
-- `pyproject.toml`: added author email, `Bug Tracker` and `Changelog` URLs
+- `pluralize()` and `singularize()` now preserve leading and trailing whitespace around the input word
+- English `-che` words handled as explicit irregulars instead of a regex rule, fixing singularization for words like `caches`, `niches`, `quiches`
+- Expanded compound prefix detection for hyphenated words: `meta`, `post`, `re`, `pre`, `anti`, `pro`, `non`, `sub`, `co`, `ex`, `inter`, `intra`, `multi`, `semi`, `pseudo`, `proto`, `neo`
 
 ### Added
 
-- 25 new English irregular exceptions for the new regex rules (`cafe → cafes`, `solo → solos`, `turf → turfs`, `shoe → shoes`, etc.)
-- Tests for `frozen=True` behavior, empty code validation, and all new regex rules
+- 20+ new English `-che` irregulars (`ache`, `cliche`, `quiche`, `brioche`, `pastiche`, `douche`, `gouache`, `cloche`, `barouche`, `cartouche`, `caliche`, `huarache`, `seiche`, `troche`, `microfiche`, `attache`, `synecdoche`, etc.)
+- 6 compound `-ache` words (`headache`, `earache`, `toothache`, `backache`, `heartache`, `stomachache`)
+- 13 demonyms ending in `-ese` as uncountables (`japanese`, `chinese`, `vietnamese`, `burmese`, `lebanese`, `portuguese`, `javanese`, `sundanese`, `senegalese`, `congolese`, `sudanese`, `maltese`, `siamese`)
+- `ref/ROADMAP-INFLECT.md` — roadmap to reach feature parity with `inflect` in English word coverage
+- Comprehensive edge-case tests for whitespace preservation, `-che` singularization, and compound prefixes
 
 ## [0.1.0] - 2025-07-10
 

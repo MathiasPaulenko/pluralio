@@ -158,10 +158,33 @@ def _apply_rules(
     return _match_case(word, result)
 
 
+def _split_whitespace(word: str) -> tuple[str, str, str]:
+    """Split a word into leading whitespace, core, and trailing whitespace.
+
+    Args:
+        word: The string to split.
+
+    Returns:
+        A tuple of (leading, core, trailing) where core is the
+        stripped content. If the word is entirely whitespace,
+        core is empty.
+    """
+    stripped = word.strip()
+    if not stripped:
+        return "", "", ""
+    leading = word[: len(word) - len(word.lstrip())]
+    trailing = word[len(word.rstrip()):]
+    return leading, stripped, trailing
+
+
 # First segments that indicate the LAST segment should be pluralized
 # (these are verbs, adjectives, or function words, not head nouns)
 _LAST_SEGMENT_PLURAL_FIRST_WORDS: frozenset[str] = frozenset({
     "forget", "merry",
+    # Prefixes where the head noun is the last segment
+    "meta", "post", "re", "pre", "anti", "pro", "non", "sub",
+    "co", "ex", "inter", "intra", "multi", "semi", "pseudo",
+    "proto", "neo",
 })
 
 
@@ -284,21 +307,25 @@ def pluralize(word: str, lang: str = "en", count: int | None = None) -> str:
     """
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
-    stripped = unicodedata.normalize("NFC", word.strip())
+    leading, core, trailing = _split_whitespace(word)
+    stripped = unicodedata.normalize("NFC", core)
     if not stripped:
         return word
     if count is not None and count == 1:
-        return stripped
+        return leading + stripped + trailing
     rules = get_rules(lang)
     # Check irregulars first (handles hyphenated irregulars like pequeño-burgués)
     lower = stripped.lower()
     if lower in rules.uncountable:
-        return stripped
+        return leading + stripped + trailing
     if lower in rules.irregular_plurals:
-        return _match_case(stripped, rules.irregular_plurals[lower])
+        result = _match_case(stripped, rules.irregular_plurals[lower])
+        return leading + result + trailing
     if "-" in stripped:
-        return _pluralize_hyphenated(stripped, lang, count)
-    return _apply_rules(stripped, rules, rules.irregular_plurals, rules.plural_rules)
+        result = _pluralize_hyphenated(stripped, lang, count)
+        return leading + result + trailing
+    result = _apply_rules(stripped, rules, rules.irregular_plurals, rules.plural_rules)
+    return leading + result + trailing
 
 
 def singularize(word: str, lang: str = "en") -> str:
@@ -333,16 +360,20 @@ def singularize(word: str, lang: str = "en") -> str:
     """
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
-    stripped = unicodedata.normalize("NFC", word.strip())
+    leading, core, trailing = _split_whitespace(word)
+    stripped = unicodedata.normalize("NFC", core)
     if not stripped:
         return word
     rules = get_rules(lang)
     # Check irregulars first (handles hyphenated irregulars like pequeños-burgueses)
     lower = stripped.lower()
     if lower in rules.uncountable:
-        return stripped
+        return leading + stripped + trailing
     if lower in rules.irregular_singles:
-        return _match_case(stripped, rules.irregular_singles[lower])
+        result = _match_case(stripped, rules.irregular_singles[lower])
+        return leading + result + trailing
     if "-" in stripped:
-        return _singularize_hyphenated(stripped, lang)
-    return _apply_rules(stripped, rules, rules.irregular_singles, rules.singular_rules)
+        result = _singularize_hyphenated(stripped, lang)
+        return leading + result + trailing
+    result = _apply_rules(stripped, rules, rules.irregular_singles, rules.singular_rules)
+    return leading + result + trailing
