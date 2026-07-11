@@ -358,6 +358,10 @@ _IRREGULAR_SINGLES: dict[str, str] = {v: k for k, v in _IRREGULAR_PLURALS.items(
 _IRREGULAR_SINGLES["dwarves"] = "dwarf"
 """Additional singular for ``dwarves`` (alternative plural of ``dwarf``)."""
 
+_IRREGULAR_SINGLES["octopi"] = "octopus"
+_IRREGULAR_SINGLES["hippopotami"] = "hippopotamus"
+_IRREGULAR_SINGLES["platypi"] = "platypus"
+
 # === Fase 3: Singularización inversa explícita ===
 
 _EXTRA_SINGLES: dict[str, str] = {
