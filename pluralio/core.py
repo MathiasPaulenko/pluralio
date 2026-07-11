@@ -143,14 +143,6 @@ def _apply_rules(
         The transformed word with original casing preserved.
     """
     lower = word.lower()
-    # Check inverse mapping: if the word is already in the target form,
-    # return it unchanged (e.g. pluralize("children") -> "children").
-    if irregulars is rules.irregular_plurals:
-        inverse = rules.irregular_singles
-    else:
-        inverse = rules.irregular_plurals
-    if lower in inverse:
-        return word
     is_plural = irregulars is rules.irregular_plurals
     result = _apply_regex_to_word(lower, rules.code, is_plural)
     if not result or result == lower:
@@ -321,6 +313,8 @@ def pluralize(word: str, lang: str = "en", count: int | None = None) -> str:
     if lower in rules.irregular_plurals:
         result = _match_case(stripped, rules.irregular_plurals[lower])
         return leading + result + trailing
+    if lower in rules.irregular_singles:
+        return leading + stripped + trailing
     if "-" in stripped:
         result = _pluralize_hyphenated(stripped, lang, count)
         return leading + result + trailing
@@ -372,6 +366,8 @@ def singularize(word: str, lang: str = "en") -> str:
     if lower in rules.irregular_singles:
         result = _match_case(stripped, rules.irregular_singles[lower])
         return leading + result + trailing
+    if lower in rules.irregular_plurals:
+        return leading + stripped + trailing
     if "-" in stripped:
         result = _singularize_hyphenated(stripped, lang)
         return leading + result + trailing

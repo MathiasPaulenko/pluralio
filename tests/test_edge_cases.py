@@ -309,6 +309,25 @@ class TestIrregularIdempotency:
         "mementos", "logos", "embryos", "ghettos", "concertos",
         "sopranos", "combos", "pros", "casinos", "tacos", "burritos",
         "ponchos", "sombreros", "flamingos", "tornados", "avocados",
+        "albinos", "armadillos", "cappuccinos", "allegros", "boleros",
+        "bongos", "cantos", "falsettos", "intermezzos", "rondos",
+        "staccatos", "tremolos", "vibratos", "violoncellos", "timpanos",
+        "cilantros", "cocos", "espressos", "gyros", "oreganos",
+        "pimentos", "pintos", "risottos", "tobaccos", "burros",
+        "hippos", "rhinos", "archipelagos", "bingos", "commandos",
+        "dittos", "fiascos", "gizmos", "hairdos", "lumbagos",
+        "magnetos", "manifestos", "sternos", "stuccos", "terrazzos",
+        "torsos", "ufos", "aficionados", "aggros", "ammos",
+        "credos", "crescendos", "cyanos", "demos", "euros",
+        "flamencos", "furiosos", "generalissimos", "gigolos", "gringos",
+        "guanos", "gumbos", "impetigos", "infos", "lingos",
+        "linos", "livedos", "locos", "machos", "macros", "mafiosos",
+        "magnificos", "medicos", "metros", "micros", "neutrinos",
+        "octavos", "pedalos", "plecos", "polos", "psychos", "pueblos",
+        "quartos", "repos", "rococos", "saddos", "sagos", "salvos",
+        "siroccos", "stylos", "sumos", "technos", "testudos", "tiros",
+        "toreros", "typos", "tyros", "vaqueros", "vermicellis",
+        "versos", "weirdos", "yo-yos", "zeros",
         "radios", "stereos", "videos", "studios", "ratios", "patios",
         "shoes", "foes", "hoes", "toes", "aloes", "oboes", "canoes",
         "pies", "ties", "movies", "cookies", "selfies",
@@ -599,11 +618,10 @@ class TestEnSingularProtection:
 
 class TestEnOesSingularRule:
     @pytest.mark.parametrize("singular,plural", [
-        ("ado", "adoes"), ("tango", "tangoes"), ("zero", "zeroes"),
+        ("ado", "adoes"), ("tango", "tangoes"),
         ("cargo", "cargoes"), ("judo", "judoes"), ("motto", "mottoes"),
-        ("albino", "albinoes"), ("bravado", "bravadoes"),
-        ("canto", "cantoes"), ("commando", "commandoes"),
-        ("fresco", "frescoes"), ("quarto", "quartoes"),
+        ("bravado", "bravadoes"),
+        ("fresco", "frescoes"),
     ])
     def test_oes_roundtrip(self, singular: str, plural: str) -> None:
         assert pluralize(singular) == plural
@@ -1111,6 +1129,123 @@ class TestEnNewUncountables:
     ])
     def test_uncountable_singularize(self, word: str) -> None:
         assert singularize(word) == word
+
+
+class TestEnForeignOWords:
+    """Fase 4: Foreign -o words that pluralize with -os (not -oes)."""
+
+    @pytest.mark.parametrize("singular,plural", [
+        # Animales
+        ("albino", "albinos"), ("armadillo", "armadillos"),
+        ("hippo", "hippos"), ("rhino", "rhinos"),
+        # Instrumentos
+        ("allegro", "allegros"), ("bolero", "boleros"),
+        ("bongo", "bongos"), ("canto", "cantos"),
+        ("falsetto", "falsettos"), ("intermezzo", "intermezzos"),
+        ("rondo", "rondos"), ("staccato", "staccatos"),
+        ("tremolo", "tremolos"), ("vibrato", "vibratos"),
+        ("violoncello", "violoncellos"), ("timpano", "timpanos"),
+        # Comida/bebida
+        ("cappuccino", "cappuccinos"), ("cilantro", "cilantros"),
+        ("coco", "cocos"), ("espresso", "espressos"),
+        ("gyro", "gyros"), ("oregano", "oreganos"),
+        ("pimento", "pimentos"), ("pinto", "pintos"),
+        ("risotto", "risottos"), ("tobacco", "tobaccos"),
+        ("burro", "burros"),
+        # Objetos
+        ("archipelago", "archipelagos"), ("bingo", "bingos"),
+        ("commando", "commandos"), ("ditto", "dittos"),
+        ("fiasco", "fiascos"), ("gizmo", "gizmos"),
+        ("hairdo", "hairdos"), ("manifesto", "manifestos"),
+        ("stucco", "stuccos"), ("torso", "torsos"), ("ufo", "ufos"),
+        # Otros
+        ("aficionado", "aficionados"), ("credo", "credos"),
+        ("demo", "demos"), ("euro", "euros"),
+        ("gringo", "gringos"), ("info", "infos"),
+        ("macho", "machos"), ("macro", "macros"),
+        ("micro", "micros"), ("neutrino", "neutrinos"),
+        ("polo", "polos"), ("psycho", "psychos"),
+        ("pueblo", "pueblos"), ("quarto", "quartos"),
+        ("repo", "repos"), ("typo", "typos"),
+        ("weirdo", "weirdos"), ("zero", "zeros"),
+        ("yo-yo", "yo-yos"),
+    ])
+    def test_o_words_pluralize(self, singular: str, plural: str) -> None:
+        assert pluralize(singular) == plural
+
+    @pytest.mark.parametrize("singular,plural", [
+        ("albino", "albinos"), ("armadillo", "armadillos"),
+        ("cappuccino", "cappuccinos"), ("allegro", "allegros"),
+        ("bolero", "boleros"), ("bongo", "bongos"),
+        ("canto", "cantos"), ("falsetto", "falsettos"),
+        ("intermezzo", "intermezzos"), ("rondo", "rondos"),
+        ("staccato", "staccatos"), ("tremolo", "tremolos"),
+        ("vibrato", "vibratos"), ("violoncello", "violoncellos"),
+        ("timpano", "timpanos"), ("cilantro", "cilantros"),
+        ("coco", "cocos"), ("espresso", "espressos"),
+        ("gyro", "gyros"), ("oregano", "oreganos"),
+        ("pimento", "pimentos"), ("pinto", "pintos"),
+        ("risotto", "risottos"), ("tobacco", "tobaccos"),
+        ("burro", "burros"), ("hippo", "hippos"),
+        ("rhino", "rhinos"), ("archipelago", "archipelagos"),
+        ("bingo", "bingos"), ("commando", "commandos"),
+        ("ditto", "dittos"), ("fiasco", "fiascos"),
+        ("gizmo", "gizmos"), ("hairdo", "hairdos"),
+        ("manifesto", "manifestos"), ("stucco", "stuccos"),
+        ("torso", "torsos"), ("ufo", "ufos"),
+        ("aficionado", "aficionados"), ("credo", "credos"),
+        ("demo", "demos"), ("euro", "euros"),
+        ("gringo", "gringos"), ("info", "infos"),
+        ("macho", "machos"), ("macro", "macros"),
+        ("micro", "micros"), ("neutrino", "neutrinos"),
+        ("polo", "polos"), ("psycho", "psychos"),
+        ("pueblo", "pueblos"), ("quarto", "quartos"),
+        ("repo", "repos"), ("typo", "typos"),
+        ("weirdo", "weirdos"), ("zero", "zeros"),
+        ("yo-yo", "yo-yos"),
+    ])
+    def test_o_words_singularize(self, singular: str, plural: str) -> None:
+        assert singularize(plural) == singular
+
+    @pytest.mark.parametrize("singular,plural", [
+        ("albino", "albinos"), ("armadillo", "armadillos"),
+        ("cappuccino", "cappuccinos"), ("allegro", "allegros"),
+        ("bolero", "boleros"), ("bongo", "bongos"),
+        ("canto", "cantos"), ("falsetto", "falsettos"),
+        ("intermezzo", "intermezzos"), ("rondo", "rondos"),
+        ("staccato", "staccatos"), ("tremolo", "tremolos"),
+        ("vibrato", "vibratos"), ("violoncello", "violoncellos"),
+        ("timpano", "timpanos"), ("cilantro", "cilantros"),
+        ("coco", "cocos"), ("espresso", "espressos"),
+        ("gyro", "gyros"), ("oregano", "oreganos"),
+        ("pimento", "pimentos"), ("pinto", "pintos"),
+        ("risotto", "risottos"), ("tobacco", "tobaccos"),
+        ("burro", "burros"), ("hippo", "hippos"),
+        ("rhino", "rhinos"), ("archipelago", "archipelagos"),
+        ("bingo", "bingos"), ("commando", "commandos"),
+        ("ditto", "dittos"), ("fiasco", "fiascos"),
+        ("gizmo", "gizmos"), ("hairdo", "hairdos"),
+        ("manifesto", "manifestos"), ("stucco", "stuccos"),
+        ("torso", "torsos"), ("ufo", "ufos"),
+        ("aficionado", "aficionados"), ("credo", "credos"),
+        ("demo", "demos"), ("euro", "euros"),
+        ("gringo", "gringos"), ("info", "infos"),
+        ("macho", "machos"), ("macro", "macros"),
+        ("micro", "micros"), ("neutrino", "neutrinos"),
+        ("polo", "polos"), ("psycho", "psychos"),
+        ("pueblo", "pueblos"), ("quarto", "quartos"),
+        ("repo", "repos"), ("typo", "typos"),
+        ("weirdo", "weirdos"), ("zero", "zeros"),
+        ("yo-yo", "yo-yos"),
+    ])
+    def test_o_words_roundtrip(self, singular: str, plural: str) -> None:
+        assert singularize(pluralize(singular)) == singular
+        assert pluralize(singularize(plural)) == plural
+
+    def test_not_oes(self) -> None:
+        assert pluralize("albino") != "albinoes"
+        assert pluralize("armadillo") != "armadilloes"
+        assert pluralize("cappuccino") != "cappuccinoes"
 
 
 class TestEnFase3InverseSingularization:
