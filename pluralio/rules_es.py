@@ -72,6 +72,87 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "guion": "guiones",
     "bien": "bienes", "sien": "sienes",
     "sí": "síes", "yo": "yoes", "no": "noes",
+    "mes": "meses",
+    "dios": "dioses", "tos": "toses",
+    "país": "países", "revés": "reveses",
+    "bistec": "bisteces", "coñac": "coñaces",
+    "gas": "gases", "bus": "buses", "vals": "valses",
+    # Compounds where both segments pluralize
+    "pequeño-burgués": "pequeños-burgueses",
+    "gran-burgués": "grandes-burgueses",
+    # English tech loanwords (just +s, not +es)
+    "framework": "frameworks", "endpoint": "endpoints",
+    "callback": "callbacks", "middleware": "middlewares",
+    "hash": "hashes", "url": "urls", "widget": "widgets",
+    "bucket": "buckets", "pipeline": "pipelines",
+    "build": "builds", "ticket": "tickets", "socket": "sockets",
+    "fixture": "fixtures", "mock": "mocks", "diff": "diffs",
+    "commit": "commits", "caché": "cachés",
+    # More common tech/business loanwords
+    "server": "servers", "router": "routers", "container": "containers",
+    "token": "tokens", "driver": "drivers", "buffer": "buffers",
+    "proxy": "proxies", "header": "headers", "footer": "footers",
+    "script": "scripts", "backlog": "backlogs", "kanban": "kanbans",
+    "scrum": "scrums", "review": "reviews",
+    "merge": "merges", "branch": "branches", "fork": "forks",
+    "push": "pushes", "pull": "pulls", "tag": "tags",
+    "log": "logs", "bug": "bugs", "hack": "hacks",
+    "patch": "patches", "release": "releases", "deploy": "deploys",
+    "rollback": "rollbacks", "backup": "backups", "snapshot": "snapshots",
+    "dashboard": "dashboards", "plugin": "plugins",
+    "addon": "addons", "snippet": "snippets", "template": "templates",
+    "theme": "themes", "skin": "skins", "layout": "layouts",
+    "form": "forms", "input": "inputs", "output": "outputs",
+    "flag": "flags", "switch": "switches", "toggle": "toggles",
+    "hook": "hooks", "trigger": "triggers", "handler": "handlers",
+    "listener": "listeners", "observer": "observers",
+    "wrapper": "wrappers", "adapter": "adapters",
+    "parser": "parsers", "lexer": "lexers",
+    "compiler": "compilers", "debugger": "debuggers",
+    "profiler": "profilers", "linter": "linters",
+    "runner": "runners", "worker": "workers",
+    "master": "masters", "slave": "slaves",
+    "leader": "leaders", "follower": "followers",
+    "node": "nodes", "host": "hosts", "peer": "peers",
+    "client": "clients", "broker": "brokers",
+    "shard": "shards", "replica": "replicas",
+    "pod": "pods", "volume": "volumes",
+    "image": "images", "registry": "registries",
+    "chart": "charts", "graph": "graphs",
+    "test": "tests", "suite": "suites", "case": "cases",
+    "stub": "stubs", "spy": "spies",
+    "coverage": "coverages", "report": "reports",
+    "alert": "alerts", "event": "events", "message": "messages",
+    "webhook": "webhooks", "payload": "payloads",
+    "request": "requests", "response": "responses",
+    "session": "sessions", "cookie": "cookies",
+    "query": "queries", "cursor": "cursors",
+    "field": "fields",
+    "schema": "schemas", "migration": "migrations",
+    "seed": "seeds", "job": "jobs", "task": "tasks",
+    "queue": "queues", "stack": "stacks", "heap": "heaps",
+    "pool": "pools", "cache": "caches",
+    "stream": "streams", "pipe": "pipes",
+    "port": "ports", "channel": "channels",
+    "signal": "signals", "beacon": "beacons",
+    "sensor": "sensors", "device": "devices",
+    "badge": "badges", "card": "cards",
+    "menu": "menus",
+    "tab": "tabs", "icon": "icons",
+    "button": "buttons", "label": "labels",
+    "filter": "filters", "sort": "sorts",
+    "block": "blocks", "section": "sections",
+    "item": "items", "element": "elements",
+    "post": "posts", "comment": "comments",
+    "user": "users", "account": "accounts",
+    "profile": "profiles", "role": "roles",
+    "group": "groups", "team": "teams",
+    "project": "projects", "issue": "issues",
+    "plan": "plans", "tier": "tiers",
+    "quota": "quotas", "limit": "limits",
+    "invoice": "invoices", "payment": "payments",
+    "charge": "charges", "refund": "refunds",
+    "license": "licenses", "subscription": "subscriptions",
 }
 """Mapping of singular → plural for irregular Spanish words.
 
@@ -92,6 +173,7 @@ _EXTRA_SINGLES: dict[str, str] = {
     "desatines": "desatín", "chiquitines": "chiquitín",
     "sambenines": "sambenín", "baladines": "baladín",
     "chapines": "chapín", "festines": "festín",
+    "mandarines": "mandarín",
     "ingleses": "inglés", "franceses": "francés",
     "portugueses": "portugués", "japoneses": "japonés",
     "holandeses": "holandés", "daneses": "danés",
@@ -101,6 +183,20 @@ _EXTRA_SINGLES: dict[str, str] = {
     "monteses": "montés", "burgaleses": "burgalés",
     "logroñeses": "logroñés", "tarraconeses": "tarraconés",
     "alaveses": "alavés",
+    "huracanes": "huracán",
+    "fases": "fase", "bases": "base", "clases": "clase",
+    "frases": "frase", "llaves": "llave", "claves": "clave",
+    "naves": "nave", "breves": "breve", "nieves": "nieve",
+    "nubes": "nube", "adobes": "adobe", "cines": "cine",
+    "príncipes": "príncipe", "pirámides": "pirámide",
+    "índices": "índice", "vértices": "vértice", "códices": "códice",
+    "relojes": "reloj", "bojes": "boj",
+    "tes": "te", "fes": "fe",
+    "leones": "león",
+    "hímenes": "himen",
+    "pibes": "pibe", "nenes": "nene", "moles": "mole",
+    "espermatozoides": "espermatozoide", "asteroides": "asteroide",
+    "androides": "androide", "humanoides": "humanoide",
 }
 """Additional plural → singular mappings for Spanish.
 
@@ -112,6 +208,9 @@ so the reverse mapping ``"alemanes" → "alemán"`` must be explicit.
 
 _IRREGULAR_SINGLES.update(_EXTRA_SINGLES)
 
+for _plural, _singular in _EXTRA_SINGLES.items():
+    _IRREGULAR_PLURALS.setdefault(_singular, _plural)
+
 _PLURAL_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"z$"), "ces"),
     (re.compile(r"ión$"), "iones"),
@@ -121,7 +220,7 @@ _PLURAL_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"és$"), "eses"),
     (re.compile(r"x$"), ""),
     (re.compile(r"([aeiouáéíóú])$"), r"\1s"),
-    (re.compile(r"([^aeiouáéíóúx])$"), r"\1es"),
+    (re.compile(r"([^aeiouáéíóúxs])$"), r"\1es"),
 ]
 """Ordered Spanish pluralization regex rules (first match wins).
 
@@ -141,6 +240,9 @@ _SINGULAR_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"iones$"), "ión"),
     (re.compile(r"(.{3,})ones$"), r"\1ón"),
     (re.compile(r"ces$"), "z"),
+    (re.compile(r"jes$"), "je"),
+    (re.compile(r"([^aeiouáéíóú])([^aeiouáéíóú])es$"), r"\1\2e"),
+    (re.compile(r"tes$"), "te"),
     (re.compile(r"([^aeiouáéíóú])es$"), r"\1"),
     (re.compile(r"s$"), ""),
 ]
@@ -150,23 +252,31 @@ Order matters: more specific patterns must come before generic ones.
 1. Words ending in ``iones`` → replace with ``ión``.
 2. Words ending in ``ones`` (3+ chars before) → replace with ``ón``.
 3. Words ending in ``ces`` → replace with ``z``.
-4. Words ending in consonant + ``es`` → strip ``es``.
-5. Default: strip trailing ``s``.
+4. Words ending in ``jes`` → strip ``s`` only (handles ``je``-ending words).
+5. Words ending in two consonants + ``es`` → strip ``s`` only
+   (handles ``e``-ending words like ``cliente``, ``noche``, ``hombre``).
+6. Words ending in ``tes`` → strip ``s`` only
+   (handles ``te``-ending words like ``machete``, ``billete``, ``chocolate``).
+7. Words ending in consonant + ``es`` → strip ``es``.
+8. Default: strip trailing ``s``.
 """
 
 _UNCOUNTABLE: set[str] = {
     "lunes", "martes", "miércoles", "jueves", "viernes",
     "crisis", "análisis", "síntesis", "tesis", "paréntesis",
     "éxtasis", "oasis", "sintaxis", "lisis",
+    "prótesis", "diagnosis", "hipótesis",
     "tórax", "fax", "clímax", "suplex", "flex", "index",
     "latex", "matrix", "mix", "relax", "sex", "simplex",
     "complex", "duplex", "telex", "vortex", "prefix", "nexus",
     "virus", "chasis", "atlas", "series",
+    "res",
     "paraguas", "saltamontes", "cumpleaños", "rompecabezas",
     "sacacorchos", "parabrisas", "rascacielos",
     "software", "hardware", "web", "blog", "post", "chat",
     "spam", "parking", "marketing", "jazz", "rock", "punk",
     "gourmet", "piercing", "hobby", "flash", "cactus", "status", "clip",
+    "zigzag",
 }
 """Set of Spanish uncountable/invariable words.
 
