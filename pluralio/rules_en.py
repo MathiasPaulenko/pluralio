@@ -215,6 +215,15 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "passerby": "passersby",
     # Words ending in s (not ss) that need +es
     "walrus": "walruses", "iris": "irises",
+    # Fase 6: Additional singular -s words that need +es
+    "acropolis": "acropolises", "aegis": "aegises", "alias": "aliases",
+    "asbestos": "asbestoses", "bathos": "bathoses", "caddis": "caddises",
+    "cannabis": "cannabises", "cosmos": "cosmoses", "dais": "daises",
+    "digitalis": "digitalises", "epidermis": "epidermises",
+    "ethos": "ethoses", "eyas": "eyases", "glottis": "glottises",
+    "hubris": "hubrises", "ibis": "ibises", "mantis": "mantises",
+    "marquis": "marquises", "metropolis": "metropolises",
+    "pathos": "pathoses", "polis": "polises", "sassafras": "sassafrases",
     # 1.1 -um → -a (unconditional)
     "desideratum": "desiderata", "extremum": "extrema",
     "candelabrum": "candelabra",

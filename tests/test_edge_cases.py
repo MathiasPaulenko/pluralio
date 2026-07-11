@@ -1395,3 +1395,99 @@ class TestEnProperNounCasePreservation:
     def test_proper_noun_roundtrip(self, singular: str, plural: str) -> None:
         assert singularize(pluralize(singular)) == singular
         assert pluralize(singularize(plural)) == plural
+
+
+class TestEnSingularSComplete:
+    """Fase 6: Singular words ending in -s that need +es pluralization."""
+
+    @pytest.mark.parametrize("singular,plural", [
+        ("acropolis", "acropolises"),
+        ("aegis", "aegises"),
+        ("alias", "aliases"),
+        ("asbestos", "asbestoses"),
+        ("bathos", "bathoses"),
+        ("caddis", "caddises"),
+        ("cannabis", "cannabises"),
+        ("cosmos", "cosmoses"),
+        ("dais", "daises"),
+        ("digitalis", "digitalises"),
+        ("epidermis", "epidermises"),
+        ("ethos", "ethoses"),
+        ("eyas", "eyases"),
+        ("glottis", "glottises"),
+        ("hubris", "hubrises"),
+        ("ibis", "ibises"),
+        ("mantis", "mantises"),
+        ("marquis", "marquises"),
+        ("metropolis", "metropolises"),
+        ("pathos", "pathoses"),
+        ("polis", "polises"),
+        ("sassafras", "sassafrases"),
+    ])
+    def test_singular_s_pluralize(self, singular: str, plural: str) -> None:
+        assert pluralize(singular) == plural
+
+    @pytest.mark.parametrize("singular,plural", [
+        ("acropolis", "acropolises"),
+        ("aegis", "aegises"),
+        ("alias", "aliases"),
+        ("asbestos", "asbestoses"),
+        ("bathos", "bathoses"),
+        ("caddis", "caddises"),
+        ("cannabis", "cannabises"),
+        ("cosmos", "cosmoses"),
+        ("dais", "daises"),
+        ("digitalis", "digitalises"),
+        ("epidermis", "epidermises"),
+        ("ethos", "ethoses"),
+        ("eyas", "eyases"),
+        ("glottis", "glottises"),
+        ("hubris", "hubrises"),
+        ("ibis", "ibises"),
+        ("mantis", "mantises"),
+        ("marquis", "marquises"),
+        ("metropolis", "metropolises"),
+        ("pathos", "pathoses"),
+        ("polis", "polises"),
+        ("sassafras", "sassafrases"),
+    ])
+    def test_singular_s_singularize(self, singular: str, plural: str) -> None:
+        assert singularize(plural) == singular
+
+    @pytest.mark.parametrize("singular,plural", [
+        ("acropolis", "acropolises"),
+        ("aegis", "aegises"),
+        ("alias", "aliases"),
+        ("asbestos", "asbestoses"),
+        ("bathos", "bathoses"),
+        ("caddis", "caddises"),
+        ("cannabis", "cannabises"),
+        ("cosmos", "cosmoses"),
+        ("dais", "daises"),
+        ("digitalis", "digitalises"),
+        ("epidermis", "epidermises"),
+        ("ethos", "ethoses"),
+        ("eyas", "eyases"),
+        ("glottis", "glottises"),
+        ("hubris", "hubrises"),
+        ("ibis", "ibises"),
+        ("mantis", "mantises"),
+        ("marquis", "marquises"),
+        ("metropolis", "metropolises"),
+        ("pathos", "pathoses"),
+        ("polis", "polises"),
+        ("sassafras", "sassafrases"),
+    ])
+    def test_singular_s_roundtrip(self, singular: str, plural: str) -> None:
+        assert singularize(pluralize(singular)) == singular
+        assert pluralize(singularize(plural)) == plural
+
+    @pytest.mark.parametrize("plural", [
+        "acropolises", "aegises", "aliases", "asbestoses", "bathoses",
+        "caddises", "cannabises", "cosmoses", "daises", "digitalises",
+        "epidermises", "ethoses", "eyases", "glottises", "hubrises",
+        "ibises", "mantises", "marquises", "metropolises", "pathoses",
+        "polises", "sassafrases",
+    ])
+    def test_singular_s_already_plural(self, plural: str) -> None:
+        assert pluralize(plural) == plural
