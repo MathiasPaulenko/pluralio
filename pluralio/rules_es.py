@@ -168,12 +168,12 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "monitor": "monitors", "scanner": "scanners",
     "manager": "managers", "browser": "browsers",
     "printer": "printers", "computer": "computers",
-    "leader": "leaders", "sender": "senders",
-    "receiver": "receivers", "scanner": "scanners",
+    "sender": "senders",
+    "receiver": "receivers",
     "editor": "editors", "visitor": "visitors",
     "sponsor": "sponsors", "partner": "partners",
     "provider": "providers", "supplier": "suppliers",
-    "broker": "brokers", "investor": "investors",
+    "investor": "investors",
     "founder": "founders", "developer": "developers",
 }
 """Mapping of singular → plural for irregular Spanish words.
@@ -221,7 +221,7 @@ _EXTRA_SINGLES: dict[str, str] = {
     "androides": "androide", "humanoides": "humanoide",
     # Accent restoration: -án → -anes
     "caimanes": "caimán", "guardianes": "guardián",
-    "sotanes": "sotán", "gavilanes": "gavilán",
+    "sotanes": "sotán",
     # Accent restoration: -ín → -ines
     "comodines": "comodín", "pelícanos": "pelícano",
     "jilgueros": "jilguero",
