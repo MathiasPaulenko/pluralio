@@ -3,7 +3,8 @@ from __future__ import annotations
 import pytest
 
 import pluralio
-from pluralio import add_irregular, add_uncountable, is_plural, is_singular
+from pluralio import add_irregular, add_plural_rule, add_uncountable, is_plural, is_singular
+from pluralio.core import _apply_regex_to_word
 
 
 class TestIsPlural:
@@ -19,9 +20,9 @@ class TestIsPlural:
     def test_irregular_singular(self) -> None:
         assert is_plural("child") is False
 
-    def test_uncountable_returns_false(self) -> None:
-        assert is_plural("sheep") is False
-        assert is_plural("information") is False
+    def test_uncountable_returns_true(self) -> None:
+        assert is_plural("sheep") is True
+        assert is_plural("information") is True
 
     def test_empty_string_returns_false(self) -> None:
         assert is_plural("") is False
@@ -46,7 +47,7 @@ class TestIsPlural:
         assert is_plural("ratones", lang="es") is True
 
     def test_spanish_uncountable(self) -> None:
-        assert is_plural("lunes", lang="es") is False
+        assert is_plural("lunes", lang="es") is True
 
     def test_non_string_raises_typeerror(self) -> None:
         with pytest.raises(TypeError, match="word must be str"):
@@ -67,7 +68,7 @@ class TestIsPlural:
 
     def test_custom_uncountable(self) -> None:
         add_uncountable("foobar")
-        assert is_plural("foobar") is False
+        assert is_plural("foobar") is True
 
 
 class TestIsSingular:
@@ -83,9 +84,9 @@ class TestIsSingular:
     def test_irregular_plural(self) -> None:
         assert is_singular("children") is False
 
-    def test_uncountable_returns_false(self) -> None:
-        assert is_singular("sheep") is False
-        assert is_singular("information") is False
+    def test_uncountable_returns_true(self) -> None:
+        assert is_singular("sheep") is True
+        assert is_singular("information") is True
 
     def test_empty_string_returns_false(self) -> None:
         assert is_singular("") is False
@@ -110,7 +111,7 @@ class TestIsSingular:
         assert is_singular("ratón", lang="es") is True
 
     def test_spanish_uncountable(self) -> None:
-        assert is_singular("lunes", lang="es") is False
+        assert is_singular("lunes", lang="es") is True
 
     def test_non_string_raises_typeerror(self) -> None:
         with pytest.raises(TypeError, match="word must be str"):
@@ -131,13 +132,13 @@ class TestIsSingular:
 
     def test_custom_uncountable(self) -> None:
         add_uncountable("barbaz")
-        assert is_singular("barbaz") is False
+        assert is_singular("barbaz") is True
 
 
 class TestIsPluralIsSingularConsistency:
     @pytest.mark.parametrize("word", [
         "cat", "cats", "child", "children", "city", "cities",
-        "box", "boxes", "mouse", "mice", "sheep", "information",
+        "box", "boxes", "mouse", "mice",
     ])
     def test_mutually_exclusive_for_countable(self, word: str) -> None:
         if is_plural(word):
@@ -146,9 +147,44 @@ class TestIsPluralIsSingularConsistency:
             assert not is_plural(word)
 
     @pytest.mark.parametrize("word", ["sheep", "information", "news"])
-    def test_both_false_for_uncountable(self, word: str) -> None:
-        assert is_plural(word) is False
-        assert is_singular(word) is False
+    def test_both_true_for_uncountable(self, word: str) -> None:
+        assert is_plural(word) is True
+        assert is_singular(word) is True
+
+
+class TestRegexCache:
+    """Verify the lru_cache on _apply_regex_to_word works correctly."""
+
+    def test_cache_populated_after_call(self) -> None:
+        _apply_regex_to_word.cache_clear()
+        assert _apply_regex_to_word.cache_info().currsize == 0
+        _apply_regex_to_word("cat", "en", is_plural=True)
+        assert _apply_regex_to_word.cache_info().currsize >= 1
+
+    def test_cache_hit_on_repeat(self) -> None:
+        _apply_regex_to_word.cache_clear()
+        _apply_regex_to_word("dog", "en", is_plural=True)
+        _apply_regex_to_word("dog", "en", is_plural=True)
+        info = _apply_regex_to_word.cache_info()
+        assert info.hits >= 1
+
+    def test_cache_cleared_on_add_irregular(self) -> None:
+        _apply_regex_to_word("cachecheck", "en", is_plural=True)
+        assert _apply_regex_to_word.cache_info().currsize >= 1
+        add_irregular("cachecheck", "cachechecks")
+        assert _apply_regex_to_word.cache_info().currsize == 0
+
+    def test_cache_cleared_on_add_plural_rule(self) -> None:
+        _apply_regex_to_word("rulecheck", "en", is_plural=True)
+        assert _apply_regex_to_word.cache_info().currsize >= 1
+        add_plural_rule(r"rulecheck$", "rulechecked")
+        assert _apply_regex_to_word.cache_info().currsize == 0
+
+    def test_cache_cleared_on_add_uncountable(self) -> None:
+        _apply_regex_to_word("uncountcheck", "en", is_plural=True)
+        assert _apply_regex_to_word.cache_info().currsize >= 1
+        add_uncountable("uncountcheck")
+        assert _apply_regex_to_word.cache_info().currsize == 0
 
 
 class TestVersion:

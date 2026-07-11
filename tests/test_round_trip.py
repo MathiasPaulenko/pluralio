@@ -50,6 +50,29 @@ SPANISH_WORDS = [
     "portugués", "japonés", "holandés", "danés",
     "champán", "charlatán", "sultán", "gavilán",
     "calcetín", "desatín", "festín",
+    # e-ending words (two-consonant cluster rule)
+    "noche", "leche", "frente", "mente", "gente", "arte", "parte",
+    "calle", "valle", "coche", "bloque", "cheque", "choque", "mueble",
+    "breve", "cable", "doble", "pobre", "chiste", "coste", "poste",
+    "oeste", "corte", "muerte", "suerte", "puerta", "fuerte", "cine",
+    "deporte", "reporte", "soporte", "cliente", "fuente", "puente",
+    "ambiente", "incidente", "presidente", "paciente", "agente",
+    "urgente", "torrente", "caliente", "lente", "diente", "nombre",
+    "hombre", "diamante", "elefante", "gigante", "creciente",
+    "potente", "violente", "serpiente",
+    # tes rule
+    "machete", "billete", "paquete", "bote", "lote", "mote",
+    "coyote", "chocolate", "petate", "chupete",
+    # jes rule
+    "reloj", "garaje", "viaje", "peaje", "coraje", "paisaje",
+    "mensaje", "rodaje", "montaje", "homenaje",
+    # accent restoration
+    "huracán", "mandarín",
+    # ce+s words
+    "príncipe", "índice", "vértice", "múltiple", "pirámide", "códice",
+    # other e-ending words
+    "base", "clase", "fase", "frase", "llave", "clave", "nave",
+    "nube", "nieve", "adobe", "pibe", "nene", "mole",
 ]
 
 

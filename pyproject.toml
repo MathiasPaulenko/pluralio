@@ -37,6 +37,7 @@ dev = [
     "ruff>=0.5",
     "mypy>=1.10",
     "build>=1.2",
+    "hypothesis>=6.0",
 ]
 
 [tool.hatch.build.targets.wheel]

@@ -22,6 +22,40 @@ class TestSpanishSingularRules:
         for plural, singular in [("casas", "casa"), ("libros", "libro")]:
             assert singularize(plural, lang="es") == singular
 
+    def test_two_consonant_es_to_e(self) -> None:
+        for plural, singular in [
+            ("clientes", "cliente"), ("noches", "noche"),
+            ("hombres", "hombre"), ("frentes", "frente"),
+            ("cortes", "corte"), ("puertas", "puerta"),
+            ("muertes", "muerte"), ("suertes", "suerte"),
+            ("fuentes", "fuente"), ("puentes", "puente"),
+            ("agentes", "agente"), ("calientes", "caliente"),
+            ("dientes", "diente"), ("nombres", "nombre"),
+            ("diamantes", "diamante"), ("elefantes", "elefante"),
+        ]:
+            assert singularize(plural, lang="es") == singular
+
+    def test_tes_to_te(self) -> None:
+        for plural, singular in [
+            ("machetes", "machete"), ("billetes", "billete"),
+            ("paquetes", "paquete"), ("botes", "bote"),
+            ("lotes", "lote"), ("motes", "mote"),
+            ("coyotes", "coyote"), ("chocolates", "chocolate"),
+            ("petates", "petate"), ("chupetes", "chupete"),
+            ("boletes", "bolete"),
+        ]:
+            assert singularize(plural, lang="es") == singular
+
+    def test_jes_to_je(self) -> None:
+        for plural, singular in [
+            ("relojes", "reloj"), ("garajes", "garaje"),
+            ("viajes", "viaje"), ("peajes", "peaje"),
+            ("corajes", "coraje"), ("paisajes", "paisaje"),
+            ("mensajes", "mensaje"), ("rodajes", "rodaje"),
+            ("montajes", "montaje"), ("homenajes", "homenaje"),
+        ]:
+            assert singularize(plural, lang="es") == singular
+
 
 class TestSpanishIrregularSingles:
     @pytest.mark.parametrize("plural,singular", [
@@ -72,6 +106,14 @@ class TestSpanishIrregularSingles:
         ("monteses", "montés"), ("burgaleses", "burgalés"),
         ("logroñeses", "logroñés"), ("tarraconeses", "tarraconés"),
         ("alaveses", "alavés"),
+        ("huracanes", "huracán"), ("mandarines", "mandarín"),
+        ("fases", "fase"), ("bases", "base"), ("clases", "clase"),
+        ("frases", "frase"), ("llaves", "llave"), ("claves", "clave"),
+        ("naves", "nave"), ("breves", "breve"), ("nieves", "nieve"),
+        ("nubes", "nube"), ("adobes", "adobe"), ("cines", "cine"),
+        ("príncipes", "príncipe"), ("pirámides", "pirámide"),
+        ("índices", "índice"), ("vértices", "vértice"), ("códices", "códice"),
+        ("pibes", "pibe"), ("nenes", "nene"), ("moles", "mole"),
     ])
     def test_irregular_single(self, plural: str, singular: str) -> None:
         assert singularize(plural, lang="es") == singular
