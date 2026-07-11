@@ -77,6 +77,13 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "país": "países", "revés": "reveses",
     "bistec": "bisteces", "coñac": "coñaces",
     "gas": "gases", "bus": "buses", "vals": "valses",
+    "compás": "compases",
+    # Words ending in -y (invariable or -yes)
+    "ley": "leyes", "rey": "reyes", "buey": "bueyes",
+    "hoy": "hoyes", "convoy": "convoyes",
+    # More common non-tech loanwords (just +s)
+    "sandwich": "sandwiches", "whisky": "whiskies",
+    "ponche": "ponches", "parche": "parches",
     # Compounds where both segments pluralize
     "pequeño-burgués": "pequeños-burgueses",
     "gran-burgués": "grandes-burgueses",
@@ -153,6 +160,17 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "invoice": "invoices", "payment": "payments",
     "charge": "charges", "refund": "refunds",
     "license": "licenses", "subscription": "subscriptions",
+    # Additional loanwords ending in -r (just +s, not +es)
+    "monitor": "monitors", "scanner": "scanners",
+    "manager": "managers", "browser": "browsers",
+    "printer": "printers", "computer": "computers",
+    "leader": "leaders", "sender": "senders",
+    "receiver": "receivers", "scanner": "scanners",
+    "editor": "editors", "visitor": "visitors",
+    "sponsor": "sponsors", "partner": "partners",
+    "provider": "providers", "supplier": "suppliers",
+    "broker": "brokers", "investor": "investors",
+    "founder": "founders", "developer": "developers",
 }
 """Mapping of singular → plural for irregular Spanish words.
 
@@ -197,6 +215,20 @@ _EXTRA_SINGLES: dict[str, str] = {
     "pibes": "pibe", "nenes": "nene", "moles": "mole",
     "espermatozoides": "espermatozoide", "asteroides": "asteroide",
     "androides": "androide", "humanoides": "humanoide",
+    # Accent restoration: -án → -anes
+    "caimanes": "caimán", "guardianes": "guardián",
+    "sotanes": "sotán", "gavilanes": "gavilán",
+    # Accent restoration: -ín → -ines
+    "comodines": "comodín", "pelícanos": "pelícano",
+    "jilgueros": "jilguero",
+    # Accent restoration: -én → -enes
+    "edenes": "edén", "estrenos": "estreno",
+    # Accent restoration: -ón → -ones (not covered by regex)
+    "limones": "limón", "melones": "melón",
+    "dragones": "dragón", "campeones": "campeón",
+    "montoncitos": "montoncito",
+    # Words ending in -es that need explicit singular
+    "canciones": "canción",
 }
 """Additional plural → singular mappings for Spanish.
 
@@ -277,6 +309,16 @@ _UNCOUNTABLE: set[str] = {
     "spam", "parking", "marketing", "jazz", "rock", "punk",
     "gourmet", "piercing", "hobby", "flash", "cactus", "status", "clip",
     "zigzag",
+    # Medical/scientific -is
+    "parálisis", "tuberculosis", "psoriasis", "elefantiasis",
+    "pediculosis", "rabies", "mumps",
+    # Biblical/literary -is
+    "génesis", "apocalipsis",
+    # Anatomical -ps
+    "biceps", "triceps", "cuádriceps", "forceps",
+    # Compound words
+    "lavacoches", "sacamuelas", "cortaplumas", "abrelatas",
+    "parachoques", "rompecorazones", "sacaorchos",
 }
 """Set of Spanish uncountable/invariable words.
 

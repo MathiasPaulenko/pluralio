@@ -65,6 +65,20 @@ class TestSpanishIrregularPlurals:
         ("record", "records"), ("sprint", "sprints"),
         ("guion", "guiones"), ("bien", "bienes"), ("sien", "sienes"),
         ("sí", "síes"), ("yo", "yoes"), ("no", "noes"),
+        ("compás", "compases"),
+        ("ley", "leyes"), ("rey", "reyes"), ("buey", "bueyes"),
+        ("hoy", "hoyes"), ("convoy", "convoyes"),
+        ("sandwich", "sandwiches"), ("whisky", "whiskies"),
+        ("ponche", "ponches"), ("parche", "parches"),
+        ("monitor", "monitors"), ("scanner", "scanners"),
+        ("manager", "managers"), ("browser", "browsers"),
+        ("printer", "printers"), ("computer", "computers"),
+        ("editor", "editors"), ("visitor", "visitors"),
+        ("sponsor", "sponsors"), ("partner", "partners"),
+        ("provider", "providers"), ("supplier", "suppliers"),
+        ("investor", "investors"), ("founder", "founders"),
+        ("developer", "developers"), ("sender", "senders"),
+        ("receiver", "receivers"),
     ])
     def test_irregular_plural(self, singular: str, plural: str) -> None:
         assert pluralize(singular, lang="es") == plural
@@ -84,6 +98,13 @@ class TestSpanishUncountable:
         "software", "hardware", "web", "blog", "post", "chat",
         "spam", "parking", "marketing", "jazz", "rock", "punk",
         "gourmet", "piercing", "hobby", "flash", "cactus", "status", "clip",
+        "zigzag",
+        "parálisis", "tuberculosis", "psoriasis", "elefantiasis",
+        "pediculosis", "rabies", "mumps",
+        "génesis", "apocalipsis",
+        "biceps", "triceps", "cuádriceps", "forceps",
+        "lavacoches", "sacamuelas", "cortaplumas", "abrelatas",
+        "parachoques", "rompecorazones", "sacaorchos",
     ])
     def test_uncountable_unchanged(self, word: str) -> None:
         assert pluralize(word, lang="es") == word

@@ -73,6 +73,19 @@ SPANISH_WORDS = [
     # other e-ending words
     "base", "clase", "fase", "frase", "llave", "clave", "nave",
     "nube", "nieve", "adobe", "pibe", "nene", "mole",
+    # compás fix
+    "compás",
+    # -y words
+    "ley", "rey", "buey", "hoy", "convoy",
+    # loanwords -r
+    "monitor", "scanner", "manager", "browser", "printer", "computer",
+    "editor", "visitor", "sponsor", "partner", "provider", "supplier",
+    "investor", "founder", "developer", "sender", "receiver",
+    # accent restoration
+    "caimán", "guardián", "sotán", "comodín", "edén",
+    "limón", "melón", "dragón", "campeón",
+    # non-tech loanwords
+    "sandwich", "whisky", "ponche", "parche",
 ]
 
 
