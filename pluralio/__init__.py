@@ -32,10 +32,11 @@ Example:
 """
 
 import re
+import unicodedata
 from importlib.metadata import PackageNotFoundError, version
 
 from pluralio import rules_en, rules_es  # noqa: F401 — triggers registration
-from pluralio.core import pluralize, singularize
+from pluralio.core import _clear_regex_cache, pluralize, singularize
 from pluralio.registry import (
     LanguageRules,
     get_rules,
@@ -93,6 +94,7 @@ def add_irregular(singular: str, plural: str, lang: str = "en") -> None:
     rules = get_rules(lang)
     rules.irregular_plurals[singular.lower()] = plural.lower()
     rules.irregular_singles[plural.lower()] = singular.lower()
+    _clear_regex_cache()
 
 
 def add_plural(singular: str, plural: str, lang: str = "en") -> None:
@@ -117,6 +119,7 @@ def add_plural(singular: str, plural: str, lang: str = "en") -> None:
     """
     rules = get_rules(lang)
     rules.irregular_plurals[singular.lower()] = plural.lower()
+    _clear_regex_cache()
 
 
 def add_singular(plural: str, singular: str, lang: str = "en") -> None:
@@ -141,6 +144,7 @@ def add_singular(plural: str, singular: str, lang: str = "en") -> None:
     """
     rules = get_rules(lang)
     rules.irregular_singles[plural.lower()] = singular.lower()
+    _clear_regex_cache()
 
 
 def add_uncountable(word: str, lang: str = "en") -> None:
@@ -163,6 +167,7 @@ def add_uncountable(word: str, lang: str = "en") -> None:
     """
     rules = get_rules(lang)
     rules.uncountable.add(word.lower())
+    _clear_regex_cache()
 
 
 def add_plural_rule(pattern: str, replacement: str, lang: str = "en") -> None:
@@ -184,6 +189,7 @@ def add_plural_rule(pattern: str, replacement: str, lang: str = "en") -> None:
     """
     rules = get_rules(lang)
     rules.plural_rules.insert(0, (re.compile(pattern), replacement))
+    _clear_regex_cache()
 
 
 def add_singular_rule(pattern: str, replacement: str, lang: str = "en") -> None:
@@ -205,6 +211,7 @@ def add_singular_rule(pattern: str, replacement: str, lang: str = "en") -> None:
     """
     rules = get_rules(lang)
     rules.singular_rules.insert(0, (re.compile(pattern), replacement))
+    _clear_regex_cache()
 
 
 def register_language(
@@ -278,21 +285,23 @@ def register_language(
         singular_rules=compiled_singular,
         uncountable={w.lower() for w in (uncountable or set())},
     ))
+    _clear_regex_cache()
 
 
 def is_plural(word: str, lang: str = "en") -> bool:
     """Check if a word is in its plural form.
 
     A word is considered plural if singularizing it produces a
-    different word. Uncountable words are neither plural nor
-    singular — they return ``False`` for both checks.
+    different word. Uncountable (invariable) words are valid as
+    both singular and plural, so they return ``True``.
 
     Args:
         word: The word to check.
         lang: ISO 639-1 language code. Defaults to ``"en"``.
 
     Returns:
-        ``True`` if the word is in plural form, ``False`` otherwise.
+        ``True`` if the word is in plural form (or is uncountable),
+        ``False`` otherwise.
 
     Raises:
         TypeError: If ``word`` is not a string.
@@ -304,18 +313,22 @@ def is_plural(word: str, lang: str = "en") -> bool:
         >>> is_plural("cat")
         False
         >>> is_plural("sheep")
-        False
+        True
         >>> is_plural("gatos", lang="es")
         True
     """
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
-    stripped = word.strip()
+    stripped = unicodedata.normalize("NFC", word.strip())
     if not stripped:
         return False
     rules = get_rules(lang)
     lower = stripped.lower()
     if lower in rules.uncountable:
+        return True
+    if lower in rules.irregular_singles:
+        return True
+    if lower in rules.irregular_plurals:
         return False
     return singularize(stripped, lang=lang).lower() != lower
 
@@ -323,16 +336,17 @@ def is_plural(word: str, lang: str = "en") -> bool:
 def is_singular(word: str, lang: str = "en") -> bool:
     """Check if a word is in its singular form.
 
-    A word is considered singular if it is not plural and not
-    uncountable. Uncountable words are neither plural nor
-    singular — they return ``False`` for both checks.
+    A word is considered singular if pluralizing it produces a
+    different word. Uncountable (invariable) words are valid as
+    both singular and plural, so they return ``True``.
 
     Args:
         word: The word to check.
         lang: ISO 639-1 language code. Defaults to ``"en"``.
 
     Returns:
-        ``True`` if the word is in singular form, ``False`` otherwise.
+        ``True`` if the word is in singular form (or is uncountable),
+        ``False`` otherwise.
 
     Raises:
         TypeError: If ``word`` is not a string.
@@ -344,17 +358,21 @@ def is_singular(word: str, lang: str = "en") -> bool:
         >>> is_singular("cats")
         False
         >>> is_singular("sheep")
-        False
+        True
         >>> is_singular("gato", lang="es")
         True
     """
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
-    stripped = word.strip()
+    stripped = unicodedata.normalize("NFC", word.strip())
     if not stripped:
         return False
     rules = get_rules(lang)
     lower = stripped.lower()
     if lower in rules.uncountable:
+        return True
+    if lower in rules.irregular_plurals:
+        return True
+    if lower in rules.irregular_singles:
         return False
     return singularize(stripped, lang=lang).lower() == lower

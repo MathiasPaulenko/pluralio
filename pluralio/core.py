@@ -28,6 +28,8 @@ Additional features handled here:
 from __future__ import annotations
 
 import re
+import unicodedata
+from functools import lru_cache
 
 from pluralio.registry import LanguageRules, get_rules
 
@@ -35,11 +37,16 @@ from pluralio.registry import LanguageRules, get_rules
 def _match_case(source: str, target: str) -> str:
     """Apply the casing pattern of ``source`` to ``target``.
 
-    Three modes are supported:
+    Four modes are supported:
     - **All caps**: if ``source`` is entirely uppercase, ``target``
       is returned in uppercase.
     - **Title case**: if only the first character of ``source`` is
-      uppercase, ``target`` is capitalized on its first character.
+      uppercase and the rest are lowercase, ``target`` is capitalized
+      on its first character.
+    - **Mixed case**: if ``source`` has uppercase letters beyond the
+      first character but is not all caps, each character position in
+      ``target`` mirrors the case of the corresponding position in
+      ``source``. Extra characters in ``target`` default to lowercase.
     - **Lowercase**: otherwise ``target`` is returned unchanged.
 
     Args:
@@ -56,12 +63,60 @@ def _match_case(source: str, target: str) -> str:
         'LIBRARIES'
         >>> _match_case("library", "libraries")
         'libraries'
+        >>> _match_case("McDonald", "mcdonalds")
+        'McDonalds'
+        >>> _match_case("iPhone", "iphones")
+        'iPhones'
     """
     if source.isupper():
         return target.upper()
-    if source[0].isupper():
+    if source[0].isupper() and source[1:].islower():
         return target[0].upper() + target[1:]
+    if any(c.isupper() for c in source[1:]):
+        result = []
+        for i, char in enumerate(target):
+            if i < len(source):
+                result.append(char.upper() if source[i].isupper() else char.lower())
+            else:
+                result.append(char.lower())
+        return "".join(result)
     return target
+
+
+@lru_cache(maxsize=4096)
+def _apply_regex_to_word(lower: str, lang: str, is_plural: bool) -> str:
+    """Apply regex rules to a lowercase word and return the result.
+
+    This is the cached inner loop of :func:`_apply_rules`. Only the
+    regex iteration is cached — uncountable and irregular lookups
+    remain in the uncached caller because they are O(1) dict checks.
+
+    Args:
+        lower: The lowercase word to transform.
+        lang: Language code for rule lookup.
+        is_plural: ``True`` for pluralization rules, ``False`` for
+            singularization rules.
+
+    Returns:
+        The transformed lowercase word, or the original word if no
+            rule matches.
+    """
+    rules = get_rules(lang)
+    rule_list = rules.plural_rules if is_plural else rules.singular_rules
+    for pattern, replacement in rule_list:
+        if pattern.search(lower):
+            return pattern.sub(replacement, lower, count=1)
+    return lower
+
+
+def _clear_regex_cache() -> None:
+    """Clear the regex application cache.
+
+    Must be called whenever language rules are modified at runtime
+    (e.g. via :func:`add_irregular`, :func:`add_plural_rule`, etc.)
+    to prevent stale cached results.
+    """
+    _apply_regex_to_word.cache_clear()
 
 
 def _apply_rules(
@@ -88,18 +143,35 @@ def _apply_rules(
         The transformed word with original casing preserved.
     """
     lower = word.lower()
-    if lower in rules.uncountable:
+    # Check inverse mapping: if the word is already in the target form,
+    # return it unchanged (e.g. pluralize("children") -> "children").
+    if irregulars is rules.irregular_plurals:
+        inverse = rules.irregular_singles
+    else:
+        inverse = rules.irregular_plurals
+    if lower in inverse:
         return word
-    if lower in irregulars:
-        return _match_case(word, irregulars[lower])
-    for pattern, replacement in rule_list:
-        if pattern.search(lower):
-            return _match_case(word, pattern.sub(replacement, lower, count=1))
-    return word
+    is_plural = irregulars is rules.irregular_plurals
+    result = _apply_regex_to_word(lower, rules.code, is_plural)
+    if not result or result == lower:
+        return word
+    return _match_case(word, result)
+
+
+# First segments that indicate the LAST segment should be pluralized
+# (these are verbs, adjectives, or function words, not head nouns)
+_LAST_SEGMENT_PLURAL_FIRST_WORDS: frozenset[str] = frozenset({
+    "forget", "merry",
+})
 
 
 def _pluralize_hyphenated(word: str, lang: str, count: int | None) -> str:
-    """Pluralize only the first segment of a hyphenated word.
+    """Pluralize the appropriate segment(s) of a hyphenated word.
+
+    For most English compounds the head noun is the first segment
+    (e.g. ``"mother-in-law"`` → ``"mothers-in-law"``).
+    For some compounds the head noun is the last segment
+    (e.g. ``"forget-me-not"`` → ``"forget-me-nots"``).
 
     Args:
         word: The hyphenated word (e.g. ``"mother-in-law"``).
@@ -107,27 +179,68 @@ def _pluralize_hyphenated(word: str, lang: str, count: int | None) -> str:
         count: Count value to pass through for count-aware behavior.
 
     Returns:
-        The word with its first segment pluralized
-        (e.g. ``"mothers-in-law"``).
+        The word with the appropriate segment pluralized.
     """
     parts = word.split("-")
-    parts[0] = pluralize(parts[0], lang=lang, count=count)
+    # Find the first non-empty segment.
+    idx = 0
+    while idx < len(parts) and not parts[idx]:
+        idx += 1
+    if idx >= len(parts):
+        return word
+
+    first = parts[idx].lower()
+
+    # Check if the last segment should be pluralized instead of the first
+    if first in _LAST_SEGMENT_PLURAL_FIRST_WORDS:
+        last_idx = len(parts) - 1
+        while last_idx >= 0 and not parts[last_idx]:
+            last_idx -= 1
+        if last_idx >= 0:
+            parts[last_idx] = pluralize(parts[last_idx], lang=lang, count=count)
+        return "-".join(parts)
+
+    parts[idx] = pluralize(parts[idx], lang=lang, count=count)
     return "-".join(parts)
 
 
 def _singularize_hyphenated(word: str, lang: str) -> str:
-    """Singularize only the first segment of a hyphenated word.
+    """Singularize the appropriate segment of a hyphenated word.
+
+    For most compounds the first segment was pluralized
+    (e.g. ``"mothers-in-law"`` → ``"mother-in-law"``).
+    For last-segment compounds the last segment was pluralized
+    (e.g. ``"forget-me-nots"`` → ``"forget-me-not"``).
 
     Args:
         word: The hyphenated word (e.g. ``"mothers-in-law"``).
         lang: Language code to pass through.
 
     Returns:
-        The word with its first segment singularized
-        (e.g. ``"mother-in-law"``).
+        The word with the appropriate segment singularized.
     """
     parts = word.split("-")
-    parts[0] = singularize(parts[0], lang=lang)
+    # Find the first non-empty segment.
+    idx = 0
+    while idx < len(parts) and not parts[idx]:
+        idx += 1
+    if idx >= len(parts):
+        return word
+
+    first = parts[idx].lower()
+
+    # If the first word indicates last-segment pluralization,
+    # singularize the last non-empty segment instead.
+    if first in _LAST_SEGMENT_PLURAL_FIRST_WORDS:
+        last_idx = len(parts) - 1
+        while last_idx >= 0 and not parts[last_idx]:
+            last_idx -= 1
+        if last_idx >= 0:
+            parts[last_idx] = singularize(parts[last_idx], lang=lang)
+        return "-".join(parts)
+
+    if idx < len(parts):
+        parts[idx] = singularize(parts[idx], lang=lang)
     return "-".join(parts)
 
 
@@ -171,12 +284,18 @@ def pluralize(word: str, lang: str = "en", count: int | None = None) -> str:
     """
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
-    stripped = word.strip()
+    stripped = unicodedata.normalize("NFC", word.strip())
     if not stripped:
         return word
     if count is not None and count == 1:
-        return word
+        return stripped
     rules = get_rules(lang)
+    # Check irregulars first (handles hyphenated irregulars like pequeño-burgués)
+    lower = stripped.lower()
+    if lower in rules.uncountable:
+        return stripped
+    if lower in rules.irregular_plurals:
+        return _match_case(stripped, rules.irregular_plurals[lower])
     if "-" in stripped:
         return _pluralize_hyphenated(stripped, lang, count)
     return _apply_rules(stripped, rules, rules.irregular_plurals, rules.plural_rules)
@@ -214,10 +333,16 @@ def singularize(word: str, lang: str = "en") -> str:
     """
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
-    stripped = word.strip()
+    stripped = unicodedata.normalize("NFC", word.strip())
     if not stripped:
         return word
     rules = get_rules(lang)
+    # Check irregulars first (handles hyphenated irregulars like pequeños-burgueses)
+    lower = stripped.lower()
+    if lower in rules.uncountable:
+        return stripped
+    if lower in rules.irregular_singles:
+        return _match_case(stripped, rules.irregular_singles[lower])
     if "-" in stripped:
         return _singularize_hyphenated(stripped, lang)
     return _apply_rules(stripped, rules, rules.irregular_singles, rules.singular_rules)
