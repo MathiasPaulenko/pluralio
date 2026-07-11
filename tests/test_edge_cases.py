@@ -1111,3 +1111,64 @@ class TestEnNewUncountables:
     ])
     def test_uncountable_singularize(self, word: str) -> None:
         assert singularize(word) == word
+
+
+class TestEnFase3InverseSingularization:
+    """Fase 3: explicit inverse singularization entries."""
+
+    @pytest.mark.parametrize("plural,singular", [
+        ("abuses", "abuse"), ("clauses", "clause"), ("excuses", "excuse"),
+        ("fuses", "fuse"), ("uses", "use"), ("pauses", "pause"),
+        ("spouses", "spouse"), ("reuses", "reuse"), ("misuses", "misuse"),
+    ])
+    def test_uses_to_use(self, plural: str, singular: str) -> None:
+        assert singularize(plural) == singular
+
+    @pytest.mark.parametrize("plural,singular", [
+        ("aeries", "aerie"), ("belies", "belie"), ("bookies", "bookie"),
+        ("cooties", "cootie"), ("freebies", "freebie"), ("goalies", "goalie"),
+        ("lies", "lie"), ("magpies", "magpie"), ("neckties", "necktie"),
+        ("oldies", "oldie"), ("prairies", "prairie"), ("rookies", "rookie"),
+        ("sorties", "sortie"), ("vies", "vie"), ("zombies", "zombie"),
+    ])
+    def test_ies_to_ie_comunes(self, plural: str, singular: str) -> None:
+        assert singularize(plural) == singular
+
+    @pytest.mark.parametrize("plural,singular", [
+        ("addies", "addie"), ("archies", "archie"), ("barbies", "barbie"),
+        ("charlies", "charlie"), ("eddies", "eddie"), ("julies", "julie"),
+        ("katies", "katie"), ("maggies", "maggie"), ("sophies", "sophie"),
+        ("trekkies", "trekkie"), ("valkyries", "valkyrie"), ("yorkies", "yorkie"),
+    ])
+    def test_ies_to_ie_proper_nouns(self, plural: str, singular: str) -> None:
+        assert singularize(plural) == singular
+
+    @pytest.mark.parametrize("plural,singular", [
+        ("antitheses", "antithesis"), ("catalyses", "catalysis"),
+        ("diagnoses", "diagnosis"), ("geneses", "genesis"),
+        ("metamorphoses", "metamorphosis"), ("mitoses", "mitosis"),
+        ("nemeses", "nemesis"), ("prognoses", "prognosis"),
+        ("psychoses", "psychosis"), ("syntheses", "synthesis"),
+        ("taxes", "tax"), ("thromboses", "thrombosis"),
+    ])
+    def test_es_to_is(self, plural: str, singular: str) -> None:
+        assert singularize(plural) == singular
+
+    @pytest.mark.parametrize("plural,singular", [
+        ("backhoes", "backhoe"), ("floes", "floe"),
+        ("mistletoes", "mistletoe"), ("tiptoes", "tiptoe"),
+        ("woes", "woe"),
+    ])
+    def test_oes_to_oe(self, plural: str, singular: str) -> None:
+        assert singularize(plural) == singular
+
+    @pytest.mark.parametrize("plural,singular", [
+        ("blanches", "blanche"), ("porsches", "porsche"),
+        ("hesses", "hesse"), ("matisses", "matisse"),
+        ("clives", "clive"), ("palmolives", "palmolive"),
+        ("annexes", "annexe"), ("pickaxes", "pickaxe"),
+        ("buzzes", "buzz"), ("fizzes", "fizz"),
+        ("bolshois", "bolshoi"), ("hanois", "hanoi"),
+    ])
+    def test_minor_subphases(self, plural: str, singular: str) -> None:
+        assert singularize(plural) == singular
