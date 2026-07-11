@@ -1310,7 +1310,7 @@ class TestEnFase3InverseSingularization:
         ("blanches", "blanche"), ("porsches", "porsche"),
         ("hesses", "hesse"), ("matisses", "matisse"),
         ("clives", "clive"), ("palmolives", "palmolive"),
-        ("annexes", "annexe"), ("pickaxes", "pickaxe"),
+        ("annexes", "annex"), ("pickaxes", "pickaxe"),
         ("buzzes", "buzz"), ("fizzes", "fizz"),
         ("bolshois", "bolshoi"), ("hanois", "hanoi"),
     ])
@@ -1500,3 +1500,29 @@ class TestEnSingularSComplete:
     ])
     def test_singular_s_already_plural(self, plural: str) -> None:
         assert pluralize(plural) == plural
+
+
+class TestEnAnnexRoundTrip:
+    """annex should round-trip correctly (American English)."""
+
+    def test_pluralize_annex(self) -> None:
+        assert pluralize("annex") == "annexes"
+
+    def test_singularize_annexes(self) -> None:
+        assert singularize("annexes") == "annex"
+
+    def test_round_trip(self) -> None:
+        assert singularize(pluralize("annex")) == "annex"
+
+
+class TestEsPeineRoundTrip:
+    """peine should round-trip correctly (vowel+consonant+e pattern)."""
+
+    def test_pluralize_peine(self) -> None:
+        assert pluralize("peine", lang="es") == "peines"
+
+    def test_singularize_peines(self) -> None:
+        assert singularize("peines", lang="es") == "peine"
+
+    def test_round_trip(self) -> None:
+        assert singularize(pluralize("peine", lang="es"), lang="es") == "peine"

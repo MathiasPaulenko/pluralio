@@ -201,7 +201,7 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "thermos": "thermoses", "abacus": "abaci",
     "corpus": "corpora", "genus": "genera", "opus": "opera",
     # Singular words ending in s (not ss) that need +es
-    "atlas": "atlases",
+    "atlas": "atlases", "annex": "annexes",
     "canvas": "canvases", "bias": "biases", "bonus": "bonuses",
     "campus": "campuses", "chorus": "choruses", "circus": "circuses",
     "consensus": "consensuses", "crocus": "crocuses",
@@ -669,7 +669,6 @@ _EXTRA_SINGLES: dict[str, str] = {
     "clives": "clive",
     "palmolives": "palmolive",
     # xes → xe
-    "annexes": "annexe",
     "deluxes": "deluxe",
     "pickaxes": "pickaxe",
     # zzes → zz
@@ -814,6 +813,13 @@ _UNCOUNTABLE: set[str] = {
     # 7.3 Pox diseases (invariable)
     "chickenpox", "smallpox", "cowpox", "foxpox", "gerbilpox",
     "monkeypox", "mousepox", "rabbitpox", "raccoonpox", "skunkpox",
+    # Academic disciplines and sciences ending in -ics (uncountable)
+    "politics", "ethics", "gymnastics", "linguistics", "athletics", "civics",
+    "statistics", "informatics", "classics", "mechanics", "dynamics",
+    "genetics", "obstetrics", "pediatrics", "psychiatrics", "orthopaedics",
+    "academics", "logistics", "hysterics",
+    # Games/sports (uncountable)
+    "billiards", "darts", "checkers", "craps",
 }
 """Set of English uncountable/invariable words.
 

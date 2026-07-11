@@ -147,6 +147,11 @@ class TestEnglishUncountable:
         "measles", "diabetes", "chaos", "staff", "personnel",
         "means", "aircraft", "spacecraft", "watercraft", "hovercraft",
         "baggage",
+        "politics", "ethics", "gymnastics", "linguistics", "athletics",
+        "civics", "statistics", "informatics", "classics", "mechanics",
+        "dynamics", "genetics", "obstetrics", "pediatrics", "psychiatrics",
+        "orthopaedics", "academics", "logistics", "hysterics",
+        "billiards", "darts", "checkers", "craps",
     ])
     def test_uncountable_unchanged(self, word: str) -> None:
         assert pluralize(word) == word

@@ -233,6 +233,8 @@ _EXTRA_SINGLES: dict[str, str] = {
     "montoncitos": "montoncito",
     # Words ending in -es that need explicit singular
     "canciones": "canción",
+    # Words where vowel+consonant+e pattern breaks rule 7
+    "peines": "peine",
 }
 """Additional plural → singular mappings for Spanish.
 
