@@ -365,6 +365,30 @@ _UNCOUNTABLE: set[str] = {
     "japanese", "chinese", "vietnamese", "burmese", "lebanese",
     "portuguese", "javanese", "sundanese", "senegalese", "congolese",
     "sudanese", "maltese", "siamese",
+    # 2.1 Animals/herd (invariable)
+    "bison", "buffalo", "caribou", "elk", "swine", "wildebeest", "eland",
+    # 2.2 Fish (invariable)
+    "cod", "flounder", "grouse", "haddock", "hake", "halibut", "herring",
+    "mackerel", "pike", "roe", "shad", "snipe", "teal", "turbot",
+    "bream", "carp", "dace", "pickerel",
+    # 2.3 Other uncountables
+    "graffiti", "djinn", "pence", "quid", "hertz", "chassis", "corps",
+    "debris", "siemens", "contretemps", "mews", "haggis", "innings",
+    "proceedings", "jackanapes", "zucchini", "quinoa",
+    # 7.1 Additional demonyms ending in -ese
+    "amoyese", "borghese", "congoese", "faroese", "foochowese",
+    "genevese", "genoese", "gilbertese", "hottentotese", "kiplingese",
+    "kongoese", "lucchese", "nankingese", "niasese", "pekingese",
+    "piedmontese", "pistoiese", "sarawakese", "shavese", "vermontese",
+    "wenchowese", "yengeese",
+    # 7.2 Additional fish (invariable)
+    "blowfish", "angelfish", "jellyfish", "catfish", "swordfish",
+    "goldfish", "starfish", "pufferfish", "sunfish", "bluefish",
+    "blackfish", "codfish", "dogfish", "flatfish", "monkfish",
+    "reeffish", "sawfish", "stonefish", "toadfish", "whitefish",
+    # 7.3 Pox diseases (invariable)
+    "chickenpox", "smallpox", "cowpox", "foxpox", "gerbilpox",
+    "monkeypox", "mousepox", "rabbitpox", "raccoonpox", "skunkpox",
 }
 """Set of English uncountable/invariable words.
 

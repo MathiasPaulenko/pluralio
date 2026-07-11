@@ -1046,7 +1046,6 @@ class TestEnLatinGreekIrregulars:
         ("goy", "goyim"),
         ("afrit", "afriti"),
         ("mythos", "mythoi"),
-        ("graffito", "graffiti"),
         ("beef", "beefs"),
         ("money", "monies"),
         ("numen", "numina"),
@@ -1058,3 +1057,57 @@ class TestEnLatinGreekIrregulars:
         assert singularize(plural) == singular
         assert singularize(pluralize(singular)) == singular
         assert pluralize(singularize(plural)) == plural
+
+    def test_graffito_pluralize_only(self) -> None:
+        assert pluralize("graffito") == "graffiti"
+        assert singularize("graffiti") == "graffiti"
+
+
+class TestEnNewUncountables:
+    """Uncountable words from Fase 2 — pluralize(x) == x and singularize(x) == x."""
+
+    @pytest.mark.parametrize("word", [
+        "bison", "buffalo", "caribou", "elk", "swine", "wildebeest", "eland",
+        "cod", "flounder", "grouse", "haddock", "hake", "halibut", "herring",
+        "mackerel", "pike", "roe", "shad", "snipe", "teal", "turbot",
+        "bream", "carp", "dace", "pickerel",
+        "graffiti", "djinn", "pence", "quid", "hertz", "chassis", "corps",
+        "debris", "siemens", "contretemps", "mews", "haggis", "innings",
+        "proceedings", "jackanapes", "zucchini", "quinoa",
+        "amoyese", "borghese", "congoese", "faroese", "foochowese",
+        "genevese", "genoese", "gilbertese", "hottentotese", "kiplingese",
+        "kongoese", "lucchese", "nankingese", "niasese", "pekingese",
+        "piedmontese", "pistoiese", "sarawakese", "shavese", "vermontese",
+        "wenchowese", "yengeese",
+        "blowfish", "angelfish", "jellyfish", "catfish", "swordfish",
+        "goldfish", "starfish", "pufferfish", "sunfish", "bluefish",
+        "blackfish", "codfish", "dogfish", "flatfish", "monkfish",
+        "reeffish", "sawfish", "stonefish", "toadfish", "whitefish",
+        "chickenpox", "smallpox", "cowpox", "foxpox", "gerbilpox",
+        "monkeypox", "mousepox", "rabbitpox", "raccoonpox", "skunkpox",
+    ])
+    def test_uncountable_pluralize(self, word: str) -> None:
+        assert pluralize(word) == word
+
+    @pytest.mark.parametrize("word", [
+        "bison", "buffalo", "caribou", "elk", "swine", "wildebeest", "eland",
+        "cod", "flounder", "grouse", "haddock", "hake", "halibut", "herring",
+        "mackerel", "pike", "roe", "shad", "snipe", "teal", "turbot",
+        "bream", "carp", "dace", "pickerel",
+        "graffiti", "djinn", "pence", "quid", "hertz", "chassis", "corps",
+        "debris", "siemens", "contretemps", "mews", "haggis", "innings",
+        "proceedings", "jackanapes", "zucchini", "quinoa",
+        "amoyese", "borghese", "congoese", "faroese", "foochowese",
+        "genevese", "genoese", "gilbertese", "hottentotese", "kiplingese",
+        "kongoese", "lucchese", "nankingese", "niasese", "pekingese",
+        "piedmontese", "pistoiese", "sarawakese", "shavese", "vermontese",
+        "wenchowese", "yengeese",
+        "blowfish", "angelfish", "jellyfish", "catfish", "swordfish",
+        "goldfish", "starfish", "pufferfish", "sunfish", "bluefish",
+        "blackfish", "codfish", "dogfish", "flatfish", "monkfish",
+        "reeffish", "sawfish", "stonefish", "toadfish", "whitefish",
+        "chickenpox", "smallpox", "cowpox", "foxpox", "gerbilpox",
+        "monkeypox", "mousepox", "rabbitpox", "raccoonpox", "skunkpox",
+    ])
+    def test_uncountable_singularize(self, word: str) -> None:
+        assert singularize(word) == word
