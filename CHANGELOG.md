@@ -2,6 +2,22 @@
 
 ## [Unreleased]
 
+## [1.5.4] - 2025-07-12
+
+### Fixed
+
+- Portuguese verb+noun hyphenated compounds now pluralize the last segment (noun) instead of the first (verb): `quebra-cabeça` → `quebra-cabeças` (was `quebras-cabeça`), `guarda-chuva` → `guarda-chuvas`, `beija-flor` → `beija-flores`, `arranha-céu` → `arranha-céus`, `passa-tempo` → `passa-tempos`, `guarda-roupa` → `guarda-roupas`
+- Added 28 Portuguese verb prefixes to `_LAST_SEGMENT_PLURAL_FIRST_WORDS`: `quebra`, `guarda`, `arranha`, `limpa`, `mata`, `saca`, `abre`, `corta`, `lança`, `trava`, `cata`, `chupa`, `espanta`, `passa`, `pisa`, `salta`, `adivinha`, `roí`, `cai`, `sobe`, `desce`, `para`, `pára`, `bota`, `tira`, `pega`, `leva`, `traz`, `beija`
+
+### Changed
+
+- Moved 3 Portuguese compound words from uncountable to pluralizable: `guarda-chuva`, `beija-flor`, `passa-tempo` — these are verb+noun compounds that pluralize the noun, not invariable words
+- Portuguese uncountable count adjusted from 91 to 88
+
+### Added
+
+- 725 Portuguese edge case tests: case preservation (title, all caps, mixed), hyphenated words (noun+noun, verb+noun), idempotency (140+ already-plural words), round-trip (140+ words), NFD normalization, `is_plural`/`is_singular` checks, count-aware pluralization, whitespace preservation, single letters, uncountable consistency
+
 ## [1.5.3] - 2025-07-12
 
 ### Added

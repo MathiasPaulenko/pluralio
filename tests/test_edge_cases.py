@@ -1616,7 +1616,6 @@ class TestPtHyphenatedWords:
         ("café-bar", "cafés-bar"),
         ("coração-de-leão", "corações-de-leão"),
         ("papel-moeda", "papéis-moeda"),
-        ("quebra-cabeça", "quebras-cabeça"),
     ])
     def test_pt_hyphenated_pluralize(self, singular: str, plural: str) -> None:
         assert pluralize(singular, lang="pt") == plural
@@ -1625,20 +1624,42 @@ class TestPtHyphenatedWords:
         ("café-bar", "cafés-bar"),
         ("coração-de-leão", "corações-de-leão"),
         ("papel-moeda", "papéis-moeda"),
-        ("quebra-cabeça", "quebras-cabeça"),
     ])
     def test_pt_hyphenated_singularize(self, singular: str, plural: str) -> None:
         assert singularize(plural, lang="pt") == singular
 
     def test_pt_hyphenated_roundtrip(self) -> None:
-        for word in ["café-bar", "coração-de-leão", "papel-moeda",
-                      "quebra-cabeça"]:
+        for word in ["café-bar", "coração-de-leão", "papel-moeda"]:
             assert singularize(pluralize(word, lang="pt"), lang="pt") == word
 
-    def test_pt_uncountable_compound_unchanged(self) -> None:
-        for word in ["guarda-chuva", "beija-flor", "passa-tempo"]:
-            assert pluralize(word, lang="pt") == word
-            assert singularize(word, lang="pt") == word
+    def test_pt_verb_noun_compound_pluralize(self) -> None:
+        for singular, plural in [
+            ("quebra-cabeça", "quebra-cabeças"),
+            ("guarda-chuva", "guarda-chuvas"),
+            ("guarda-roupa", "guarda-roupas"),
+            ("beija-flor", "beija-flores"),
+            ("passa-tempo", "passa-tempos"),
+            ("arranha-céu", "arranha-céus"),
+            ("limpa-pára-brisa", "limpa-pára-brisas"),
+            ("corta-caminho", "corta-caminhos"),
+        ]:
+            assert pluralize(singular, lang="pt") == plural
+
+    def test_pt_verb_noun_compound_singularize(self) -> None:
+        for singular, plural in [
+            ("quebra-cabeça", "quebra-cabeças"),
+            ("guarda-chuva", "guarda-chuvas"),
+            ("guarda-roupa", "guarda-roupas"),
+            ("beija-flor", "beija-flores"),
+            ("passa-tempo", "passa-tempos"),
+            ("arranha-céu", "arranha-céus"),
+        ]:
+            assert singularize(plural, lang="pt") == singular
+
+    def test_pt_verb_noun_compound_roundtrip(self) -> None:
+        for word in ["quebra-cabeça", "guarda-chuva", "guarda-roupa",
+                      "beija-flor", "passa-tempo", "arranha-céu"]:
+            assert singularize(pluralize(word, lang="pt"), lang="pt") == word
 
     def test_pt_leading_hyphen_pluralize(self) -> None:
         assert pluralize("-casa", lang="pt") == "-casas"

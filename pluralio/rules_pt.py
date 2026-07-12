@@ -435,8 +435,6 @@ _UNCOUNTABLE: set[str] = {
     "menos", "jamais",
     # Pronouns (invariable)
     "nós", "vós",
-    # Compound words
-    "guarda-chuva", "beija-flor", "passa-tempo",
     # Music genres (invariable)
     "blues", "soul", "funk", "reggae", "folk", "metal",
     # Foreign loanwords (invariable)

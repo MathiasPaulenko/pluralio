@@ -189,6 +189,11 @@ _LAST_SEGMENT_PLURAL_FIRST_WORDS: frozenset[str] = frozenset({
     "meta", "post", "re", "pre", "anti", "pro", "non", "sub",
     "co", "ex", "inter", "intra", "multi", "semi", "pseudo",
     "proto", "neo",
+    # Portuguese verb+noun compounds: verb is first, noun is last
+    "quebra", "guarda", "arranha", "limpa", "mata", "saca", "abre",
+    "corta", "lança", "trava", "cata", "chupa", "espanta", "passa",
+    "pisa", "salta", "adivinha", "roí", "cai", "sobe", "desce",
+    "para", "pára", "bota", "tira", "pega", "leva", "traz", "beija",
 })
 
 
