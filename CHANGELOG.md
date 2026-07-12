@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [1.5.3] - 2025-07-12
+
+### Added
+
+- 291 additional Portuguese irregular plurals (97 → 388): expanded `-ão` → `-ões` group with ~80 common words (`criação`, `emoção`, `região`, `questão`, `lição`, etc.), added `-ês` → `-eses` gentilicios (`freguês`, `português`, `japonês`, `inglês`, `francês`, `holandês`, `dinamarquês`, `chinês`, `norueguês`, `polonês`), added monosyllables (`som`, `flor`, `cor`, `mar`, `paz`, `luz`, `cruz`, `rapaz`, `arroz`), added `-el` → `-éis` (`anel`, `pincel`, `painel`, `pastel`, `coronel`), added `-ol` → `-óis` (`girassol`), added `-ães` group (`catalão`, `guardião`, `sotão`, `caimão`, `tecelão`), and ~130 tech/business loanwords (`framework`, `endpoint`, `callback`, `middleware`, `hash`, `bucket`, `pipeline`, `build`, `ticket`, `socket`, `fixture`, `mock`, `diff`, `commit`, `driver`, `buffer`, `proxy`, `header`, `footer`, `script`, `backlog`, `kanban`, `scrum`, `review`, `merge`, `branch`, `fork`, `push`, `pull`, `tag`, `log`, `bug`, `hack`, `patch`, `release`, `deploy`, `rollback`, `backup`, `snapshot`, `dashboard`, `plugin`, `addon`, `snippet`, `template`, `theme`, `skin`, `layout`, `form`, `input`, `output`, `flag`, `switch`, `toggle`, `hook`, `trigger`, `handler`, `listener`, `observer`, `wrapper`, `adapter`, `parser`, `lexer`, `compiler`, `debugger`, `profiler`, `linter`, `runner`, `worker`, `master`, `slave`, `leader`, `follower`, `node`, `host`, `peer`, `client`, `broker`, `shard`, `replica`, `pod`, `volume`, `image`, `registry`, `chart`, `graph`, `test`, `suite`, `case`, `stub`, `spy`, `coverage`, `report`, `alert`, `event`, `message`, `webhook`, `payload`, `request`, `response`, `session`, `cookie`, `query`, `cursor`, `field`, `schema`, `migration`, `seed`, `job`, `task`, `queue`, `stack`, `heap`, `pool`, `cache`, `stream`, `pipe`, `port`, `channel`, `signal`, `beacon`, `sensor`, `device`, `badge`, `card`, `menu`, `tab`, `icon`, `button`, `label`, `filter`, `sort`, `block`, `section`, `item`, `element`, `post`, `comment`, `user`, `account`, `profile`, `role`, `group`, `team`, `project`, `issue`, `plan`, `tier`, `quota`, `limit`, `invoice`, `payment`, `charge`, `refund`, `license`, `subscription`, `monitor`, `scanner`, `manager`, `browser`, `printer`, `computer`, `sender`, `receiver`, `editor`, `visitor`, `sponsor`, `partner`, `provider`, `supplier`, `investor`, `founder`, `developer`)
+- 56 additional Portuguese extra singles (32 → 88): accent restoration for all new `-ões`, `-ães`, `-éis`, `-óis`, `-eses`, `-ãos`, and `-eis` plural forms
+
+### Changed
+
+- Moved 14 tech loanwords from uncountable to irregular plurals (`framework`, `pipeline`, `build`, `socket`, `commit`, `proxy`, `deploy`, `backup`, `switch`, `node`, `host`, `cookie`, `cache`, `post`) — these are pluralizable with `+s`, not invariable
+- Portuguese uncountable count adjusted from 92 to 91
+
 ## [1.5.2] - 2025-07-12
 
 ### Changed
