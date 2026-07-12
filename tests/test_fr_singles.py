@@ -38,13 +38,18 @@ class TestFrenchIrregularSingles:
         ("travaux", "travail"), ("vitraux", "vitrail"),
         ("soupiraux", "soupirail"), ("coraux", "corail"),
         ("émaux", "émail"), ("fermaux", "fermail"),
-        ("ventaux", "ventail"),
+        ("ventaux", "ventail"), ("baux", "bail"),
+        # -aux → -au (regex gives -al, but these come from -au)
+        ("tuyaux", "tuyau"), ("noyaux", "noyau"), ("boyaux", "boyau"),
+        ("sarraux", "sarrau"),
         # -oux → -ou (irregulars only, not in regex)
         ("bijoux", "bijou"), ("cailloux", "caillou"), ("hiboux", "hibou"),
         ("choux", "chou"), ("genoux", "genou"), ("poux", "pou"),
         ("joujoux", "joujou"), ("ripoux", "ripou"),
         # -eux → -eu (irregulars for singularization safety)
         ("jeux", "jeu"), ("feux", "feu"), ("vœux", "vœu"),
+        # -eus → -eu (regular +s plurals)
+        ("bleus", "bleu"), ("pneus", "pneu"), ("émeus", "émeu"),
         # Special plurals
         ("yeux", "œil"), ("cieux", "ciel"),
         ("messieurs", "monsieur"), ("mesdames", "madame"),
@@ -91,10 +96,12 @@ class TestFrenchRoundTrip:
         "bal", "festival", "carnaval", "récital", "fatal",
         "travail", "vitrail", "corail", "émail",
         "bijou", "caillou", "hibou", "chou", "genou",
-        "jeu", "feu", "vœu",
+        "jeu", "feu", "vœu", "bleu", "pneu",
         "œil", "ciel", "monsieur", "madame", "mademoiselle",
         "canal", "capital", "signal", "social", "spécial",
         "normal", "national", "international",
+        "tuyau", "noyau", "boyau",
+        "bail",
         "weekend", "parking", "club", "leader", "test",
     ])
     def test_roundtrip(self, word: str) -> None:

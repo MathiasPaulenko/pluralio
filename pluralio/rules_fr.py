@@ -69,12 +69,18 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "soupirail": "soupiraux", "corail": "coraux",
     "émail": "émaux", "fermail": "fermaux",
     "ventail": "ventaux",
+    "bail": "baux",
     # ── -ou → -oux (exceptions to the +s rule) ────────────────────
     "bijou": "bijoux", "caillou": "cailloux", "hibou": "hiboux",
     "chou": "choux", "genou": "genoux", "pou": "poux",
     "joujou": "joujoux", "ripou": "ripoux",
-    # ── -eu → -eux (explicit mapping for singularization) ─────────
+    # ── -au → -aux (common words needing explicit mapping) ────────
+    "tuyau": "tuyaux", "noyau": "noyaux", "boyau": "boyaux",
+    "sarrau": "sarraux",
+    # ── -eu → -eux (exceptions: most -eu words take -eux, but some take +s) ──
     "jeu": "jeux", "feu": "feux", "vœu": "vœux",
+    # ── -eu → +s (exceptions to the -eux rule) ───────────────────
+    "bleu": "bleus", "pneu": "pneus", "émeu": "émeus",
     # ── Special plurals (completely irregular) ────────────────────
     "œil": "yeux", "ciel": "cieux",
     "monsieur": "messieurs", "madame": "mesdames",
@@ -125,6 +131,10 @@ _EXTRA_SINGLES: dict[str, str] = {
     "soupiraux": "soupirail", "coraux": "corail",
     "émaux": "émail", "fermaux": "fermail",
     "ventaux": "ventail",
+    "baux": "bail",
+    # -aux → -au (regex gives -al, but these come from -au)
+    "tuyaux": "tuyau", "noyaux": "noyau", "boyaux": "boyau",
+    "sarraux": "sarrau",
     # Special
     "yeux": "œil", "cieux": "ciel",
     "messieurs": "monsieur", "mesdames": "madame",
@@ -149,6 +159,7 @@ for _plural, _singular in _EXTRA_SINGLES.items():
 _PLURAL_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"al$"), "aux"),
     (re.compile(r"eau$"), "eaux"),
+    (re.compile(r"au$"), "aux"),
     (re.compile(r"eu$"), "eux"),
     (re.compile(r"([sxz])$"), r"\1"),
     (re.compile(r"$"), "s"),
@@ -159,9 +170,12 @@ Order matters: more specific patterns must come before generic ones.
 1. Words ending in ``al`` → replace with ``aux`` (cheval → chevaux;
    exceptions like bal → bals in irregulars).
 2. Words ending in ``eau`` → replace with ``eaux`` (bateau → bateaux).
-3. Words ending in ``eu`` → replace with ``eux`` (jeu → jeux).
-4. Words ending in ``s``, ``x``, or ``z`` → invariable (no change).
-5. Default → append ``s`` (chat → chats, livre → livres).
+3. Words ending in ``au`` → replace with ``aux`` (tuyau → tuyaux).
+   Must come after ``eau$`` to avoid double-matching.
+4. Words ending in ``eu`` → replace with ``eux`` (jeu → jeux;
+   exceptions like bleu → bleus in irregulars).
+5. Words ending in ``s``, ``x``, or ``z`` → invariable (no change).
+6. Default → append ``s`` (chat → chats, livre → livres).
 """
 
 _SINGULAR_RULES: list[tuple[re.Pattern[str], str]] = [
@@ -198,9 +212,9 @@ _UNCOUNTABLE: set[str] = {
     "farine", "viande", "porc", "jambon",
     # -s invariable
     "fois", "souris", "brebis", "cours",
-    "poids", "rhinocéros", "virus", "paris",
+    "poids", "rhinocéros", "virus",
     # -x invariable
-    "croix", "voix", "noix", "endroit",
+    "croix", "voix", "noix",
     "choix", "prix",
     # -z invariable
     "nez",

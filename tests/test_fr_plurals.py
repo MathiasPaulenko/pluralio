@@ -22,6 +22,16 @@ class TestFrenchPluralRules:
                                  ("vœu", "vœux")]:
             assert pluralize(singular, lang="fr") == plural
 
+    def test_eu_plus_s_exceptions(self) -> None:
+        for singular, plural in [("bleu", "bleus"), ("pneu", "pneus"),
+                                 ("émeu", "émeus")]:
+            assert pluralize(singular, lang="fr") == plural
+
+    def test_au_to_aux(self) -> None:
+        for singular, plural in [("tuyau", "tuyaux"), ("noyau", "noyaux"),
+                                 ("boyau", "boyaux"), ("sarrau", "sarraux")]:
+            assert pluralize(singular, lang="fr") == plural
+
     def test_s_invariable(self) -> None:
         for word in ["fois", "souris", "brebis", "cours", "poids"]:
             assert pluralize(word, lang="fr") == word
@@ -56,13 +66,18 @@ class TestFrenchIrregularPlurals:
         ("travail", "travaux"), ("vitrail", "vitraux"),
         ("soupirail", "soupiraux"), ("corail", "coraux"),
         ("émail", "émaux"), ("fermail", "fermaux"),
-        ("ventail", "ventaux"),
+        ("ventail", "ventaux"), ("bail", "baux"),
         # -ou → -oux (exceptions to the +s rule)
         ("bijou", "bijoux"), ("caillou", "cailloux"), ("hibou", "hiboux"),
         ("chou", "choux"), ("genou", "genoux"), ("pou", "poux"),
         ("joujou", "joujoux"), ("ripou", "ripoux"),
-        # -eu → -eux (explicit mapping for singularization)
+        # -au → -aux (common words needing explicit mapping)
+        ("tuyau", "tuyaux"), ("noyau", "noyaux"), ("boyau", "boyaux"),
+        ("sarrau", "sarraux"),
+        # -eu → -eux (exceptions: most -eu words take -eux)
         ("jeu", "jeux"), ("feu", "feux"), ("vœu", "vœux"),
+        # -eu → +s (exceptions to the -eux rule)
+        ("bleu", "bleus"), ("pneu", "pneus"), ("émeu", "émeus"),
         # Special plurals (completely irregular)
         ("œil", "yeux"), ("ciel", "cieux"),
         ("monsieur", "messieurs"), ("madame", "mesdames"),
@@ -117,9 +132,9 @@ class TestFrenchUncountable:
         "farine", "viande", "porc", "jambon",
         # -s invariable
         "fois", "souris", "brebis", "cours",
-        "poids", "rhinocéros", "virus", "paris",
+        "poids", "rhinocéros", "virus",
         # -x invariable
-        "croix", "voix", "noix", "endroit",
+        "croix", "voix", "noix",
         "choix", "prix",
         # -z invariable
         "nez",
