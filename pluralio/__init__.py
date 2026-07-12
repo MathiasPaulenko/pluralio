@@ -22,6 +22,7 @@ Supported languages (built-in):
     - Spanish (``es``)
     - Portuguese (``pt``)
     - French (``fr``)
+    - Italian (``it``)
 
 Example:
     >>> import pluralio
@@ -37,7 +38,13 @@ import re
 import unicodedata
 from importlib.metadata import PackageNotFoundError, version
 
-from pluralio import rules_en, rules_es, rules_fr, rules_pt  # noqa: F401 — triggers registration
+from pluralio import (  # noqa: F401 — triggers registration
+    rules_en,
+    rules_es,
+    rules_fr,
+    rules_it,
+    rules_pt,
+)
 from pluralio.core import _clear_regex_cache, pluralize, singularize
 from pluralio.registry import (
     LanguageRules,

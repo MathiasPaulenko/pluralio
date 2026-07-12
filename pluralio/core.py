@@ -205,6 +205,14 @@ _FR_HYPHEN_SKIP: frozenset[str] = frozenset({
     "vie", "ciel",
 })
 
+# Italian compound words: both nouns are pluralized, but function words
+# (prepositions, articles) are skipped.
+_IT_HYPHEN_SKIP: frozenset[str] = frozenset({
+    "di", "da", "in", "con", "su", "per", "tra", "fra",
+    "e", "o", "il", "lo", "la", "i", "gli", "le",
+    "un", "uno", "una", "che", "non",
+})
+
 
 def _pluralize_hyphenated(word: str, lang: str, count: int | None) -> str:
     """Pluralize the appropriate segment(s) of a hyphenated word.
@@ -243,10 +251,11 @@ def _pluralize_hyphenated(word: str, lang: str, count: int | None) -> str:
             parts[last_idx] = pluralize(parts[last_idx], lang=lang, count=count)
         return "-".join(parts)
 
-    # French: pluralize all noun segments (skip function words)
-    if lang == "fr":
+    # French/Italian: pluralize all noun segments (skip function words)
+    if lang in ("fr", "it"):
+        skip = _FR_HYPHEN_SKIP if lang == "fr" else _IT_HYPHEN_SKIP
         for i, part in enumerate(parts):
-            if part and part.lower() not in _FR_HYPHEN_SKIP:
+            if part and part.lower() not in skip:
                 parts[i] = pluralize(part, lang=lang, count=count)
         return "-".join(parts)
 
@@ -291,10 +300,11 @@ def _singularize_hyphenated(word: str, lang: str) -> str:
             parts[last_idx] = singularize(parts[last_idx], lang=lang)
         return "-".join(parts)
 
-    # French: singularize all noun segments (skip function words)
-    if lang == "fr":
+    # French/Italian: singularize all noun segments (skip function words)
+    if lang in ("fr", "it"):
+        skip = _FR_HYPHEN_SKIP if lang == "fr" else _IT_HYPHEN_SKIP
         for i, part in enumerate(parts):
-            if part and part.lower() not in _FR_HYPHEN_SKIP:
+            if part and part.lower() not in skip:
                 parts[i] = singularize(part, lang=lang)
         return "-".join(parts)
 

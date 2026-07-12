@@ -2595,3 +2595,264 @@ class TestFrIsSingularIsPlural:
     def test_fr_uncountable_both(self, word: str) -> None:
         assert is_singular(word, lang="fr") is True
         assert is_plural(word, lang="fr") is True
+
+
+# ---------------------------------------------------------------------------
+# Italian edge cases
+# ---------------------------------------------------------------------------
+
+
+class TestItCasePreservation:
+    """Italian case preservation for irregulars and regex words."""
+
+    @pytest.mark.parametrize("word,expected", [
+        ("Libro", "Libri"),
+        ("LIBRO", "LIBRI"),
+        ("Casa", "Case"),
+        ("CASA", "CASE"),
+        ("Cane", "Cani"),
+        ("CANE", "CANI"),
+        ("Amico", "Amici"),
+        ("AMICO", "AMICI"),
+        ("Uomo", "Uomini"),
+        ("UOMO", "UOMINI"),
+        ("Banco", "Banchi"),
+        ("BANCO", "BANCHI"),
+        ("Amica", "Amiche"),
+        ("AMICA", "AMICHE"),
+    ])
+    def test_it_title_case_pluralize(self, word: str, expected: str) -> None:
+        assert pluralize(word, lang="it") == expected
+
+    @pytest.mark.parametrize("word,expected", [
+        ("Libri", "Libro"),
+        ("LIBRI", "LIBRO"),
+        ("Case", "Casa"),
+        ("CASE", "CASA"),
+        ("Cani", "Cane"),
+        ("CANI", "CANE"),
+        ("Amici", "Amico"),
+        ("AMICI", "AMICO"),
+        ("Uomini", "Uomo"),
+        ("UOMINI", "UOMO"),
+        ("Banchi", "Banco"),
+        ("BANCHI", "BANCO"),
+        ("Amiche", "Amica"),
+        ("AMICHE", "AMICA"),
+    ])
+    def test_it_title_case_singularize(self, word: str, expected: str) -> None:
+        assert singularize(word, lang="it") == expected
+
+
+class TestItMixedCase:
+    """Italian mixed case preservation."""
+
+    @pytest.mark.parametrize("word,expected", [
+        ("McLibro", "McLibri"),
+    ])
+    def test_it_mixed_case_pluralize(self, word: str, expected: str) -> None:
+        assert pluralize(word, lang="it") == expected
+
+    @pytest.mark.parametrize("word,expected", [
+        ("McLibri", "McLibro"),
+    ])
+    def test_it_mixed_case_singularize(self, word: str, expected: str) -> None:
+        assert singularize(word, lang="it") == expected
+
+
+class TestItHyphenatedWords:
+    """Italian hyphenated word pluralization."""
+
+    @pytest.mark.parametrize("singular,plural", [
+        ("caffè-bar", "caffè-bar"),
+        ("film-club", "film-club"),
+        ("auto-scuola", "auto-scuole"),
+    ])
+    def test_it_hyphenated_pluralize(self, singular: str, plural: str) -> None:
+        assert pluralize(singular, lang="it") == plural
+
+    @pytest.mark.parametrize("singular,plural", [
+        ("auto-scuola", "auto-scuole"),
+    ])
+    def test_it_hyphenated_singularize(self, singular: str, plural: str) -> None:
+        assert singularize(plural, lang="it") == singular
+
+    def test_it_hyphenated_roundtrip(self) -> None:
+        for word in ["auto-scuola"]:
+            assert singularize(pluralize(word, lang="it"), lang="it") == word
+
+    def test_it_leading_hyphen_pluralize(self) -> None:
+        assert pluralize("-casa", lang="it") == "-case"
+
+    def test_it_leading_hyphen_singularize(self) -> None:
+        assert singularize("-case", lang="it") == "-casa"
+
+    def test_it_hyphen_only(self) -> None:
+        assert pluralize("-", lang="it") == "-"
+        assert singularize("-", lang="it") == "-"
+
+    def test_it_double_hyphen(self) -> None:
+        assert pluralize("--", lang="it") == "--"
+        assert singularize("--", lang="it") == "--"
+
+
+class TestItIdempotency:
+    """Italian pluralize of already-plural words should return unchanged."""
+
+    @pytest.mark.parametrize("word", [
+        "libri", "cani", "fiori", "pani",
+        "banchi", "amiche", "leghe", "righe",
+        "amici", "medici", "nemici", "logici",
+        "biologi", "psicologi", "tecnici", "politici",
+        "asparagi", "laghi", "fuochi", "luoghi", "giochi",
+        "uomini", "mogli", "dei", "templi",
+        "buoi", "ali", "armi", "dita", "ossa",
+        "labbra", "ginocchia", "occhi", "orecchi",
+        "uova", "paia", "miglia", "centinaia", "migliaia",
+        "vizi", "figli", "orologi", "inizi",
+        "film", "bar", "bus", "computer", "sport",
+    ])
+    def test_it_pluralize_already_plural(self, word: str) -> None:
+        assert pluralize(word, lang="it") == word
+
+
+class TestItRoundTrip:
+    """Italian pluralize → singularize round-trip identity."""
+
+    @pytest.mark.parametrize("word", [
+        "libro", "casa", "cane", "fiore", "pane",
+        "amica", "banca", "lega", "riga",
+        "banco", "pacco", "ago", "fungo",
+        "vizio", "figlio", "orologio", "inizio",
+        "amico", "medico", "nemico", "logico",
+        "biologo", "psicologo", "tecnico", "politico",
+        "asparago", "lago", "fuoco", "luogo", "gioco",
+        "porco", "uomo", "moglie", "dio", "tempio",
+        "bue", "ala", "arma", "dito", "osso",
+        "labbro", "ginocchio", "occhio", "orecchio",
+        "uovo", "paio", "miglio", "centinaio", "migliaio",
+        "film", "bar", "bus", "computer", "sport",
+        "taxi", "metro", "weekend", "meeting",
+        "club", "leader", "test", "code",
+        "server", "framework", "token", "container",
+        "docker", "script",
+    ])
+    def test_it_roundtrip(self, word: str) -> None:
+        plural = pluralize(word, lang="it")
+        assert singularize(plural, lang="it") == word
+
+
+class TestItCountAware:
+    """Italian count-aware pluralization."""
+
+    @pytest.mark.parametrize("word", [
+        "libro", "casa", "cane", "amico", "uomo",
+        "uovo", "banco", "amica", "vizio", "framework",
+    ])
+    def test_it_count_one_returns_singular(self, word: str) -> None:
+        assert pluralize(word, lang="it", count=1) == word
+
+    @pytest.mark.parametrize("word", [
+        "libro", "casa", "cane", "amico", "uomo",
+        "uovo", "banco", "amica", "vizio", "framework",
+    ])
+    def test_it_count_zero_returns_plural(self, word: str) -> None:
+        assert pluralize(word, lang="it", count=0) == pluralize(word, lang="it")
+
+    @pytest.mark.parametrize("word", [
+        "libro", "casa", "cane", "amico", "uomo",
+        "uovo", "banco", "amica", "vizio", "framework",
+    ])
+    def test_it_count_two_returns_plural(self, word: str) -> None:
+        assert pluralize(word, lang="it", count=2) == pluralize(word, lang="it")
+
+
+class TestItWhitespace:
+    """Italian whitespace preservation."""
+
+    def test_it_preserves_whitespace_pluralize(self) -> None:
+        assert pluralize("  libro  ", lang="it") == "  libri  "
+
+    def test_it_preserves_whitespace_singularize(self) -> None:
+        assert singularize("  libri  ", lang="it") == "  libro  "
+
+    def test_it_whitespace_only_returns_as_is(self) -> None:
+        assert pluralize("   ", lang="it") == "   "
+        assert singularize("   ", lang="it") == "   "
+
+    def test_it_count_one_preserves_whitespace(self) -> None:
+        assert pluralize("  libro  ", lang="it", count=1) == "  libro  "
+
+
+class TestItSingleLetterAndEdge:
+    """Italian single letters and boundary cases."""
+
+    def test_it_single_letter_a(self) -> None:
+        assert pluralize("a", lang="it") == "e"
+        assert singularize("e", lang="it") == "a"
+
+    def test_it_single_letter_a_uppercase(self) -> None:
+        assert pluralize("A", lang="it") == "E"
+        assert singularize("E", lang="it") == "A"
+
+    def test_it_empty_string(self) -> None:
+        assert pluralize("", lang="it") == ""
+        assert singularize("", lang="it") == ""
+
+    def test_it_whitespace_only(self) -> None:
+        assert pluralize("   ", lang="it") == "   "
+        assert singularize("   ", lang="it") == "   "
+
+
+class TestItUncountableConsistency:
+    """Italian uncountable words should be unchanged in both directions."""
+
+    @pytest.mark.parametrize("word", [
+        "film", "bar", "bus", "computer", "sport",
+        "taxi", "metro", "weekend", "meeting",
+        "club", "leader", "test", "code",
+        "server", "framework", "token", "container",
+        "docker", "script", "software", "hardware",
+        "web", "blog", "chat", "spam",
+        "jazz", "rock", "punk", "flash",
+        "brindisi", "analisi", "tesi", "crisi",
+        "oasi", "sintesi", "ipotesi", "diagnosi",
+        "paralisi", "catarsi",
+        "specie", "serie", "voce",
+        "occhiali", "forbici", "pantaloni",
+        "soldi", "nozze", "stoviglie",
+        "vettovaglie",
+        "foto", "moto", "radio", "cinema",
+        "auto", "biliardo",
+    ])
+    def test_it_uncountable_unchanged(self, word: str) -> None:
+        assert pluralize(word, lang="it") == word
+        assert singularize(word, lang="it") == word
+
+
+class TestItIsSingularIsPlural:
+    """Italian is_singular / is_plural checks."""
+
+    @pytest.mark.parametrize("word", [
+        "libro", "casa", "cane", "fiore", "pane",
+        "amico", "uomo", "uovo", "banco", "amica",
+    ])
+    def test_it_singular_words(self, word: str) -> None:
+        assert is_singular(word, lang="it") is True
+        assert is_plural(word, lang="it") is False
+
+    @pytest.mark.parametrize("word", [
+        "libri", "case", "cani", "fiori", "pani",
+        "amici", "uomini", "uova", "banchi", "amiche",
+    ])
+    def test_it_plural_words(self, word: str) -> None:
+        assert is_plural(word, lang="it") is True
+        assert is_singular(word, lang="it") is False
+
+    @pytest.mark.parametrize("word", [
+        "film", "bar", "analisi", "crisi", "occhiali",
+        "foto", "auto", "specie", "serie",
+    ])
+    def test_it_uncountable_both(self, word: str) -> None:
+        assert is_singular(word, lang="it") is True
+        assert is_plural(word, lang="it") is True
