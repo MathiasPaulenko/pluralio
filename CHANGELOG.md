@@ -2,6 +2,28 @@
 
 ## [Unreleased]
 
+## [1.4.1] - 2025-07-12
+
+### Added
+
+- 19 English uncountable `-ics` disciplines: `politics`, `ethics`, `gymnastics`, `linguistics`, `athletics`, `civics`, `statistics`, `informatics`, `classics`, `mechanics`, `dynamics`, `genetics`, `obstetrics`, `pediatrics`, `psychiatrics`, `orthopaedics`, `academics`, `logistics`, `hysterics`
+- 4 English uncountable games: `billiards`, `darts`, `checkers`, `craps`
+- 5 Spanish compound uncountables: `quitamanchas`, `matasanos`, `guardabosques`, `guardacostas`
+- Spanish invariable adjective `gris` to uncountables
+
+### Fixed
+
+- `annex` round-trip: `annexes` singularized to `annexe` (British) instead of `annex` (American English)
+- `finesse` round-trip: `finesses` singularized to `finess` instead of `finesse`
+- `bellyache` round-trip: `bellyaches` singularized to `bellyach` instead of `bellyache`
+- `peine` round-trip: `peines` singularized to `pein` instead of `peine` (vowel+consonant+e pattern)
+- `rol` round-trip: `roles` singularized to `role` (English loanword) instead of `rol` (Spanish singular)
+
+### Changed
+
+- Test suite: 2,817 → 2,859 tests
+- Deep validation: 1,141 English words + 466 Spanish words, 0 failures
+
 ## [1.4.0] - 2025-07-11
 
 ### Added
