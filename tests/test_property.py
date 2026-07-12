@@ -51,7 +51,7 @@ es_words = st.sampled_from([
     "scrum", "review", "merge", "fork", "log", "bug",
     "cache", "hash", "url", "widget", "plugin", "addon",
     "test", "stub", "spy", "alert", "event", "message",
-    "user", "account", "profile", "role", "group", "team",
+    "user", "account", "profile", "rol", "group", "team",
     "project", "issue", "plan", "tier", "quota", "limit",
 ])
 

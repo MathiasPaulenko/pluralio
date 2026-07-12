@@ -156,7 +156,7 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "item": "items", "element": "elements",
     "post": "posts", "comment": "comments",
     "user": "users", "account": "accounts",
-    "profile": "profiles", "role": "roles",
+    "profile": "profiles", "rol": "roles",
     "group": "groups", "team": "teams",
     "project": "projects", "issue": "issues",
     "plan": "plans", "tier": "tiers",
@@ -325,6 +325,9 @@ _UNCOUNTABLE: set[str] = {
     # Compound words
     "lavacoches", "sacamuelas", "cortaplumas", "abrelatas",
     "parachoques", "rompecorazones", "sacaorchos",
+    "quitamanchas", "matasanos", "guardabosques", "guardacostas",
+    # Invariable adjectives ending in -s
+    "gris",
 }
 """Set of Spanish uncountable/invariable words.
 

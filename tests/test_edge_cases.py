@@ -1526,3 +1526,34 @@ class TestEsPeineRoundTrip:
 
     def test_round_trip(self) -> None:
         assert singularize(pluralize("peine", lang="es"), lang="es") == "peine"
+
+
+class TestEnFinesseBellyache:
+    """finesse and bellyache should round-trip correctly."""
+
+    def test_finesse(self) -> None:
+        assert pluralize("finesse") == "finesses"
+        assert singularize("finesses") == "finesse"
+
+    def test_bellyache(self) -> None:
+        assert pluralize("bellyache") == "bellyaches"
+        assert singularize("bellyaches") == "bellyache"
+
+
+class TestEsGrisRolCompounds:
+    """gris (invariable), rol round-trip, compound uncountables."""
+
+    def test_gris_uncountable(self) -> None:
+        assert pluralize("gris", lang="es") == "gris"
+        assert singularize("gris", lang="es") == "gris"
+
+    def test_rol_round_trip(self) -> None:
+        assert pluralize("rol", lang="es") == "roles"
+        assert singularize("roles", lang="es") == "rol"
+
+    @pytest.mark.parametrize("word", [
+        "quitamanchas", "matasanos", "guardabosques", "guardacostas",
+    ])
+    def test_compound_uncountable(self, word: str) -> None:
+        assert pluralize(word, lang="es") == word
+        assert singularize(word, lang="es") == word

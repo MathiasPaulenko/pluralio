@@ -108,6 +108,8 @@ class TestSpanishUncountable:
         "biceps", "triceps", "cuádriceps", "forceps",
         "lavacoches", "sacamuelas", "cortaplumas", "abrelatas",
         "parachoques", "rompecorazones", "sacaorchos",
+        "quitamanchas", "matasanos", "guardabosques", "guardacostas",
+        "gris",
     ])
     def test_uncountable_unchanged(self, word: str) -> None:
         assert pluralize(word, lang="es") == word

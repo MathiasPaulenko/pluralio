@@ -172,6 +172,7 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "headache": "headaches", "earache": "earaches",
     "toothache": "toothaches", "backache": "backaches",
     "heartache": "heartaches", "stomachache": "stomachaches",
+    "bellyache": "bellyaches",
     # Words ending in -ie (singularize ies->y would give wrong stem)
     "brownie": "brownies", "calorie": "calories",
     "auntie": "aunties", "aussie": "aussies",
@@ -195,6 +196,7 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "press": "presses", "moss": "mosses", "toss": "tosses",
     "stress": "stresses", "address": "addresses", "access": "accesses",
     "process": "processes", "success": "successes",
+    "finesse": "finesses",
     # Singular words ending in us (Latin/Greek origin)
     "discus": "discuses", "census": "censuses",
     "plexus": "plexuses", "sinus": "sinuses",
