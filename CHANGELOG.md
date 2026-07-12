@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+## [1.5.1] - 2025-07-12
+
+### Added
+
+- 62 additional Portuguese uncountables (30 → 92): `-x` invariables (`fax`, `complex`, `suplex`, etc.), anatomical `-ps` (`bíceps`, `tríceps`, `fórceps`), Greek/biblical `-is` (`oásis`, `gênesis`), `-s` invariables (`pires`, `ourives`, `cosmos`, `seis`), adverbs (`menos`, `jamais`), music genres (`blues`, `soul`, `funk`, `reggae`, `folk`, `metal`), sports (`rugby`, `skate`, `poker`, `darts`), and tech/foreign loanwords (`deploy`, `commit`, `cloud`, `kernel`, `streaming`, etc.)
+
+### Changed
+
+- Test suite: 3,116 → 3,188 tests
+- 100% coverage maintained
+
 ## [1.5.0] - 2025-07-12
 
 ### Added
