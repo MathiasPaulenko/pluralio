@@ -2,6 +2,24 @@
 
 ## [Unreleased]
 
+## [1.6.2] - 2025-07-13
+
+### Added
+
+- 9 pluralia tantum words: `ciseaux`, `lunettes`, `jumelles`, `pincettes`, `arrérages`, `ambages`, `fraîtures`, `mœurs`, `condoléances`, `frais`, `gens`
+- 2 `-ou → -oux` irregulars: `gnou → gnoux`, `bayou → bayoux`
+- 4 `-al → -als` exceptions: `étal → étals`, `val → vals`, `gal → gals`, `recal → recals`
+- `cour → cours` irregular mapping for round-trip correctness
+- 7 accentless variant mappings: `generaux → general`, `hopitaux → hopital`, `metaux → metal`, `signaux → signal`, `regaux → regal`, `recitaux → recital`, `voeux → voeu`
+- `aux → au` extra single for compound singularization (`pots-aux-feux → pot-au-feu`)
+- French hyphenated compound pluralization: all noun segments are now pluralized/singularized (e.g. `café-théâtre → cafés-théâtres`, `chou-fleur → choux-fleurs`, `pot-au-feu → pots-aux-feux`)
+
+### Changed
+
+- French hyphenated compound handling in `core.py`: pluralizes/singularizes all noun segments, skipping function words (`de`, `en`, `et`, etc.) and fixed parts (`vie`, `ciel`)
+- Removed `cours` from uncountable (now handled via `cour → cours` irregular)
+- Updated supported languages table with accurate rule counts (104 irregulars, 27 extra singles, 81 uncountables)
+
 ## [1.6.1] - 2025-07-13
 
 ### Fixed
