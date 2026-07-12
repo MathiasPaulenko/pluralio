@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [1.5.5] - 2025-07-12
+
+### Fixed
+
+- `dinamarqueses` now singularizes to `dinamarqués` (was `dinamarques` — missing accent restoration in `_EXTRA_SINGLES`)
+- `fraces` now singularizes to `frac` (was `fraz` — incorrectly caught by `ces$` → `z` singularization rule; added `frac` → `fraces` to irregular plurals)
+
+### Added
+
+- 452 Spanish edge case tests: case preservation (title, all caps), mixed case, hyphenated words (noun+noun, leading/double hyphen), idempotency (45+ already-plural words), round-trip (45+ words), count-aware pluralization, whitespace preservation, single letters, uncountable consistency (70+ words), `is_singular`/`is_plural` checks
+- 150 English edge case tests: count-aware pluralization (18 words × 3 counts), mixed case, single letters, uncountable consistency (40+ words), `is_singular`/`is_plural` checks, hyphenated compound round-trip (13 compounds)
+
 ## [1.5.4] - 2025-07-12
 
 ### Fixed
