@@ -289,10 +289,10 @@ How does pluralio compare to other Python inflection libraries?
 
 | Language | Code | Regex rules | Irregulars | Uncountables | Status |
 | --- | --- | --- | --- | --- | --- |
-| English | `en` | 7 | 684 | 219 | ✅ Complete |
-| Spanish | `es` | 9 | 352 + 81 extra singles | 92 | ✅ Complete |
+| English | `en` | 7 + 22 | 684 | 219 | ✅ Complete |
+| Spanish | `es` | 9 + 8 | 352 + 81 extra singles | 92 | ✅ Complete |
 | Portuguese | `pt` | 8 + 13 | 388 + 88 extra singles | 88 | ✅ Complete |
-| French | `fr` | 5 | 90 + 20 extra singles | 60 | ✅ Complete |
+| French | `fr` | 6 + 4 | 90 + 20 extra singles | 71 | ✅ Complete |
 | Italian | `it` | — | — | — | 🔜 Planned |
 
 ## Roadmap
