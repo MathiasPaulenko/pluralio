@@ -11,7 +11,7 @@
 - Portuguese singularization rules: `-ões`→`-ão`, `-ães`→`-ão`, `-zes`→`-z`, `-ns`→`-m`, consonant+`-is`→`-il`, `-is`→`-l`, double consonant+`-es`→strip `s`, `-tes`/`-des`/`-mes`/`-les`→strip `s`, `-res`→`-r`, default strip `s`
 - 97 Portuguese irregular plurals covering `-ão`→`-ões`/`-ães`/`-ãos` splits, accent shifts (`-el`→`-éis`, `-ol`→`-óis`), `-il` paroxítona→`-eis`, and foreign loanwords
 - 32 Portuguese extra singles for accent restoration (`papéis`→`papel`, `sóis`→`sol`, `méis`→`mel`, `fiéis`→`fiel`, etc.)
-- 30 Portuguese uncountables including `-x` invariables (`tórax`, `látex`), `-s` invariables (`lápis`, `vírus`, `três`, `mais`, `cais`, `dois`), pronouns (`nós`, `vós`), compound words, and foreign loanwords
+- 92 Portuguese uncountables including `-x` invariables (`tórax`, `látex`, `fax`, `complex`), anatomical `-ps` (`bíceps`, `tríceps`, `fórceps`), Greek/biblical `-is` (`oásis`, `gênesis`), `-s` invariables (`lápis`, `vírus`, `óculos`, `férias`, `pires`, `ourives`), pronouns (`nós`, `vós`), adverbs (`menos`, `jamais`), compound words, music genres (`blues`, `soul`, `funk`, `reggae`), sports (`rugby`, `skate`, `poker`), and foreign/tech loanwords (`software`, `deploy`, `commit`, `cloud`, `kernel`)
 - Portuguese test suite: pluralization, singularization, and round-trip tests
 
 ### Fixed

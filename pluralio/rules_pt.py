@@ -214,27 +214,54 @@ Order matters: more specific patterns must come before generic ones.
 _UNCOUNTABLE: set[str] = {
     # -x (invariable)
     "tórax", "látex", "clímax", "sintaxe",
+    "fax", "xerox", "telex", "complex", "duplex",
+    "simplex", "suplex", "sex", "mix", "index",
+    "matrix", "flex",
     # -e (invariable slang)
     "fixe",
+    # -ps (anatomical, invariable)
+    "bíceps", "tríceps", "quadríceps", "fórceps",
+    # Greek/biblical -is (invariable)
+    "oásis", "gênesis",
     # -s (invariable)
     "lápis", "atlas", "vírus", "ônibus", "óculos",
     "férias", "núpcias", "cócegas", "afazeres",
     "três", "mais", "cais", "dois",
+    "pires", "ourives", "cosmos", "seis",
+    # Adverbs (invariable)
+    "menos", "jamais",
     # Pronouns (invariable)
     "nós", "vós",
     # Compound words
     "guarda-chuva", "beija-flor", "passa-tempo",
-    # Foreign (invariable)
+    # Music genres (invariable)
+    "blues", "soul", "funk", "reggae", "folk", "metal",
+    # Foreign loanwords (invariable)
     "software", "hardware", "web", "blog", "chat",
     "spam", "jazz", "rock", "punk", "flash",
+    "post", "marketing", "design", "streaming", "podcast",
+    "feed", "cache", "cookie", "shell", "framework",
+    "kernel", "cloud", "backend", "frontend", "deploy",
+    "commit", "build", "runtime", "pipeline", "workflow",
+    "sandbox", "socket", "proxy", "thread", "host",
+    "node", "switch", "hub", "ping", "byte",
+    # Sports/games (invariable)
+    "rugby", "skate", "poker", "darts",
+    # Culture (invariable)
+    "hacker", "nerd", "geek",
+    # Tech actions (invariable)
+    "download", "upload", "screenshot", "backup", "fallback",
 }
 """Set of Portuguese uncountable/invariable words.
 
-Includes words ending in ``x`` (``tórax``, ``látex``, ``clímax``,
-``sintaxe``), invariable ``-s`` words (``lápis``, ``vírus``,
-``óculos``, ``férias``), compound words (``guarda-chuva``,
-``beija-flor``, ``passa-tempo``), and foreign loanwords
-(``software``, ``web``, ``jazz``, ``rock``).
+Includes words ending in ``x`` (``tórax``, ``látex``, ``fax``,
+``complex``), anatomical ``-ps`` words (``bíceps``, ``tríceps``,
+``fórceps``), Greek/biblical ``-is`` words (``oásis``, ``gênesis``),
+invariable ``-s`` words (``lápis``, ``vírus``, ``óculos``, ``férias``,
+``pires``, ``ourives``), compound words (``guarda-chuva``,
+``beija-flor``, ``passa-tempo``), music genres (``blues``, ``soul``,
+``funk``, ``reggae``), and foreign loanwords (``software``, ``web``,
+``jazz``, ``rock``, ``deploy``, ``commit``).
 """
 
 _RULES = LanguageRules(
