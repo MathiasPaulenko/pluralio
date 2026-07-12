@@ -27,7 +27,6 @@ Additional features handled here:
 
 from __future__ import annotations
 
-import re
 import unicodedata
 from functools import lru_cache
 
@@ -68,19 +67,31 @@ def _match_case(source: str, target: str) -> str:
         >>> _match_case("iPhone", "iphones")
         'iPhones'
     """
-    if source.isupper():
+    first_upper = source[0].isupper()
+    # Single pass: detect all-upper, title case, or mixed
+    all_upper = first_upper
+    has_upper_after_first = False
+    for c in source[1:]:
+        if c.isupper():
+            has_upper_after_first = True
+        else:
+            all_upper = False
+    # Fast path: all lowercase
+    if not first_upper and not has_upper_after_first:
+        return target
+    if all_upper:
         return target.upper()
-    if source[0].isupper() and source[1:].islower():
+    if first_upper and not has_upper_after_first:
+        # Title case: first upper, rest lower
         return target[0].upper() + target[1:]
-    if any(c.isupper() for c in source[1:]):
-        result = []
-        for i, char in enumerate(target):
-            if i < len(source):
-                result.append(char.upper() if source[i].isupper() else char.lower())
-            else:
-                result.append(char.lower())
-        return "".join(result)
-    return target
+    # Mixed case: mirror each position
+    result = []
+    for i, char in enumerate(target):
+        if i < len(source):
+            result.append(char.upper() if source[i].isupper() else char.lower())
+        else:
+            result.append(char.lower())
+    return "".join(result)
 
 
 @lru_cache(maxsize=4096)
@@ -121,29 +132,27 @@ def _clear_regex_cache() -> None:
 
 def _apply_rules(
     word: str,
+    lower: str,
     rules: LanguageRules,
-    irregulars: dict[str, str],
-    rule_list: list[tuple[re.Pattern[str], str]],
+    is_plural: bool,
 ) -> str:
     """Apply the three-step transformation chain to a single word.
 
     This is the shared inner logic used by both :func:`pluralize` and
-    :func:`singularize`. It checks uncountables first, then irregulars,
-    then regex rules, preserving the input casing in the result.
+    :func:`singularize`. It applies regex rules and preserves the
+    input casing in the result. Uncountable and irregular checks
+    are performed by the caller before reaching this function.
 
     Args:
-        word: The word to transform (already stripped, no hyphens).
+        word: The original word (with original casing).
+        lower: The lowercase version of ``word``.
         rules: The :class:`LanguageRules` for the target language.
-        irregulars: Either ``irregular_plurals`` or ``irregular_singles``
-            from the language rules, depending on direction.
-        rule_list: Either ``plural_rules`` or ``singular_rules`` from
-            the language rules, depending on direction.
+        is_plural: ``True`` for pluralization rules, ``False`` for
+            singularization rules.
 
     Returns:
         The transformed word with original casing preserved.
     """
-    lower = word.lower()
-    is_plural = irregulars is rules.irregular_plurals
     result = _apply_regex_to_word(lower, rules.code, is_plural)
     if not result or result == lower:
         return word
@@ -164,9 +173,9 @@ def _split_whitespace(word: str) -> tuple[str, str, str]:
     stripped = word.strip()
     if not stripped:
         return "", "", ""
-    leading = word[: len(word) - len(word.lstrip())]
-    trailing = word[len(word.rstrip()):]
-    return leading, stripped, trailing
+    start = len(word) - len(word.lstrip())
+    end = len(word.rstrip())
+    return word[:start], stripped, word[end:]
 
 
 # First segments that indicate the LAST segment should be pluralized
@@ -300,7 +309,7 @@ def pluralize(word: str, lang: str = "en", count: int | None = None) -> str:
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
     leading, core, trailing = _split_whitespace(word)
-    stripped = unicodedata.normalize("NFC", core)
+    stripped = core if core.isascii() else unicodedata.normalize("NFC", core)
     if not stripped:
         return word
     if count is not None and count == 1:
@@ -318,7 +327,7 @@ def pluralize(word: str, lang: str = "en", count: int | None = None) -> str:
     if "-" in stripped:
         result = _pluralize_hyphenated(stripped, lang, count)
         return leading + result + trailing
-    result = _apply_rules(stripped, rules, rules.irregular_plurals, rules.plural_rules)
+    result = _apply_rules(stripped, lower, rules, is_plural=True)
     return leading + result + trailing
 
 
@@ -355,7 +364,7 @@ def singularize(word: str, lang: str = "en") -> str:
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
     leading, core, trailing = _split_whitespace(word)
-    stripped = unicodedata.normalize("NFC", core)
+    stripped = core if core.isascii() else unicodedata.normalize("NFC", core)
     if not stripped:
         return word
     rules = get_rules(lang)
@@ -371,5 +380,5 @@ def singularize(word: str, lang: str = "en") -> str:
     if "-" in stripped:
         result = _singularize_hyphenated(stripped, lang)
         return leading + result + trailing
-    result = _apply_rules(stripped, rules, rules.irregular_singles, rules.singular_rules)
+    result = _apply_rules(stripped, lower, rules, is_plural=False)
     return leading + result + trailing
