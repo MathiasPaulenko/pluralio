@@ -330,6 +330,10 @@ Benchmark: 100,000 calls across 13 mixed-language words (English, Spanish, Portu
 | `2.0.0` | Rules restructured into `pluralio/rules/` subpackage, performance optimization | ✅ Released |
 | `2.0.1` | CI fixes, hyphenated dedup, docs update, Python 3.14 support | ✅ Released |
 | `2.0.2` | Simplified is_plural/is_singular, README fixes, release.yml Python 3.14 | ✅ Released |
+| `2.1.0` | Esperanto (`eo`) — trivial `-j` plural | 🔜 Planned |
+| `2.2.0` | Catalan (`ca`) — Romance, natural fit | 🔜 Planned |
+| `2.3.0` | Dutch (`nl`) — Germanic, `-en` / `-s` patterns | 🔜 Planned |
+| `3.0.0` | German (`de`) — umlauts + multiple plural patterns | 🔜 Planned |
 
 ## Contributing
 
