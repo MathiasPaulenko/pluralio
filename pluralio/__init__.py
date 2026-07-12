@@ -345,15 +345,9 @@ def is_plural(word: str, lang: str = "en") -> bool:
     stripped = unicodedata.normalize("NFC", word.strip())
     if not stripped:
         return False
-    rules = get_rules(lang)
-    lower = stripped.lower()
-    if lower in rules.uncountable:
+    if stripped.lower() in get_rules(lang).uncountable:
         return True
-    if lower in rules.irregular_singles:
-        return True
-    if lower in rules.irregular_plurals:
-        return False
-    return singularize(stripped, lang=lang).lower() != lower
+    return singularize(stripped, lang=lang).lower() != stripped.lower()
 
 
 def is_singular(word: str, lang: str = "en") -> bool:
@@ -390,12 +384,6 @@ def is_singular(word: str, lang: str = "en") -> bool:
     stripped = unicodedata.normalize("NFC", word.strip())
     if not stripped:
         return False
-    rules = get_rules(lang)
-    lower = stripped.lower()
-    if lower in rules.uncountable:
+    if stripped.lower() in get_rules(lang).uncountable:
         return True
-    if lower in rules.irregular_plurals:
-        return True
-    if lower in rules.irregular_singles:
-        return False
-    return pluralize(stripped, lang=lang).lower() != lower
+    return pluralize(stripped, lang=lang).lower() != stripped.lower()

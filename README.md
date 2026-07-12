@@ -9,7 +9,7 @@ English · Spanish · Portuguese · French · Italian · Zero dependencies · Ty
 [![PyPI version](https://img.shields.io/pypi/v/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
 [![Python versions](https://img.shields.io/pypi/pyversions/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
 [![CI](https://github.com/MathiasPaulenko/pluralio/actions/workflows/ci.yml/badge.svg?style=flat-square)](https://github.com/MathiasPaulenko/pluralio/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-99%25-brightgreen?style=flat-square)](https://github.com/MathiasPaulenko/pluralio)
+[![Coverage](https://img.shields.io/badge/coverage-97%25-brightgreen?style=flat-square)](https://github.com/MathiasPaulenko/pluralio)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-261230.svg?style=flat-square)](https://github.com/astral-sh/ruff)
 [![Type checker: mypy](https://img.shields.io/badge/type%20checker-mypy-blue.svg?style=flat-square)](https://github.com/python/mypy)
@@ -23,12 +23,12 @@ English · Spanish · Portuguese · French · Italian · Zero dependencies · Ty
 
 - **Zero dependencies** — pure Python standard library, nothing else to install
 - **Type-safe** — full type hints, `py.typed` marker included (PEP 561)
-- **99% test coverage** — 7,066 tests, every line is verified
+- **97% test coverage** — 7,066 tests, every line is verified
 - **Extensible at runtime** — add irregulars, rules, uncountables, or entire languages without touching source code
 - **Case preservation** — `"Library"` → `"Libraries"`, `"BOX"` → `"BOXES"`
 - **Count-aware** — `pluralize("item", count=1)` → `"item"`
 - **Hyphenated words** — `"mother-in-law"` → `"mothers-in-law"`
-- **Python 3.10+** — tested on 3.10, 3.11, 3.12, and 3.13
+- **Python 3.10+** — tested on 3.10, 3.11, 3.12, 3.13, and 3.14
 
 ## Table of contents
 
@@ -287,7 +287,7 @@ How does pluralio compare to other Python inflection libraries?
 | Zero dependencies | ✅ | ❌ | ✅ | ✅ |
 | Type hints (`py.typed`) | ✅ | ✅ | ❌ | ❌ |
 | Python 3.10+ | ✅ | ✅ | ✅ | ✅ |
-| Test coverage | 100% | ~95% | ~60% | ~70% |
+| Test coverage | 97% | ~95% | ~60% | ~70% |
 
 [inflect]: https://github.com/jazzband/inflect
 [pluralsingular]: https://pypi.org/project/pluralsingular/
@@ -329,6 +329,7 @@ Benchmark: 100,000 calls across 13 mixed-language words (English, Spanish, Portu
 | `1.8.3` | Robustness fixes, code quality improvements, expanded lint rules | ✅ Released |
 | `2.0.0` | Rules restructured into `pluralio/rules/` subpackage, performance optimization | ✅ Released |
 | `2.0.1` | CI fixes, hyphenated dedup, docs update, Python 3.14 support | ✅ Released |
+| `2.0.2` | Simplified is_plural/is_singular, README fixes, release.yml Python 3.14 | ✅ Released |
 
 ## Contributing
 

@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [2.0.2] - 2025-07-13
+
+### Changed
+
+- `is_plural` / `is_singular` simplified: removed redundant irregular checks, delegate to `singularize` / `pluralize`
+- README: coverage badge corrected to 97%, Python 3.14 added to feature list
+- `release.yml` build Python bumped from 3.12 to 3.14
+
 ## [2.0.1] - 2025-07-13
 
 ### Fixed
