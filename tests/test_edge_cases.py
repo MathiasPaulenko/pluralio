@@ -2710,6 +2710,15 @@ class TestItIdempotency:
         "labbra", "ginocchia", "occhi", "orecchi",
         "uova", "paia", "miglia", "centinaia", "migliaia",
         "vizi", "figli", "orologi", "inizi",
+        "notti", "menti", "fronti", "sedi", "parti", "classi",
+        "noci", "fedi", "paci", "croci", "genti", "navi",
+        "valli", "pareti", "radici", "voci",
+        "baci", "spazi", "uffici", "soci", "cambi", "esempi",
+        "principi", "stadi", "negozi",
+        "formaggi", "viaggi", "raggi", "coraggi", "passaggi", "messaggi",
+        "case", "scuole", "banane", "gatte", "paste", "piante",
+        "famiglie", "squadre", "feste", "donne", "ragazze",
+        "macchine", "piazze", "pizze", "bambine",
         "film", "bar", "bus", "computer", "sport",
     ])
     def test_it_pluralize_already_plural(self, word: str) -> None:
@@ -2736,6 +2745,16 @@ class TestItRoundTrip:
         "club", "leader", "test", "code",
         "server", "framework", "token", "container",
         "docker", "script",
+        "notte", "mente", "fronte", "sede", "parte", "classe",
+        "noce", "fede", "pace", "croce", "gente", "nave",
+        "valle", "parete", "radice", "voce",
+        "bacio", "spazio", "ufficio", "socio", "cambio", "esempio",
+        "principio", "stadio", "negozio",
+        "formaggio", "viaggio", "raggio", "coraggio",
+        "passaggio", "messaggio",
+        "casa", "scuola", "banana", "gatta", "pasta", "pianta",
+        "famiglia", "squadra", "festa", "donna", "ragazza",
+        "macchina", "piazza", "pizza", "bambina",
     ])
     def test_it_roundtrip(self, word: str) -> None:
         plural = pluralize(word, lang="it")
@@ -2818,7 +2837,7 @@ class TestItUncountableConsistency:
         "brindisi", "analisi", "tesi", "crisi",
         "oasi", "sintesi", "ipotesi", "diagnosi",
         "paralisi", "catarsi",
-        "specie", "serie", "voce",
+        "specie", "serie",
         "occhiali", "forbici", "pantaloni",
         "soldi", "nozze", "stoviglie",
         "vettovaglie",

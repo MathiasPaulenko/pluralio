@@ -86,6 +86,22 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "centinaio": "centinaia", "migliaio": "migliaia",
     "cane": "cani", "fiore": "fiori", "pane": "pani", "amore": "amori",
     "vizio": "vizi", "figlio": "figli", "orologio": "orologi", "inizio": "inizi",
+    "notte": "notti", "mente": "menti", "fronte": "fronti",
+    "sede": "sedi", "parte": "parti", "classe": "classi",
+    "noce": "noci", "fede": "fedi", "pace": "paci",
+    "croce": "croci", "gente": "genti", "nave": "navi",
+    "valle": "valli", "parete": "pareti", "radice": "radici",
+    "voce": "voci",
+    "bacio": "baci", "spazio": "spazi", "ufficio": "uffici",
+    "socio": "soci", "cambio": "cambi", "esempio": "esempi",
+    "principio": "principi", "stadio": "stadi", "negozio": "negozi",
+    "formaggio": "formaggi", "viaggio": "viaggi", "raggio": "raggi",
+    "coraggio": "coraggi", "passaggio": "passaggi", "messaggio": "messaggi",
+    "casa": "case", "scuola": "scuole", "banana": "banane",
+    "gatta": "gatte", "pasta": "paste", "pianta": "piante",
+    "famiglia": "famiglie", "squadra": "squadre", "festa": "feste",
+    "donna": "donne", "ragazza": "ragazze", "macchina": "macchine",
+    "piazza": "piazze", "pizza": "pizze", "bambina": "bambine",
     "film": "film", "bar": "bar", "bus": "bus",
     "computer": "computer", "sport": "sport",
     "taxi": "taxi", "metro": "metro",
@@ -100,37 +116,21 @@ _IRREGULAR_PLURALS: dict[str, str] = {
 
 Includes sdrucciola ``-co`` → ``-ci`` and ``-go`` → ``-gi`` words,
 piana ``-go`` → ``-ghi`` explicit mappings, completely irregular
-words, and foreign loanwords. All keys and values are lowercase.
+words, common feminine ``-e`` singulars, masculine ``-io``/``-cio``
+/``-gio`` words, feminine ``-a`` words for plural idempotency,
+and foreign loanwords. All keys and values are lowercase.
 """
 
 _IRREGULAR_SINGLES: dict[str, str] = {v: k for k, v in _IRREGULAR_PLURALS.items()}
 """Auto-generated inverse mapping (plural → singular) for irregulars."""
 
-_EXTRA_SINGLES: dict[str, str] = {
-    "giochi": "gioco", "fuochi": "fuoco",
-    "luoghi": "luogo",
-    "laghi": "lago",
-    "amici": "amico", "medici": "medico",
-    "nemici": "nemico",
-    "asparagi": "asparago",
-    "uomini": "uomo", "buoi": "bue",
-    "mogli": "moglie", "templi": "tempio",
-    "uova": "uovo", "ossa": "osso",
-    "dita": "dito", "paia": "paio",
-    "centinaia": "centinaio", "migliaia": "migliaio",
-}
+_EXTRA_SINGLES: dict[str, str] = {}
 """Additional plural → singular mappings for Italian.
 
-These handle cases where the singular form requires a different
-ending than the regex would produce. For example, ``"amici"``
-should singularize to ``"amico"`` (not ``"amice"``), and
-``"uova"`` should singularize to ``"uovo"`` (not ``"uova"``).
+All necessary mappings are auto-generated from the inverse of
+``_IRREGULAR_PLURALS``. This dict is kept empty for structural
+consistency with other language modules.
 """
-
-_IRREGULAR_SINGLES.update(_EXTRA_SINGLES)
-
-for _plural, _singular in _EXTRA_SINGLES.items():
-    _IRREGULAR_PLURALS.setdefault(_singular, _plural)
 
 _PLURAL_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"ca$"), "che"),
@@ -205,8 +205,8 @@ _UNCOUNTABLE: set[str] = {
     "brindisi", "analisi", "tesi", "crisi",
     "oasi", "sintesi", "ipotesi", "diagnosi",
     "paralisi", "catarsi",
-    "specie", "serie", "voce",
-    "caffè",
+    "specie", "serie",
+    "caffè", "noir",
     "occhiali", "forbici", "pantaloni",
     "soldi", "nozze", "stoviglie",
     "vettovaglie",
@@ -218,7 +218,7 @@ _UNCOUNTABLE: set[str] = {
 Includes foreign loanwords (``film``, ``bar``, ``computer``),
 Greek-origin forms in ``-i`` (``analisi``, ``crisi``, ``tesi``),
 pluralia tantum (``occhiali``, ``forbici``, ``pantaloni``),
-invariable ``-e`` words (``specie``, ``serie``, ``voce``),
+invariable ``-e`` words (``specie``, ``serie``),
 and truncated forms (``foto``, ``moto``, ``auto``).
 """
 

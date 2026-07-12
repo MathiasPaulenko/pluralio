@@ -7,9 +7,8 @@
 ### Added
 
 - Italian (`it`) language support with 15 plural rules and 8 singular rules
-- 75 irregular plurals covering sdrucciola `-co → -ci` (amico → amici), sdrucciola `-go → -gi` (asparago → asparagi), piana `-go → -ghi` explicit mappings (lago → laghi), completely irregular words (uomo → uomini, dio → dei, uovo → uova), foreign loanwords (film, bar, computer), and common `-e`/`-io` words for round-trip correctness (cane → cani, vizio → vizi)
-- 18 extra singles for singularization restoration (amici → amico, uova → uovo, uomini → uomo)
-- 56 uncountable/invariable words including foreign loanwords, Greek-origin forms in `-i` (analisi, crisi), pluralia tantum (occhiali, forbici), truncated forms (foto, auto), and accented-vowel words (caffè)
+- 121 irregular plurals covering sdrucciola `-co → -ci` (amico → amici), sdrucciola `-go → -gi` (asparago → asparagi), piana `-go → -ghi` explicit mappings (lago → laghi), completely irregular words (uomo → uomini, dio → dei, uovo → uova), foreign loanwords (film, bar, computer), common `-e`/`-io` words for round-trip correctness (cane → cani, vizio → vizi), feminine `-e` singulars (notte → notti, mente → menti), masculine `-io`/`-cio`/`-gio` words (bacio → baci, formaggio → formaggi, viaggio → viaggi), and feminine `-a` words for plural idempotency (casa → case, scuola → scuole)
+- 56 uncountable/invariable words including foreign loanwords, Greek-origin forms in `-i` (analisi, crisi), pluralia tantum (occhiali, forbici), truncated forms (foto, auto), accented-vowel words (caffè), and invariable loanwords (noir)
 - Italian test suite: `test_it_plurals.py`, `test_it_singles.py`, and Italian edge cases in `test_edge_cases.py`
 
 ## [1.6.2] - 2025-07-13
