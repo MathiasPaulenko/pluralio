@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [1.7.1] - 2025-07-13
+
+### Fixed
+
+- Italian feminine `-e` singulars (`notte`, `mente`, `fronte`, `sede`, `parte`, `classe`, `noce`, `fede`, `pace`, `croce`, `gente`, `nave`, `valle`, `parete`, `radice`) now round-trip correctly
+- Italian masculine `-io`/`-cio`/`-gio` words (`bacio`, `spazio`, `ufficio`, `socio`, `cambio`, `esempio`, `principio`, `stadio`, `negozio`, `formaggio`, `viaggio`, `raggio`, `coraggio`, `passaggio`, `messaggio`) now round-trip correctly
+- Italian feminine `-a` plurals (`case`, `scuole`, `banane`, `gatte`, `paste`, `piante`, `famiglie`, `squadre`, `feste`, `donne`, `ragazze`, `macchine`, `piazze`, `pizze`, `bambine`) now idempotent
+- `voce` moved from uncountable to irregular plurals (`voce → voci`)
+- `noir` added to uncountable for `film-noir` compound
+- Removed 18 redundant `_EXTRA_SINGLES` (all auto-generated from inverse mapping)
+- `is_singular`/`is_plural` now correct for feminine `-e` words
+
 ## [1.7.0] - 2025-07-13
 
 ### Added
