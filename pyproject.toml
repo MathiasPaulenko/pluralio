@@ -59,7 +59,7 @@ module = "hypothesis"
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = "tests.test_property"
+module = "test_property"
 warn_unused_ignores = false
 
 [tool.pytest.ini_options]
