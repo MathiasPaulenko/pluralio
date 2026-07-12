@@ -69,7 +69,7 @@ def _match_case(source: str, target: str) -> str:
         >>> _match_case("iPhone", "iphones")
         'iPhones'
     """
-    if not source:
+    if not source or not target:
         return target
     if source.islower():
         return target

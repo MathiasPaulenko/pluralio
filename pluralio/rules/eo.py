@@ -28,6 +28,10 @@ import re
 from pluralio.registry import LanguageRules, register
 
 _PLURAL_RULES: list[tuple[str, str]] = [
+    # Already plural accusative: -jn → invariable (no-op, stops further rules)
+    (r"jn$", "jn"),
+    # Already plural nominative: -j → invariable (no-op, stops further rules)
+    (r"j$", "j"),
     # Accusative singular: -n → -jn (e.g. libron → librojn)
     (r"n$", "jn"),
     # Default: append -j (e.g. libro → libroj)

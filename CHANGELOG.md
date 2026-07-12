@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [2.1.1] - 2025-07-13
+
+### Fixed
+
+- Esperanto: `pluralize("librojn")` no longer produces `"librojjn"` — added no-op rules for `-jn` and `-j` to prevent double pluralization of already-plural forms
+- `register()` now clears the `lru_cache` via lazy import of `_clear_regex_cache`, preventing stale results when language rules are replaced at runtime
+- `_match_case()` no longer raises `IndexError` when the target string is empty (e.g. `add_irregular("Test", "")`)
+
+### Added
+
+- Regression tests for all three bug fixes
+
 ## [2.1.0] - 2025-07-13
 
 ### Added

@@ -11,7 +11,7 @@ at runtime via :func:`register` or :func:`pluralio.register_language`.
 Example:
     >>> from pluralio.registry import supported_languages
     >>> supported_languages()
-    ['en', 'es', 'fr', 'it', 'pt']
+    ['en', 'eo', 'es', 'fr', 'it', 'pt']
 """
 
 from __future__ import annotations
@@ -72,6 +72,7 @@ def register(rules: LanguageRules) -> None:
     """Register a language's rules in the global registry.
 
     If a language with the same ``code`` already exists, it is overwritten.
+    The regex application cache is cleared to prevent stale results.
 
     Args:
         rules: The :class:`LanguageRules` instance to register.
@@ -86,6 +87,9 @@ def register(rules: LanguageRules) -> None:
     if not rules.code or not rules.code.strip():
         raise ValueError("Language code cannot be empty")
     _REGISTRY[rules.code] = rules
+    from pluralio.core import _clear_regex_cache
+
+    _clear_regex_cache()
 
 
 def get_rules(lang: str) -> LanguageRules:
@@ -118,12 +122,12 @@ def supported_languages() -> list[str]:
     """Return a sorted list of all registered language codes.
 
     Returns:
-        Sorted list of ISO 639-1 codes (e.g. ``["en", "es", "fr", "it", "pt"]``).
+        Sorted list of ISO 639-1 codes (e.g. ``["en", "eo", "es", "fr", "it", "pt"]``).
 
     Example:
         >>> from pluralio.registry import supported_languages
         >>> supported_languages()
-        ['en', 'es', 'fr', 'it', 'pt']
+        ['en', 'eo', 'es', 'fr', 'it', 'pt']
     """
     return sorted(_REGISTRY)
 

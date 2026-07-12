@@ -141,3 +141,31 @@ class TestRegisterLanguage:
         register_language("xx")
         assert pluralize("word", lang="xx") == "words"
         assert singularize("words", lang="xx") == "word"
+
+    def test_register_clears_regex_cache(self) -> None:
+        import re
+
+        from pluralio.registry import restore, snapshot
+
+        state = snapshot()
+        # Populate cache with default English rules
+        assert pluralize("cat") == "cats"
+        # Replace English rules with a custom pattern
+        register(LanguageRules(code="en", plural_rules=[(re.compile(r"$"), "XYZ")]))
+        # Cache must be cleared — should use new rules, not stale result
+        assert pluralize("cat") == "catXYZ"
+        restore(state)
+
+
+class TestMatchCaseEdgeCases:
+    def test_empty_target_lowercase_source(self) -> None:
+        add_irregular("testword", "")
+        assert pluralize("testword") == ""
+
+    def test_empty_target_title_case_source(self) -> None:
+        add_irregular("TestWord", "")
+        assert pluralize("TestWord") == ""
+
+    def test_empty_target_all_caps_source(self) -> None:
+        add_irregular("TESTWORD", "")
+        assert pluralize("TESTWORD") == ""

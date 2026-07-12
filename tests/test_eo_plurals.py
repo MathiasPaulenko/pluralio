@@ -44,3 +44,11 @@ class TestEsperantoPluralRules:
     def test_count_aware(self) -> None:
         assert pluralize("libro", lang="eo", count=1) == "libro"
         assert pluralize("libro", lang="eo", count=2) == "libroj"
+
+    def test_already_plural_accusative_invariable(self) -> None:
+        for word in ["librojn", "hundojn", "katojn", "bonajn", "grandajn"]:
+            assert pluralize(word, lang="eo") == word
+
+    def test_already_plural_nominative_adds_nothing(self) -> None:
+        for word in ["libroj", "hundoj", "katoj", "bonaj"]:
+            assert pluralize(word, lang="eo") == word
