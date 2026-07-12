@@ -92,6 +92,53 @@ SPANISH_WORDS = [
 ]
 
 
+PORTUGUESE_WORDS = [
+    # Regular vowel
+    "casa", "livro", "gato",
+    # -ão → -ões
+    "coração", "canção", "balão",
+    # -ão → -ães
+    "cão", "pão", "alemão",
+    # -ão → -ãos
+    "irmão", "mão", "chão",
+    # -m → -ns
+    "homem", "jardim",
+    # -l → -is
+    "animal", "azul",
+    # -el → -éis
+    "papel", "nível",
+    # -ol → -óis
+    "sol", "farol",
+    # -r → -res
+    "flor", "motor",
+    # -z → -zes
+    "luz", "rapaz",
+    # -s → -ses (irregular)
+    "português", "japonês", "gás", "país", "deus",
+    # consonant + e
+    "nome", "filme", "noite", "leite", "sede", "rede",
+    "parede", "cobre", "pobre", "pele", "vale", "arte",
+    "morte", "parte", "elefante", "dificuldade",
+    # vowel + is (invariable or strip s)
+    "lei", "rei",
+    # -il words
+    "cantil", "barril", "funil",
+    # -el → -éis (accent)
+    "mel", "fiel",
+    # vowel + consonant + e
+    "árvore",
+    # consonant + e (e-ending words with consonant before e)
+    "chave", "chefe", "peixe",
+    # -ão → -ãos (additional)
+    "grão", "são",
+    # Uncountable
+    "tórax", "lápis", "três", "mais", "cais", "dois",
+    "nós", "vós",
+    # Loanwords
+    "club", "chip", "email", "server",
+]
+
+
 class TestRoundTrip:
     @pytest.mark.parametrize("word", ENGLISH_WORDS)
     def test_en_singularize_pluralize(self, word: str) -> None:
@@ -100,3 +147,7 @@ class TestRoundTrip:
     @pytest.mark.parametrize("word", SPANISH_WORDS)
     def test_es_singularize_pluralize(self, word: str) -> None:
         assert singularize(pluralize(word, lang="es"), lang="es") == word
+
+    @pytest.mark.parametrize("word", PORTUGUESE_WORDS)
+    def test_pt_singularize_pluralize(self, word: str) -> None:
+        assert singularize(pluralize(word, lang="pt"), lang="pt") == word

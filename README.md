@@ -4,7 +4,7 @@
 
 **Pluralization and singularization for Python**
 
-English · Spanish · Zero dependencies · Type-safe · Extensible
+English · Spanish · Portuguese · Zero dependencies · Type-safe · Extensible
 
 [![PyPI version](https://img.shields.io/pypi/v/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
 [![Python versions](https://img.shields.io/pypi/pyversions/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
@@ -23,7 +23,7 @@ English · Spanish · Zero dependencies · Type-safe · Extensible
 
 - **Zero dependencies** — pure Python standard library, nothing else to install
 - **Type-safe** — full type hints, `py.typed` marker included (PEP 561)
-- **100% test coverage** — 2,817 tests, every line is verified
+- **100% test coverage** — 3,116 tests, every line is verified
 - **Extensible at runtime** — add irregulars, rules, uncountables, or entire languages without touching source code
 - **Case preservation** — `"Library"` → `"Libraries"`, `"BOX"` → `"BOXES"`
 - **Count-aware** — `pluralize("item", count=1)` → `"item"`
@@ -82,6 +82,14 @@ pluralio.pluralize("examen", lang="es")       # "exámenes"
 pluralio.singularize("lápices", lang="es")    # "lápiz"
 pluralio.singularize("alemanes", lang="es")   # "alemán"
 
+# ── Portuguese ────────────────────────────────────────────────
+pluralio.pluralize("casa", lang="pt")         # "casas"
+pluralio.pluralize("coração", lang="pt")      # "corações"
+pluralio.pluralize("papel", lang="pt")        # "papéis"
+pluralio.pluralize("flor", lang="pt")         # "flores"
+pluralio.singularize("corações", lang="pt")   # "coração"
+pluralio.singularize("papéis", lang="pt")     # "papel"
+
 # ── Count-aware ────────────────────────────────────────────────
 pluralio.pluralize("item", count=1)    # "item"  (singular)
 pluralio.pluralize("item", count=0)    # "items" (plural)
@@ -97,13 +105,13 @@ pluralio.pluralize("mother-in-law")    # "mothers-in-law"
 pluralio.singularize("mothers-in-law") # "mother-in-law"
 
 # ── List supported languages ──────────────────────────────────
-pluralio.supported_languages()         # ["en", "es"]
+pluralio.supported_languages()         # ["en", "es", "pt"]
 
 # ── Inspect word form ─────────────────────────────────────────
 pluralio.is_plural("cats")             # True
 pluralio.is_singular("cat")           # True
-pluralio.is_plural("sheep")            # False  (uncountable)
-pluralio.is_singular("sheep")          # False  (uncountable)
+pluralio.is_plural("sheep")            # True   (uncountable — valid as both)
+pluralio.is_singular("sheep")          # True   (uncountable — valid as both)
 ```
 
 ## How it works
@@ -272,9 +280,9 @@ How does pluralio compare to other Python inflection libraries?
 
 | Language | Code | Regex rules | Irregulars | Uncountables | Status |
 | --- | --- | --- | --- | --- | --- |
-| English | `en` | 6 | 681 | 196 | ✅ Complete |
-| Spanish | `es` | 9 | 351 + 80 extra singles | 87 | ✅ Complete |
-| Portuguese | `pt` | — | — | — | 🔜 Planned |
+| English | `en` | 7 | 684 | 219 | ✅ Complete |
+| Spanish | `es` | 9 | 352 + 81 extra singles | 92 | ✅ Complete |
+| Portuguese | `pt` | 8 + 13 | 97 + 32 extra singles | 30 | ✅ Complete |
 | French | `fr` | — | — | — | 🔜 Planned |
 | Italian | `it` | — | — | — | 🔜 Planned |
 
@@ -287,7 +295,7 @@ How does pluralio compare to other Python inflection libraries?
 | `1.2.0` | English -che words, compound prefixes, whitespace | ✅ Released |
 | `1.3.0` | English expansion (Latin/Greek, proper nouns, -o words) | ✅ Released |
 | `1.4.0` | Spanish expansion (loanwords, accent restoration, uncountables, idempotency fix) | ✅ Released |
-| `1.5.0` | Portuguese (`pt`) | 🔜 Planned |
+| `1.5.0` | Portuguese (`pt`) | ✅ Released |
 | `1.6.0` | French (`fr`) | 🔜 Planned |
 | `1.7.0` | Italian (`it`) | 🔜 Planned |
 

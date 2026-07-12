@@ -2,6 +2,33 @@
 
 ## [Unreleased]
 
+## [1.5.0] - 2025-07-12
+
+### Added
+
+- Portuguese (`pt`) pluralization and singularization support
+- Portuguese regex rules: `-ão`→`-ões`, `-m`→`-ns`, `-il`→`-is`, `-l`→`-is`, `-r`→`-res`, `-z`→`-zes`, `-x`→invariable, vowel→`+s`
+- Portuguese singularization rules: `-ões`→`-ão`, `-ães`→`-ão`, `-zes`→`-z`, `-ns`→`-m`, consonant+`-is`→`-il`, `-is`→`-l`, double consonant+`-es`→strip `s`, `-tes`/`-des`/`-mes`/`-les`→strip `s`, `-res`→`-r`, default strip `s`
+- 97 Portuguese irregular plurals covering `-ão`→`-ões`/`-ães`/`-ãos` splits, accent shifts (`-el`→`-éis`, `-ol`→`-óis`), `-il` paroxítona→`-eis`, and foreign loanwords
+- 32 Portuguese extra singles for accent restoration (`papéis`→`papel`, `sóis`→`sol`, `méis`→`mel`, `fiéis`→`fiel`, etc.)
+- 30 Portuguese uncountables including `-x` invariables (`tórax`, `látex`), `-s` invariables (`lápis`, `vírus`, `três`, `mais`, `cais`, `dois`), pronouns (`nós`, `vós`), compound words, and foreign loanwords
+- Portuguese test suite: pluralization, singularization, and round-trip tests
+
+### Fixed
+
+- `cantil`→`cantiis` (should be `cantis`): added `il$`→`is` rule before `l$`→`is`
+- `leis`→`lel`, `reis`→`rel`, `pais`→`pal`: added consonant+`is`→`il` rule and extra singles for vowel+`is` words
+- `mel`→`meis` (should be `méis`), `fiel`→`fieis` (should be `fiéis`): added to irregulars
+- `árvores`→`árvor` (should be `árvore`): added to extra singles
+- `chaves`→`chav`, `chefes`→`chef`, `peixes`→`peix`: replaced overly aggressive consonant+`es` rule with specific `-res`→`-r` rule
+- `grão`→`grões` (should be `grãos`), `são`→`sões` (should be `sãos`): added to irregulars
+- `nós`→`nó`, `vós`→`vó`: added to uncountables
+
+### Changed
+
+- Test suite: 2,859 → 3,116 tests
+- 100% coverage maintained across all modules
+
 ## [1.4.2] - 2025-07-12
 
 ### Changed
