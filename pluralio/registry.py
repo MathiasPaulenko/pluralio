@@ -2,8 +2,8 @@
 
 This module provides the central registry that maps language codes
 to their corresponding :class:`LanguageRules` instances. Each language
-module (e.g. ``rules_en``, ``rules_es``) builds a ``LanguageRules``
-dataclass and calls :func:`register` at import time.
+module in :mod:`pluralio.rules` (e.g. ``rules.en``, ``rules.es``) builds
+a ``LanguageRules`` dataclass and calls :func:`register` at import time.
 
 The registry is a plain dictionary, so custom languages can be added
 at runtime via :func:`register` or :func:`pluralio.register_language`.

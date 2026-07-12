@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+## [2.0.0] - 2025-07-13
+
+### Breaking
+
+- Language rule modules moved from `pluralio/rules_en.py` to `pluralio/rules/en.py` (same for `es`, `fr`, `it`, `pt`). Use `import pluralio` as before — the public API is unchanged. If you imported rule modules directly (e.g. `from pluralio import rules_en`), update to `from pluralio.rules import en`.
+
+### Changed
+
+- `pluralio/rules/` is now a subpackage with its own `__init__.py` that triggers registration of all built-in languages
+- `_match_case` optimized with `islower()` short-circuit (~5% faster on lowercase inputs)
+
 ## [1.8.3] - 2025-07-13
 
 ### Fixed

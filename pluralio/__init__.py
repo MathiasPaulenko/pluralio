@@ -47,13 +47,7 @@ import unicodedata
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
-from pluralio import (  # noqa: F401 — triggers registration
-    rules_en,
-    rules_es,
-    rules_fr,
-    rules_it,
-    rules_pt,
-)
+from pluralio import rules as _rules  # noqa: F401 — triggers registration
 from pluralio.core import _clear_regex_cache, pluralize, singularize
 from pluralio.registry import (
     LanguageRules,
