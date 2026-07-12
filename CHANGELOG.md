@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+## [1.4.2] - 2025-07-12
+
+### Changed
+
+- Optimized `_match_case`: single-pass case detection instead of 3 passes, with fast path for all-lowercase words
+- Skip `unicodedata.normalize` for ASCII-only strings (most English words)
+- Eliminated redundant `.lower()` call in `_apply_rules` — caller passes pre-computed lowercase
+- Simplified `_apply_rules` signature (removed unused `irregulars` and `rule_list` params)
+- Streamlined `_split_whitespace` to avoid redundant string operations
+- Performance: ~145K → ~285K ops/sec (~96% faster)
+
 ## [1.4.1] - 2025-07-12
 
 ### Added
