@@ -142,6 +142,8 @@ _EXTRA_SINGLES: dict[str, str] = {
     # -aux → -al (for words where singularization regex might not catch)
     "nationaux": "national", "rationaux": "rational",
     "internationaux": "international",
+    # Accentless variants for robustness
+    "ideaux": "ideal", "emaux": "email",
 }
 """Additional plural → singular mappings for French.
 
@@ -223,6 +225,7 @@ _UNCOUNTABLE: set[str] = {
     # Always plural (pluralia tantum)
     "obsèques", "fiançailles", "ténèbres",
     "archives", "mathématiques",
+    "fils",
 }
 """Set of French uncountable/invariable words.
 

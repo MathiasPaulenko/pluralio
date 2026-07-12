@@ -67,6 +67,8 @@ class TestFrenchIrregularSingles:
         ("spéciaux", "spécial"), ("normaux", "normal"),
         ("nationaux", "national"), ("rationaux", "rational"),
         ("internationaux", "international"),
+        # Accentless variants
+        ("ideaux", "ideal"), ("emaux", "email"),
         ("canaux", "canal"),
         # Foreign loanwords
         ("weekends", "weekend"), ("parkings", "parking"),

@@ -2538,7 +2538,7 @@ class TestFrUncountableConsistency:
         "nez",
         "jazz", "rock", "punk", "flash",
         "obsèques", "fiançailles", "ténèbres",
-        "archives", "mathématiques",
+        "archives", "mathématiques", "fils",
     ])
     def test_fr_uncountable_unchanged(self, word: str) -> None:
         assert pluralize(word, lang="fr") == word

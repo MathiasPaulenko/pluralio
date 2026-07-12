@@ -142,7 +142,7 @@ class TestFrenchUncountable:
         "jazz", "rock", "punk", "flash",
         # Always plural (pluralia tantum)
         "obsèques", "fiançailles", "ténèbres",
-        "archives", "mathématiques",
+        "archives", "mathématiques", "fils",
     ])
     def test_uncountable_unchanged(self, word: str) -> None:
         assert pluralize(word, lang="fr") == word
