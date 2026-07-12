@@ -328,6 +328,7 @@ Benchmark: 100,000 calls across 13 mixed-language words (English, Spanish, Portu
 | `1.7.0` | Italian (`it`) | ✅ Released |
 | `1.8.3` | Robustness fixes, code quality improvements, expanded lint rules | ✅ Released |
 | `2.0.0` | Rules restructured into `pluralio/rules/` subpackage, performance optimization | ✅ Released |
+| `2.0.1` | CI fixes, hyphenated dedup, docs update, Python 3.14 support | ✅ Released |
 
 ## Contributing
 

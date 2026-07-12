@@ -2,6 +2,20 @@
 
 ## [Unreleased]
 
+## [2.0.1] - 2025-07-13
+
+### Fixed
+
+- mypy CI: `warn_unused_ignores` disabled for `tests.test_property` (hypothesis decorators vary across Python versions)
+- `tests/__init__.py` added for proper module resolution
+
+### Changed
+
+- Deduplicated `_pluralize_hyphenated` / `_singularize_hyphenated` into shared `_transform_hyphenated`
+- `CONTRIBUTING.md` updated with new `rules/` subpackage structure and all test files
+- `supported_languages()` docstring now lists all 5 languages
+- Python 3.14 added to CI matrix
+
 ## [2.0.0] - 2025-07-13
 
 ### Breaking
