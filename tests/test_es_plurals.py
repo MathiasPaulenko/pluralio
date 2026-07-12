@@ -28,7 +28,7 @@ class TestSpanishPluralRules:
 
 
 class TestSpanishAccentShift:
-    @pytest.mark.parametrize("singular,plural", [
+    @pytest.mark.parametrize(("singular", "plural"), [
         ("joven", "jóvenes"), ("examen", "exámenes"),
         ("origen", "orígenes"), ("régimen", "regímenes"),
         ("imagen", "imágenes"), ("volumen", "volúmenes"),
@@ -42,7 +42,7 @@ class TestSpanishAccentShift:
 
 
 class TestSpanishIrregularPlurals:
-    @pytest.mark.parametrize("singular,plural", [
+    @pytest.mark.parametrize(("singular", "plural"), [
         ("rubí", "rubíes"), ("tabú", "tabúes"), ("champú", "champúes"),
         ("maniquí", "maniquíes"), ("bisturí", "bisturíes"),
         ("jabalí", "jabalíes"), ("tisú", "tisúes"),

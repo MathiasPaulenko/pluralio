@@ -2,6 +2,30 @@
 
 ## [Unreleased]
 
+## [1.8.3] - 2025-07-13
+
+### Fixed
+
+- `_match_case` now guards against empty strings, preventing `IndexError` on edge-case inputs
+- `is_singular` now uses `pluralize(x) != x` instead of `singularize(x) == x`, fixing inconsistency with `is_plural`
+
+### Added
+
+- `__all__` exports in `core.py` and `registry.py` for explicit public API surface
+- `snapshot()` and `restore()` functions in `registry.py` for test-safe registry isolation
+- `mypy` type checking now covers `tests/` directory in CI
+- `ruff` lint rules expanded: `B` (bugbear), `C4` (comprehensions), `SIM` (simplifications), `PT` (pytest style)
+- `.hypothesis/` added to `.gitignore`
+
+### Changed
+
+- Extracted `_transform()` in `core.py` to deduplicate `pluralize`/`singularize` logic
+- `conftest.py` now uses public `snapshot`/`restore` API instead of accessing private `_REGISTRY`
+- `test_edge_cases.py` (2948 lines) split into 6 per-language files: `test_cross_edge_cases.py`, `test_en_edge_cases.py`, `test_es_edge_cases.py`, `test_pt_edge_cases.py`, `test_fr_edge_cases.py`, `test_it_edge_cases.py`
+- `__version__` fallback reads from `pyproject.toml` when package metadata is unavailable
+- Module docstring documents side-effect import requirement for language registration
+- `LanguageRules` docstring improved with `.. warning::` block about intentional container mutability
+
 ## [1.8.2] - 2025-07-13
 
 ### Fixed

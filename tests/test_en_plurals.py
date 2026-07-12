@@ -72,7 +72,7 @@ class TestEnglishPluralRules:
 
 
 class TestEnglishIrregularPlurals:
-    @pytest.mark.parametrize("singular,plural", [
+    @pytest.mark.parametrize(("singular", "plural"), [
         ("man", "men"), ("woman", "women"), ("child", "children"),
         ("person", "people"), ("mouse", "mice"), ("goose", "geese"),
         ("foot", "feet"), ("tooth", "teeth"), ("ox", "oxen"),

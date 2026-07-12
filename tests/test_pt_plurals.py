@@ -50,7 +50,7 @@ class TestPortuguesePluralRules:
 
 
 class TestPortugueseIrregularPlurals:
-    @pytest.mark.parametrize("singular,plural", [
+    @pytest.mark.parametrize(("singular", "plural"), [
         # -ão → -ões
         ("coração", "corações"), ("canção", "canções"), ("balão", "balões"),
         ("feijão", "feijões"), ("limão", "limões"), ("leão", "leões"),

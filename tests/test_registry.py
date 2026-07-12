@@ -47,7 +47,7 @@ class TestGetRules:
             get_rules("zz")
 
     def test_get_unsupported_error_message_lists_supported(self) -> None:
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(ValueError, match="Unsupported language") as exc_info:
             get_rules("zz")
         msg = str(exc_info.value)
         assert "en" in msg

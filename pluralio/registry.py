@@ -16,8 +16,11 @@ Example:
 
 from __future__ import annotations
 
+import copy
 import re
 from dataclasses import dataclass, field
+
+__all__ = ["LanguageRules", "register", "get_rules", "supported_languages", "snapshot", "restore"]
 
 
 @dataclass(frozen=True)
@@ -42,15 +45,15 @@ class LanguageRules:
             ``pluralize`` and ``singularize`` return them unchanged.
             Checked **first**, before irregulars and regex.
 
-    Note:
-        The dataclass is ``frozen=True``, which prevents reassigning
-        attributes (e.g. ``rules.code = "fr"`` raises ``AttributeError``).
-        However, the mutable containers (``dict``, ``list``, ``set``) can
-        still be modified in place. This is intentional — the extensibility
-        API (:func:`pluralio.add_irregular`, :func:`pluralio.add_plural`,
-        etc.) relies on mutating the contents of an already-registered
-        ``LanguageRules`` instance. Use those functions instead of
-        reassigning attributes directly.
+    .. warning::
+        ``frozen=True`` prevents reassigning attributes
+        (``rules.code = "fr"`` raises ``FrozenInstanceError``),
+        but the mutable containers (``dict``, ``list``, ``set``) can
+        still be modified in place. This is **by design** — the
+        extensibility API (:func:`pluralio.add_irregular`,
+        :func:`pluralio.add_plural`, etc.) mutates the contents of
+        already-registered instances. Always use those functions
+        instead of mutating containers directly.
     """
 
     code: str
@@ -123,3 +126,31 @@ def supported_languages() -> list[str]:
         ['en', 'es', 'pt']
     """
     return sorted(_REGISTRY)
+
+
+def snapshot() -> dict[str, LanguageRules]:
+    """Return a deep copy of the current registry state.
+
+    Useful for test isolation — call :func:`restore` with the returned
+    value to roll back any mutations made by tests.
+
+    Returns:
+        A deep copy of the internal ``_REGISTRY`` dict.
+
+    Example:
+        >>> from pluralio.registry import snapshot, restore
+        >>> state = snapshot()
+        >>> # ... mutations happen ...
+        >>> restore(state)
+    """
+    return copy.deepcopy(_REGISTRY)
+
+
+def restore(state: dict[str, LanguageRules]) -> None:
+    """Replace the current registry with a previously snapshotted state.
+
+    Args:
+        state: A dict previously returned by :func:`snapshot`.
+    """
+    _REGISTRY.clear()
+    _REGISTRY.update(state)

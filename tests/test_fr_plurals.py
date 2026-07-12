@@ -56,7 +56,7 @@ class TestFrenchPluralRules:
 
 
 class TestFrenchIrregularPlurals:
-    @pytest.mark.parametrize("singular,plural", [
+    @pytest.mark.parametrize(("singular", "plural"), [
         # -al → -als (exceptions to the -aux rule)
         ("bal", "bals"), ("festival", "festivals"), ("carnaval", "carnavals"),
         ("récital", "récitals"), ("cal", "cals"), ("pal", "pals"),

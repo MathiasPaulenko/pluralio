@@ -59,15 +59,15 @@ es_words = st.sampled_from([
 class TestEnIdempotency:
     """pluralize(pluralize(x)) == pluralize(x) for known English words."""
 
-    @given(en_words)
-    @settings(max_examples=500)
+    @given(en_words)  # type: ignore[untyped-decorator]
+    @settings(max_examples=500)  # type: ignore[untyped-decorator]
     def test_pluralize_idempotent(self, word: str) -> None:
         p1 = pluralize(word)
         p2 = pluralize(p1)
         assert p2 == p1, f"pluralize not idempotent: {word} -> {p1} -> {p2}"
 
-    @given(en_words)
-    @settings(max_examples=500)
+    @given(en_words)  # type: ignore[untyped-decorator]
+    @settings(max_examples=500)  # type: ignore[untyped-decorator]
     def test_singularize_idempotent(self, word: str) -> None:
         s1 = singularize(word)
         s2 = singularize(s1)
@@ -77,15 +77,15 @@ class TestEnIdempotency:
 class TestEsIdempotency:
     """pluralize(pluralize(x)) == pluralize(x) for known Spanish words."""
 
-    @given(es_words)
-    @settings(max_examples=500)
+    @given(es_words)  # type: ignore[untyped-decorator]
+    @settings(max_examples=500)  # type: ignore[untyped-decorator]
     def test_pluralize_idempotent(self, word: str) -> None:
         p1 = pluralize(word, lang="es")
         p2 = pluralize(p1, lang="es")
         assert p2 == p1, f"ES pluralize not idempotent: {word} -> {p1} -> {p2}"
 
-    @given(es_words)
-    @settings(max_examples=500)
+    @given(es_words)  # type: ignore[untyped-decorator]
+    @settings(max_examples=500)  # type: ignore[untyped-decorator]
     def test_singularize_idempotent(self, word: str) -> None:
         s1 = singularize(word, lang="es")
         s2 = singularize(s1, lang="es")
@@ -95,15 +95,15 @@ class TestEsIdempotency:
 class TestRoundTrip:
     """singularize(pluralize(x)) == x for known singular words."""
 
-    @given(en_words)
-    @settings(max_examples=500)
+    @given(en_words)  # type: ignore[untyped-decorator]
+    @settings(max_examples=500)  # type: ignore[untyped-decorator]
     def test_en_roundtrip(self, word: str) -> None:
         p = pluralize(word)
         s = singularize(p)
         assert s == word, f"EN round-trip failed: {word} -> {p} -> {s}"
 
-    @given(es_words)
-    @settings(max_examples=500)
+    @given(es_words)  # type: ignore[untyped-decorator]
+    @settings(max_examples=500)  # type: ignore[untyped-decorator]
     def test_es_roundtrip(self, word: str) -> None:
         p = pluralize(word, lang="es")
         s = singularize(p, lang="es")
@@ -113,29 +113,29 @@ class TestRoundTrip:
 class TestCasePreservation:
     """pluralize preserves case patterns for known words."""
 
-    @given(en_words)
-    @settings(max_examples=300)
+    @given(en_words)  # type: ignore[untyped-decorator]
+    @settings(max_examples=300)  # type: ignore[untyped-decorator]
     def test_en_all_caps(self, word: str) -> None:
         upper = word.upper()
         p = pluralize(upper)
         assert p == p.upper(), f"Case not preserved: {upper} -> {p}"
 
-    @given(en_words)
-    @settings(max_examples=300)
+    @given(en_words)  # type: ignore[untyped-decorator]
+    @settings(max_examples=300)  # type: ignore[untyped-decorator]
     def test_en_title_case(self, word: str) -> None:
         title = word.capitalize()
         p = pluralize(title)
         assert p == p.capitalize(), f"Title case not preserved: {title} -> {p}"
 
-    @given(es_words)
-    @settings(max_examples=300)
+    @given(es_words)  # type: ignore[untyped-decorator]
+    @settings(max_examples=300)  # type: ignore[untyped-decorator]
     def test_es_all_caps(self, word: str) -> None:
         upper = word.upper()
         p = pluralize(upper, lang="es")
         assert p == p.upper(), f"ES case not preserved: {upper} -> {p}"
 
-    @given(es_words)
-    @settings(max_examples=300)
+    @given(es_words)  # type: ignore[untyped-decorator]
+    @settings(max_examples=300)  # type: ignore[untyped-decorator]
     def test_es_title_case(self, word: str) -> None:
         title = word.capitalize()
         p = pluralize(title, lang="es")
@@ -145,8 +145,8 @@ class TestCasePreservation:
 class TestUnicodeNormalization:
     """Inputs are NFC-normalized on entry."""
 
-    @given(es_words)
-    @settings(max_examples=200)
+    @given(es_words)  # type: ignore[untyped-decorator]
+    @settings(max_examples=200)  # type: ignore[untyped-decorator]
     def test_nfc_normalized(self, word: str) -> None:
         nfc = unicodedata.normalize("NFC", word)
         nfd = unicodedata.normalize("NFD", word)

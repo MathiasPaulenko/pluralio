@@ -58,7 +58,7 @@ class TestSpanishSingularRules:
 
 
 class TestSpanishIrregularSingles:
-    @pytest.mark.parametrize("plural,singular", [
+    @pytest.mark.parametrize(("plural", "singular"), [
         ("rubíes", "rubí"), ("tabúes", "tabú"), ("champúes", "champú"),
         ("maniquíes", "maniquí"), ("bisturíes", "bisturí"),
         ("jabalíes", "jabalí"), ("tisúes", "tisú"),

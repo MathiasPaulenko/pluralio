@@ -26,7 +26,7 @@ jobs:
         run: ruff check pluralio/ tests/
 
       - name: Type check
-        run: mypy pluralio/
+        run: mypy pluralio/ tests/
 
       - name: Test with coverage
         run: pytest --cov=pluralio --cov-report=term-missing --cov-fail-under=95

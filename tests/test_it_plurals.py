@@ -61,7 +61,7 @@ class TestItalianPluralRules:
 
 
 class TestItalianIrregularPlurals:
-    @pytest.mark.parametrize("singular,plural", [
+    @pytest.mark.parametrize(("singular", "plural"), [
         ("amico", "amici"), ("medico", "medici"), ("nemico", "nemici"),
         ("logico", "logici"), ("magico", "magici"), ("tragico", "tragici"),
         ("comico", "comici"), ("filosofico", "filosofici"),

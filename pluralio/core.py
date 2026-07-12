@@ -32,6 +32,8 @@ from functools import lru_cache
 
 from pluralio.registry import LanguageRules, get_rules
 
+__all__ = ["pluralize", "singularize"]
+
 
 def _match_case(source: str, target: str) -> str:
     """Apply the casing pattern of ``source`` to ``target``.
@@ -67,6 +69,8 @@ def _match_case(source: str, target: str) -> str:
         >>> _match_case("iPhone", "iphones")
         'iPhones'
     """
+    if not source:
+        return target
     first_upper = source[0].isupper()
     # Single pass: detect all-upper, title case, or mixed
     all_upper = first_upper
@@ -313,6 +317,67 @@ def _singularize_hyphenated(word: str, lang: str) -> str:
     return "-".join(parts)
 
 
+def _transform(
+    word: str,
+    lang: str,
+    is_plural: bool,
+    count: int | None = None,
+) -> str:
+    """Shared inner logic for :func:`pluralize` and :func:`singularize`.
+
+    Applies the three-step priority chain (uncountable → irregular → regex)
+    with case preservation, whitespace handling, NFC normalization, and
+    hyphenated-word support.
+
+    Args:
+        word: The word to transform (with original casing).
+        lang: ISO 639-1 language code.
+        is_plural: ``True`` for pluralization, ``False`` for singularization.
+        count: Optional count — when ``count == 1`` and ``is_plural`` is
+            ``True``, the word is returned unchanged.
+
+    Returns:
+        The transformed word with original casing and whitespace preserved.
+
+    Raises:
+        TypeError: If ``word`` is not a string.
+        ValueError: If ``lang`` is not a registered language.
+    """
+    if not isinstance(word, str):
+        raise TypeError(f"word must be str, got {type(word).__name__}")
+    leading, stripped, trailing = _split_whitespace(word)
+    if not stripped:
+        return word
+    if not stripped.isascii():
+        stripped = unicodedata.normalize("NFC", stripped)
+    if is_plural and count is not None and count == 1:
+        return leading + stripped + trailing
+    rules = get_rules(lang)
+    lower = stripped if stripped.islower() else stripped.lower()
+    if lower in rules.uncountable:
+        return leading + stripped + trailing
+    if is_plural:
+        if lower in rules.irregular_plurals:
+            result = _match_case(stripped, rules.irregular_plurals[lower])
+            return leading + result + trailing
+        if lower in rules.irregular_singles:
+            return leading + stripped + trailing
+    else:
+        if lower in rules.irregular_singles:
+            result = _match_case(stripped, rules.irregular_singles[lower])
+            return leading + result + trailing
+        if lower in rules.irregular_plurals:
+            return leading + stripped + trailing
+    if "-" in stripped:
+        if is_plural:
+            result = _pluralize_hyphenated(stripped, lang, count)
+        else:
+            result = _singularize_hyphenated(stripped, lang)
+        return leading + result + trailing
+    result = _apply_rules(stripped, lower, rules, is_plural=is_plural)
+    return leading + result + trailing
+
+
 def pluralize(word: str, lang: str = "en", count: int | None = None) -> str:
     """Convert a word to its plural form.
 
@@ -351,29 +416,7 @@ def pluralize(word: str, lang: str = "en", count: int | None = None) -> str:
         >>> pluralize("mother-in-law")
         'mothers-in-law'
     """
-    if not isinstance(word, str):
-        raise TypeError(f"word must be str, got {type(word).__name__}")
-    leading, stripped, trailing = _split_whitespace(word)
-    if not stripped:
-        return word
-    if not stripped.isascii():
-        stripped = unicodedata.normalize("NFC", stripped)
-    if count is not None and count == 1:
-        return leading + stripped + trailing
-    rules = get_rules(lang)
-    lower = stripped if stripped.islower() else stripped.lower()
-    if lower in rules.uncountable:
-        return leading + stripped + trailing
-    if lower in rules.irregular_plurals:
-        result = _match_case(stripped, rules.irregular_plurals[lower])
-        return leading + result + trailing
-    if lower in rules.irregular_singles:
-        return leading + stripped + trailing
-    if "-" in stripped:
-        result = _pluralize_hyphenated(stripped, lang, count)
-        return leading + result + trailing
-    result = _apply_rules(stripped, lower, rules, is_plural=True)
-    return leading + result + trailing
+    return _transform(word, lang, is_plural=True, count=count)
 
 
 def singularize(word: str, lang: str = "en") -> str:
@@ -406,24 +449,4 @@ def singularize(word: str, lang: str = "en") -> str:
         >>> singularize("mothers-in-law")
         'mother-in-law'
     """
-    if not isinstance(word, str):
-        raise TypeError(f"word must be str, got {type(word).__name__}")
-    leading, stripped, trailing = _split_whitespace(word)
-    if not stripped:
-        return word
-    if not stripped.isascii():
-        stripped = unicodedata.normalize("NFC", stripped)
-    rules = get_rules(lang)
-    lower = stripped if stripped.islower() else stripped.lower()
-    if lower in rules.uncountable:
-        return leading + stripped + trailing
-    if lower in rules.irregular_singles:
-        result = _match_case(stripped, rules.irregular_singles[lower])
-        return leading + result + trailing
-    if lower in rules.irregular_plurals:
-        return leading + stripped + trailing
-    if "-" in stripped:
-        result = _singularize_hyphenated(stripped, lang)
-        return leading + result + trailing
-    result = _apply_rules(stripped, lower, rules, is_plural=False)
-    return leading + result + trailing
+    return _transform(word, lang, is_plural=False)

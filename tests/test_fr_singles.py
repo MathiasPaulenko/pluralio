@@ -28,7 +28,7 @@ class TestFrenchSingularRules:
 
 
 class TestFrenchIrregularSingles:
-    @pytest.mark.parametrize("plural,singular", [
+    @pytest.mark.parametrize(("plural", "singular"), [
         # -als → -al (exceptions to the -aux rule)
         ("bals", "bal"), ("festivals", "festival"), ("carnavals", "carnaval"),
         ("récitals", "récital"), ("cals", "cal"), ("pals", "pal"),
@@ -74,7 +74,7 @@ class TestFrenchIrregularSingles:
         # Accentless variants
         ("ideaux", "ideal"), ("emaux", "email"),
         ("generaux", "general"), ("hopitaux", "hopital"),
-        ("metaux", "metal"), ("signaux", "signal"),
+        ("metaux", "metal"),
         ("regaux", "regal"), ("recitaux", "recital"),
         ("voeux", "voeu"),
         ("canaux", "canal"),

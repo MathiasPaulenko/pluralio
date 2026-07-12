@@ -24,6 +24,14 @@ Supported languages (built-in):
     - French (``fr``)
     - Italian (``it``)
 
+.. note::
+    Language rules are registered as a side effect of importing this
+    package. Always use ``import pluralio`` (or
+    ``from pluralio import pluralize``) rather than importing from
+    submodules directly, e.g. avoid ``from pluralio.core import pluralize``,
+    because the latter bypasses registration and will raise
+    ``ValueError`` for any non-default language.
+
 Example:
     >>> import pluralio
     >>> pluralio.pluralize("cat")
@@ -37,6 +45,7 @@ Example:
 import re
 import unicodedata
 from importlib.metadata import PackageNotFoundError, version
+from pathlib import Path
 
 from pluralio import (  # noqa: F401 — triggers registration
     rules_en,
@@ -53,11 +62,22 @@ from pluralio.registry import (
     supported_languages,
 )
 
-try:
-    __version__ = version("pluralio")
-except PackageNotFoundError:
-    __version__ = "0.0.0"
-"""Package version string (read from installed package metadata)."""
+
+def _read_version() -> str:
+    try:
+        return version("pluralio")
+    except PackageNotFoundError:
+        pass
+    pyproject = Path(__file__).resolve().parent.parent / "pyproject.toml"
+    if pyproject.is_file():
+        match = re.search(r'^version\s*=\s*"([^"]+)"', pyproject.read_text(), re.M)
+        if match:
+            return match.group(1)
+    return "0.0.0+unknown"
+
+
+__version__ = _read_version()
+"""Package version string (read from installed package metadata or pyproject.toml)."""
 
 __all__ = [
     "pluralize",
@@ -384,4 +404,4 @@ def is_singular(word: str, lang: str = "en") -> bool:
         return True
     if lower in rules.irregular_singles:
         return False
-    return singularize(stripped, lang=lang).lower() == lower
+    return pluralize(stripped, lang=lang).lower() != lower
