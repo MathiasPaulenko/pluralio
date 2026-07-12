@@ -2,6 +2,19 @@
 
 ## [Unreleased]
 
+## [1.6.0] - 2025-07-13
+
+### Added
+
+- French (`fr`) language support: 5 regex rules (`-al → -aux`, `-eau → -eaux`, `-eu → -eux`, `-s/-x/-z → invariable`, default `+s`), 90 irregular plurals (`cheval → chevaux`, `travail → travaux`, `bijou → bijoux`, `œil → yeux`, `monsieur → messieurs`, etc.), 20 extra singles for singularization restoration (`travaux → travail`, `yeux → œil`, etc.), 60 uncountable/invariable words (`information`, `temps`, `riz`, `croix`, `nez`, etc.)
+- French edge case tests: case preservation (title, all caps), mixed case, hyphenated words, idempotency, round-trip (50+ words), count-aware pluralization, whitespace preservation, single letters, uncountable consistency (70+ words), `is_singular`/`is_plural` checks
+
+### Changed
+
+- Updated `pyproject.toml` description to include French (`EN/ES/PT/FR`)
+- Added `french` to keywords in `pyproject.toml`
+- Updated README to reflect French language support
+
 ## [1.5.5] - 2025-07-12
 
 ### Fixed
