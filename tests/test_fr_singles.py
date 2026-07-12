@@ -34,6 +34,8 @@ class TestFrenchIrregularSingles:
         ("récitals", "récital"), ("cals", "cal"), ("pals", "pal"),
         ("narvals", "narval"), ("régals", "régal"),
         ("fatals", "fatal"),
+        ("étals", "étal"), ("vals", "val"),
+        ("gals", "gal"), ("recals", "recal"),
         # -aux → -ail (exceptions: regex gives -al, but these come from -ail)
         ("travaux", "travail"), ("vitraux", "vitrail"),
         ("soupiraux", "soupirail"), ("coraux", "corail"),
@@ -46,6 +48,7 @@ class TestFrenchIrregularSingles:
         ("bijoux", "bijou"), ("cailloux", "caillou"), ("hiboux", "hibou"),
         ("choux", "chou"), ("genoux", "genou"), ("poux", "pou"),
         ("joujoux", "joujou"), ("ripoux", "ripou"),
+        ("gnoux", "gnou"), ("bayoux", "bayou"),
         # -eux → -eu (irregulars for singularization safety)
         ("jeux", "jeu"), ("feux", "feu"), ("vœux", "vœu"),
         # -eus → -eu (regular +s plurals)
@@ -54,6 +57,7 @@ class TestFrenchIrregularSingles:
         ("yeux", "œil"), ("cieux", "ciel"),
         ("messieurs", "monsieur"), ("mesdames", "madame"),
         ("mesdemoiselles", "mademoiselle"),
+        ("cours", "cour"),
         # -aux → -al (common words)
         ("chevaux", "cheval"), ("animaux", "animal"),
         ("journaux", "journal"), ("généraux", "général"),
@@ -69,6 +73,10 @@ class TestFrenchIrregularSingles:
         ("internationaux", "international"),
         # Accentless variants
         ("ideaux", "ideal"), ("emaux", "email"),
+        ("generaux", "general"), ("hopitaux", "hopital"),
+        ("metaux", "metal"), ("signaux", "signal"),
+        ("regaux", "regal"), ("recitaux", "recital"),
+        ("voeux", "voeu"),
         ("canaux", "canal"),
         # Foreign loanwords
         ("weekends", "weekend"), ("parkings", "parking"),
@@ -104,6 +112,8 @@ class TestFrenchRoundTrip:
         "normal", "national", "international",
         "tuyau", "noyau", "boyau",
         "bail",
+        "cour", "étal", "val",
+        "gnou", "bayou",
         "weekend", "parking", "club", "leader", "test",
     ])
     def test_roundtrip(self, word: str) -> None:

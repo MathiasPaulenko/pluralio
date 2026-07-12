@@ -2406,12 +2406,26 @@ class TestFrHyphenated:
     """French hyphenated compound words."""
 
     @pytest.mark.parametrize("word,expected", [
-        ("café-théâtre", "cafés-théâtre"),
+        ("café-théâtre", "cafés-théâtres"),
         ("eau-de-vie", "eaux-de-vie"),
-        ("garde-manger", "gardes-manger"),
+        ("garde-manger", "gardes-mangers"),
+        ("chou-fleur", "choux-fleurs"),
+        ("pot-au-feu", "pots-aux-feux"),
+        ("arc-en-ciel", "arcs-en-ciel"),
     ])
     def test_fr_hyphenated_pluralize(self, word: str, expected: str) -> None:
         assert pluralize(word, lang="fr") == expected
+
+    @pytest.mark.parametrize("word,expected", [
+        ("cafés-théâtres", "café-théâtre"),
+        ("eaux-de-vie", "eau-de-vie"),
+        ("gardes-mangers", "garde-manger"),
+        ("choux-fleurs", "chou-fleur"),
+        ("pots-aux-feux", "pot-au-feu"),
+        ("arcs-en-ciel", "arc-en-ciel"),
+    ])
+    def test_fr_hyphenated_singularize(self, word: str, expected: str) -> None:
+        assert singularize(word, lang="fr") == expected
 
 
 class TestFrIdempotency:
@@ -2422,6 +2436,7 @@ class TestFrIdempotency:
         "animaux", "journaux", "hôpitaux", "bocaux", "travaux",
         "bijoux", "cailloux", "jeux", "feux", "yeux",
         "messieurs", "mesdames", "weekends", "parkings",
+        "ciseaux", "lunettes", "jumelles", "fils",
     ])
     def test_fr_already_plural_unchanged(self, word: str) -> None:
         assert pluralize(word, lang="fr") == word
@@ -2437,10 +2452,12 @@ class TestFrRoundTrip:
         "bal", "festival", "carnaval", "récital", "fatal",
         "travail", "vitrail", "corail", "émail",
         "bijou", "caillou", "hibou", "chou", "genou",
-        "jeu", "feu", "vœu",
+        "jeu", "feu", "vœu", "bleu", "pneu",
         "œil", "ciel", "monsieur", "madame", "mademoiselle",
         "canal", "capital", "signal", "social", "spécial",
         "normal", "national", "international",
+        "tuyau", "noyau", "boyau", "bail",
+        "cour", "étal", "val", "gnou", "bayou",
         "weekend", "parking", "club", "leader", "test",
     ])
     def test_fr_roundtrip(self, word: str) -> None:
@@ -2531,7 +2548,7 @@ class TestFrUncountableConsistency:
         "pain", "lait", "beurre", "fromage",
         "sucre", "sel", "poivre", "riz",
         "farine", "viande", "porc", "jambon",
-        "fois", "souris", "brebis", "cours",
+        "fois", "souris", "brebis",
         "poids", "rhinocéros", "virus",
         "croix", "voix", "noix",
         "choix", "prix",
@@ -2539,6 +2556,10 @@ class TestFrUncountableConsistency:
         "jazz", "rock", "punk", "flash",
         "obsèques", "fiançailles", "ténèbres",
         "archives", "mathématiques", "fils",
+        "ciseaux", "lunettes", "jumelles",
+        "pincettes", "arrérages", "ambages",
+        "fraîtures", "mœurs",
+        "condoléances", "frais", "gens",
     ])
     def test_fr_uncountable_unchanged(self, word: str) -> None:
         assert pluralize(word, lang="fr") == word

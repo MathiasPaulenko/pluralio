@@ -64,6 +64,8 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "récital": "récitals", "cal": "cals", "pal": "pals",
     "narval": "narvals", "régal": "régals",
     "fatal": "fatals",
+    "étal": "étals", "val": "vals",
+    "gal": "gals", "recal": "recals",
     # ── -ail → -aux (exceptions to the +s rule) ───────────────────
     "travail": "travaux", "vitrail": "vitraux",
     "soupirail": "soupiraux", "corail": "coraux",
@@ -74,6 +76,7 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "bijou": "bijoux", "caillou": "cailloux", "hibou": "hiboux",
     "chou": "choux", "genou": "genoux", "pou": "poux",
     "joujou": "joujoux", "ripou": "ripoux",
+    "gnou": "gnoux", "bayou": "bayoux",
     # ── -au → -aux (common words needing explicit mapping) ────────
     "tuyau": "tuyaux", "noyau": "noyaux", "boyau": "boyaux",
     "sarrau": "sarraux",
@@ -85,6 +88,7 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "œil": "yeux", "ciel": "cieux",
     "monsieur": "messieurs", "madame": "mesdames",
     "mademoiselle": "mesdemoiselles",
+    "cour": "cours",
     # ── -al → -aux (common words needing explicit mapping) ────────
     "cheval": "chevaux", "animal": "animaux",
     "journal": "journaux", "général": "généraux",
@@ -144,6 +148,12 @@ _EXTRA_SINGLES: dict[str, str] = {
     "internationaux": "international",
     # Accentless variants for robustness
     "ideaux": "ideal", "emaux": "email",
+    "generaux": "general", "hopitaux": "hopital",
+    "metaux": "metal", "signaux": "signal",
+    "regaux": "regal", "recitaux": "recital",
+    "voeux": "voeu",
+    # Compound component: "aux" from "au" (e.g. pots-aux-feux → pot-au-feu)
+    "aux": "au",
 }
 """Additional plural → singular mappings for French.
 
@@ -213,7 +223,7 @@ _UNCOUNTABLE: set[str] = {
     "sucre", "sel", "poivre", "riz",
     "farine", "viande", "porc", "jambon",
     # -s invariable
-    "fois", "souris", "brebis", "cours",
+    "fois", "souris", "brebis",
     "poids", "rhinocéros", "virus",
     # -x invariable
     "croix", "voix", "noix",
@@ -225,7 +235,10 @@ _UNCOUNTABLE: set[str] = {
     # Always plural (pluralia tantum)
     "obsèques", "fiançailles", "ténèbres",
     "archives", "mathématiques",
-    "fils",
+    "fils", "ciseaux", "lunettes", "jumelles",
+    "pincettes", "arrérages", "ambages",
+    "fraîtures", "mœurs",
+    "condoléances", "frais", "gens",
 }
 """Set of French uncountable/invariable words.
 

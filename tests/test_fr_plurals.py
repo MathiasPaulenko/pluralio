@@ -33,7 +33,7 @@ class TestFrenchPluralRules:
             assert pluralize(singular, lang="fr") == plural
 
     def test_s_invariable(self) -> None:
-        for word in ["fois", "souris", "brebis", "cours", "poids"]:
+        for word in ["fois", "souris", "brebis", "poids"]:
             assert pluralize(word, lang="fr") == word
 
     def test_x_invariable(self) -> None:
@@ -62,6 +62,8 @@ class TestFrenchIrregularPlurals:
         ("récital", "récitals"), ("cal", "cals"), ("pal", "pals"),
         ("narval", "narvals"), ("régal", "régals"),
         ("fatal", "fatals"),
+        ("étal", "étals"), ("val", "vals"),
+        ("gal", "gals"), ("recal", "recals"),
         # -ail → -aux (exceptions to the +s rule)
         ("travail", "travaux"), ("vitrail", "vitraux"),
         ("soupirail", "soupiraux"), ("corail", "coraux"),
@@ -71,6 +73,7 @@ class TestFrenchIrregularPlurals:
         ("bijou", "bijoux"), ("caillou", "cailloux"), ("hibou", "hiboux"),
         ("chou", "choux"), ("genou", "genoux"), ("pou", "poux"),
         ("joujou", "joujoux"), ("ripou", "ripoux"),
+        ("gnou", "gnoux"), ("bayou", "bayoux"),
         # -au → -aux (common words needing explicit mapping)
         ("tuyau", "tuyaux"), ("noyau", "noyaux"), ("boyau", "boyaux"),
         ("sarrau", "sarraux"),
@@ -82,6 +85,7 @@ class TestFrenchIrregularPlurals:
         ("œil", "yeux"), ("ciel", "cieux"),
         ("monsieur", "messieurs"), ("madame", "mesdames"),
         ("mademoiselle", "mesdemoiselles"),
+        ("cour", "cours"),
         # -al → -aux (common words needing explicit mapping)
         ("cheval", "chevaux"), ("animal", "animaux"),
         ("journal", "journaux"), ("général", "généraux"),
@@ -131,7 +135,7 @@ class TestFrenchUncountable:
         "sucre", "sel", "poivre", "riz",
         "farine", "viande", "porc", "jambon",
         # -s invariable
-        "fois", "souris", "brebis", "cours",
+        "fois", "souris", "brebis",
         "poids", "rhinocéros", "virus",
         # -x invariable
         "croix", "voix", "noix",
@@ -143,6 +147,10 @@ class TestFrenchUncountable:
         # Always plural (pluralia tantum)
         "obsèques", "fiançailles", "ténèbres",
         "archives", "mathématiques", "fils",
+        "ciseaux", "lunettes", "jumelles",
+        "pincettes", "arrérages", "ambages",
+        "fraîtures", "mœurs",
+        "condoléances", "frais", "gens",
     ])
     def test_uncountable_unchanged(self, word: str) -> None:
         assert pluralize(word, lang="fr") == word

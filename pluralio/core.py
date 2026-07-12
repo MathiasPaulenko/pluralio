@@ -196,6 +196,15 @@ _LAST_SEGMENT_PLURAL_FIRST_WORDS: frozenset[str] = frozenset({
     "para", "pára", "bota", "tira", "pega", "leva", "traz", "beija",
 })
 
+# French compound words: both nouns are pluralized, but function words
+# (prepositions, articles) are skipped.
+_FR_HYPHEN_SKIP: frozenset[str] = frozenset({
+    "de", "du", "des", "la", "le", "les", "en", "et", "ou",
+    "pour", "par", "sur", "sous", "avec", "sans", "dans",
+    # Fixed parts in certain compounds
+    "vie", "ciel",
+})
+
 
 def _pluralize_hyphenated(word: str, lang: str, count: int | None) -> str:
     """Pluralize the appropriate segment(s) of a hyphenated word.
@@ -204,6 +213,8 @@ def _pluralize_hyphenated(word: str, lang: str, count: int | None) -> str:
     (e.g. ``"mother-in-law"`` → ``"mothers-in-law"``).
     For some compounds the head noun is the last segment
     (e.g. ``"forget-me-not"`` → ``"forget-me-nots"``).
+    For French compounds, all noun segments are pluralized
+    (e.g. ``"café-théâtre"`` → ``"cafés-théâtres"``).
 
     Args:
         word: The hyphenated word (e.g. ``"mother-in-law"``).
@@ -232,6 +243,13 @@ def _pluralize_hyphenated(word: str, lang: str, count: int | None) -> str:
             parts[last_idx] = pluralize(parts[last_idx], lang=lang, count=count)
         return "-".join(parts)
 
+    # French: pluralize all noun segments (skip function words)
+    if lang == "fr":
+        for i, part in enumerate(parts):
+            if part and part.lower() not in _FR_HYPHEN_SKIP:
+                parts[i] = pluralize(part, lang=lang, count=count)
+        return "-".join(parts)
+
     parts[idx] = pluralize(parts[idx], lang=lang, count=count)
     return "-".join(parts)
 
@@ -243,6 +261,8 @@ def _singularize_hyphenated(word: str, lang: str) -> str:
     (e.g. ``"mothers-in-law"`` → ``"mother-in-law"``).
     For last-segment compounds the last segment was pluralized
     (e.g. ``"forget-me-nots"`` → ``"forget-me-not"``).
+    For French compounds, all noun segments are singularized
+    (e.g. ``"cafés-théâtres"`` → ``"café-théâtre"``).
 
     Args:
         word: The hyphenated word (e.g. ``"mothers-in-law"``).
@@ -269,6 +289,13 @@ def _singularize_hyphenated(word: str, lang: str) -> str:
             last_idx -= 1
         if last_idx >= 0:
             parts[last_idx] = singularize(parts[last_idx], lang=lang)
+        return "-".join(parts)
+
+    # French: singularize all noun segments (skip function words)
+    if lang == "fr":
+        for i, part in enumerate(parts):
+            if part and part.lower() not in _FR_HYPHEN_SKIP:
+                parts[i] = singularize(part, lang=lang)
         return "-".join(parts)
 
     if idx < len(parts):
