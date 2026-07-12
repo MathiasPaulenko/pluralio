@@ -71,6 +71,8 @@ def _match_case(source: str, target: str) -> str:
     """
     if not source:
         return target
+    if source.islower():
+        return target
     first_upper = source[0].isupper()
     # Single pass: detect all-upper, title case, or mixed
     all_upper = first_upper
@@ -80,9 +82,6 @@ def _match_case(source: str, target: str) -> str:
             has_upper_after_first = True
         else:
             all_upper = False
-    # Fast path: all lowercase
-    if not first_upper and not has_upper_after_first:
-        return target
     if all_upper:
         return target.upper()
     if first_upper and not has_upper_after_first:

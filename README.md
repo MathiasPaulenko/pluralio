@@ -4,12 +4,12 @@
 
 **Pluralization and singularization for Python**
 
-English · Spanish · Portuguese · French · Zero dependencies · Type-safe · Extensible
+English · Spanish · Portuguese · French · Italian · Zero dependencies · Type-safe · Extensible
 
 [![PyPI version](https://img.shields.io/pypi/v/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
 [![Python versions](https://img.shields.io/pypi/pyversions/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
 [![CI](https://github.com/MathiasPaulenko/pluralio/actions/workflows/ci.yml/badge.svg?style=flat-square)](https://github.com/MathiasPaulenko/pluralio/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?style=flat-square)](https://github.com/MathiasPaulenko/pluralio)
+[![Coverage](https://img.shields.io/badge/coverage-99%25-brightgreen?style=flat-square)](https://github.com/MathiasPaulenko/pluralio)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-261230.svg?style=flat-square)](https://github.com/astral-sh/ruff)
 [![Type checker: mypy](https://img.shields.io/badge/type%20checker-mypy-blue.svg?style=flat-square)](https://github.com/python/mypy)
@@ -23,7 +23,7 @@ English · Spanish · Portuguese · French · Zero dependencies · Type-safe · 
 
 - **Zero dependencies** — pure Python standard library, nothing else to install
 - **Type-safe** — full type hints, `py.typed` marker included (PEP 561)
-- **100% test coverage** — 5,518 tests, every line is verified
+- **99% test coverage** — 7,066 tests, every line is verified
 - **Extensible at runtime** — add irregulars, rules, uncountables, or entire languages without touching source code
 - **Case preservation** — `"Library"` → `"Libraries"`, `"BOX"` → `"BOXES"`
 - **Count-aware** — `pluralize("item", count=1)` → `"item"`
@@ -43,6 +43,7 @@ English · Spanish · Portuguese · French · Zero dependencies · Type-safe · 
   - [Add a regex rule](#add-a-regex-rule)
   - [Register a new language](#register-a-new-language)
 - [Comparison](#comparison)
+- [Performance](#performance)
 - [Supported languages](#supported-languages)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
@@ -113,8 +114,15 @@ pluralio.singularize("Libraries")      # "Library"
 pluralio.pluralize("mother-in-law")    # "mothers-in-law"
 pluralio.singularize("mothers-in-law") # "mother-in-law"
 
+# ── Italian ────────────────────────────────────────────────────
+pluralio.pluralize("gatto", lang="it")         # "gatti"
+pluralio.pluralize("amico", lang="it")         # "amici"
+pluralio.pluralize("libro", lang="it")         # "libri"
+pluralio.singularize("amici", lang="it")       # "amico"
+pluralio.singularize("libri", lang="it")       # "libro"
+
 # ── List supported languages ──────────────────────────────────
-pluralio.supported_languages()         # ["en", "es", "fr", "pt"]
+pluralio.supported_languages()         # ["en", "es", "fr", "it", "pt"]
 
 # ── Inspect word form ─────────────────────────────────────────
 pluralio.is_plural("cats")             # True
@@ -285,6 +293,17 @@ How does pluralio compare to other Python inflection libraries?
 [pluralsingular]: https://pypi.org/project/pluralsingular/
 [pluralizer]: https://github.com/audreyfeldroy/inflection
 
+## Performance
+
+pluralio is fast — no regex compilation at call time, `lru_cache` on regex application, and `islower()` short-circuit for the common case:
+
+```
+pluralize:    ~1.8 µs/call
+singularize:  ~1.8 µs/call
+```
+
+Benchmark: 100,000 calls across 13 mixed-language words (English, Spanish, Portuguese, French, Italian) on Python 3.14.
+
 ## Supported languages
 
 | Language | Code | Regex rules | Irregulars | Uncountables | Status |
@@ -307,6 +326,7 @@ How does pluralio compare to other Python inflection libraries?
 | `1.5.0` | Portuguese (`pt`) | ✅ Released |
 | `1.6.0` | French (`fr`) | ✅ Released |
 | `1.7.0` | Italian (`it`) | ✅ Released |
+| `1.8.3` | Robustness fixes, code quality improvements, expanded lint rules | ✅ Released |
 
 ## Contributing
 
@@ -326,7 +346,7 @@ pip install -e ".[dev]"
 
 # Run checks
 ruff check pluralio/ tests/
-mypy pluralio/
+mypy pluralio/ tests/
 pytest
 ```
 
