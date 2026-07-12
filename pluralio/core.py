@@ -170,6 +170,9 @@ def _split_whitespace(word: str) -> tuple[str, str, str]:
         stripped content. If the word is entirely whitespace,
         core is empty.
     """
+    # Fast path: no surrounding whitespace (common case)
+    if word and not word[0].isspace() and not word[-1].isspace():
+        return "", word, ""
     stripped = word.strip()
     if not stripped:
         return "", "", ""
@@ -308,15 +311,15 @@ def pluralize(word: str, lang: str = "en", count: int | None = None) -> str:
     """
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
-    leading, core, trailing = _split_whitespace(word)
-    stripped = core if core.isascii() else unicodedata.normalize("NFC", core)
+    leading, stripped, trailing = _split_whitespace(word)
     if not stripped:
         return word
+    if not stripped.isascii():
+        stripped = unicodedata.normalize("NFC", stripped)
     if count is not None and count == 1:
         return leading + stripped + trailing
     rules = get_rules(lang)
-    # Check irregulars first (handles hyphenated irregulars like pequeño-burgués)
-    lower = stripped.lower()
+    lower = stripped if stripped.islower() else stripped.lower()
     if lower in rules.uncountable:
         return leading + stripped + trailing
     if lower in rules.irregular_plurals:
@@ -363,13 +366,13 @@ def singularize(word: str, lang: str = "en") -> str:
     """
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
-    leading, core, trailing = _split_whitespace(word)
-    stripped = core if core.isascii() else unicodedata.normalize("NFC", core)
+    leading, stripped, trailing = _split_whitespace(word)
     if not stripped:
         return word
+    if not stripped.isascii():
+        stripped = unicodedata.normalize("NFC", stripped)
     rules = get_rules(lang)
-    # Check irregulars first (handles hyphenated irregulars like pequeños-burgueses)
-    lower = stripped.lower()
+    lower = stripped if stripped.islower() else stripped.lower()
     if lower in rules.uncountable:
         return leading + stripped + trailing
     if lower in rules.irregular_singles:
