@@ -123,6 +123,18 @@ class TestItalianIrregularSingles:
         ("zii", "zio"), ("zie", "zia"),
         ("fratelli", "fratello"), ("nonni", "nonno"), ("nonne", "nonna"),
         ("cugini", "cugino"), ("cugine", "cugina"),
+        ("piedi", "piede"), ("fini", "fine"), ("margini", "margine"),
+        ("bottoni", "bottone"), ("giganti", "gigante"), ("santoni", "santone"),
+        ("difensori", "difensore"), ("attaccanti", "attaccante"),
+        ("esemplari", "esemplare"), ("necessari", "necessario"),
+        ("sufficienti", "sufficiente"), ("importanti", "importante"),
+        ("evidenti", "evidente"), ("intelligenti", "intelligente"),
+        ("potenti", "potente"), ("urgenti", "urgente"),
+        ("simili", "simile"), ("facili", "facile"), ("difficili", "difficile"),
+        ("utili", "utile"), ("inutili", "inutile"),
+        ("possibili", "possibile"), ("impossibili", "impossibile"),
+        ("probabili", "probabile"), ("improbabili", "improbabile"),
+        ("portatili", "portatile"), ("turbini", "turbine"),
     ])
     def test_irregular_single(self, plural: str, singular: str) -> None:
         assert singularize(plural, lang="it") == singular
@@ -173,6 +185,18 @@ class TestItalianRoundTrip:
         "zio", "zia",
         "fratello", "nonno", "nonna",
         "cugino", "cugina",
+        "piede", "fine", "margine",
+        "bottone", "gigante", "santone",
+        "difensore", "attaccante",
+        "esemplare", "necessario",
+        "sufficiente", "importante",
+        "evidente", "intelligente",
+        "potente", "urgente",
+        "simile", "facile", "difficile",
+        "utile", "inutile",
+        "possibile", "impossibile",
+        "probabile", "improbabile",
+        "portatile", "turbine",
     ])
     def test_roundtrip(self, word: str) -> None:
         assert singularize(pluralize(word, lang="it"), lang="it") == word

@@ -2742,6 +2742,18 @@ class TestItIdempotency:
         "zii", "zie",
         "fratelli", "nonni", "nonne",
         "cugini", "cugine",
+        "piedi", "fini", "margini",
+        "bottoni", "giganti", "santoni",
+        "difensori", "attaccanti",
+        "esemplari", "necessari",
+        "sufficienti", "importanti",
+        "evidenti", "intelligenti",
+        "potenti", "urgenti",
+        "simili", "facili", "difficili",
+        "utili", "inutili",
+        "possibili", "impossibili",
+        "probabili", "improbabili",
+        "portatili", "turbini",
         "film", "bar", "bus", "computer", "sport",
     ])
     def test_it_pluralize_already_plural(self, word: str) -> None:
@@ -2801,6 +2813,18 @@ class TestItRoundTrip:
         "zio", "zia",
         "fratello", "nonno", "nonna",
         "cugino", "cugina",
+        "piede", "fine", "margine",
+        "bottone", "gigante", "santone",
+        "difensore", "attaccante",
+        "esemplare", "necessario",
+        "sufficiente", "importante",
+        "evidente", "intelligente",
+        "potente", "urgente",
+        "simile", "facile", "difficile",
+        "utile", "inutile",
+        "possibile", "impossibile",
+        "probabile", "improbabile",
+        "portatile", "turbine",
     ])
     def test_it_roundtrip(self, word: str) -> None:
         plural = pluralize(word, lang="it")

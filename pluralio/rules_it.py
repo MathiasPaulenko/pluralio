@@ -142,6 +142,19 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "zio": "zii", "zia": "zie",
     "fratello": "fratelli", "nonno": "nonni", "nonna": "nonne",
     "cugino": "cugini", "cugina": "cugine",
+    "piede": "piedi", "fine": "fini", "margine": "margini",
+    "bottone": "bottoni", "gigante": "giganti", "santone": "santoni",
+    "difensore": "difensori", "attaccante": "attaccanti",
+    "esemplare": "esemplari", "necessario": "necessari",
+    "sufficiente": "sufficienti", "importante": "importanti",
+    "evidente": "evidenti", "intelligente": "intelligenti",
+    "potente": "potenti", "urgente": "urgenti",
+    "simile": "simili", "facile": "facili", "difficile": "difficili",
+    "utile": "utili", "inutile": "inutili",
+    "possibile": "possibili", "impossibile": "impossibili",
+    "probabile": "probabili", "improbabile": "improbabili",
+    "portatile": "portatili",
+    "turbine": "turbini",
 }
 """Mapping of singular → plural for irregular Italian words.
 
@@ -178,6 +191,7 @@ _PLURAL_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"o$"), "i"),
     (re.compile(r"([bcdfghlmnpqrstvz])([cg])ia$"), r"\1\2e"),
     (re.compile(r"([aeiou])([cg])ia$"), r"\1\2ie"),
+    (re.compile(r"\u00e0$"), r"\g<0>"),
     (re.compile(r"a$"), "e"),
     (re.compile(r"ie$"), "i"),
     (re.compile(r"e$"), "i"),
@@ -198,12 +212,14 @@ Order matters: more specific patterns must come before generic ones.
    (already plural, idempotency).
 10. Words ending in ``o`` → replace with ``i`` (libro → libri).
 11. Consonant + ``ia`` → replace with ``e`` (pioggia → piogge).
-12. Words ending in ``a`` → replace with ``e`` (casa → case).
-13. Words ending in ``ie`` → replace with ``i`` (superficie → superfici).
-14. Words ending in ``e`` → replace with ``i`` (cane → cani).
-15. Words ending in ``i`` → invariable (already plural, idempotency).
-16. Words ending in ``s`` or ``x`` → invariable (no change).
-17. Default → append ``i``.
+12. Vowel + ``ia`` → replace with ``ie`` (valigia → valigie).
+13. Words ending in ``à`` → invariable (verità → verità).
+14. Words ending in ``a`` → replace with ``e`` (casa → case).
+15. Words ending in ``ie`` → replace with ``i`` (superficie → superfici).
+16. Words ending in ``e`` → replace with ``i`` (cane → cani).
+17. Words ending in ``i`` → invariable (already plural, idempotency).
+18. Words ending in ``s`` or ``x`` → invariable (no change).
+19. Default → append ``i``.
 """
 
 _SINGULAR_RULES: list[tuple[re.Pattern[str], str]] = [
@@ -216,6 +232,7 @@ _SINGULAR_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"gi$"), "ge"),
     (re.compile(r"ioni$"), "ione"),
     (re.compile(r"tori$"), "tore"),
+    (re.compile(r"esi$"), "ese"),
     (re.compile(r"i$"), "o"),
     (re.compile(r"e$"), "a"),
 ]
@@ -233,9 +250,10 @@ Order matters: more specific patterns must come before generic ones.
 8. Words ending in ``gi`` → replace with ``ge``.
 9. Words ending in ``ioni`` → replace with ``ione`` (nazioni → nazione).
 10. Words ending in ``tori`` → replace with ``tore`` (dottori → dottore).
-11. Words ending in ``i`` → replace with ``o`` (libri → libro;
+11. Words ending in ``esi`` → replace with ``ese`` (inglesi → inglese).
+12. Words ending in ``i`` → replace with ``o`` (libri → libro;
    ``-e`` and ``-io`` words handled by extra singles).
-12. Words ending in ``e`` → replace with ``a`` (case → casa).
+13. Words ending in ``e`` → replace with ``a`` (case → casa).
 """
 
 _UNCOUNTABLE: set[str] = {
@@ -272,6 +290,13 @@ _UNCOUNTABLE: set[str] = {
     "cioè", "sé", "lunedì", "martedì",
     "mercoledì", "giovedì", "venerdì",
     "sabato", "domenica",
+    "gennaio", "febbraio", "marzo", "aprile",
+    "maggio", "giugno", "luglio", "agosto",
+    "settembre", "ottobre", "novembre", "dicembre",
+    "primavera", "estate", "autunno", "inverno",
+    "due", "tre", "cinque", "sei",
+    "sette", "nove", "dieci", "mille",
+    "sangue", "peggio", "week-end",
 }
 """Set of Italian uncountable/invariable words.
 
@@ -281,8 +306,11 @@ Includes foreign loanwords (``film``, ``bar``, ``computer``, ``streaming``,
 ``forbici``, ``pantaloni``), invariable ``-e`` words (``specie``,
 ``serie``), truncated forms (``foto``, ``moto``, ``auto``), accented
 invariables (``città``, ``virtù``, ``tè``, ``perché``), days of the week
-(``lunedì``–``domenica``), and sports terms (``tennis``, ``golf``,
-``hockey``, ``rugby``).
+(``lunedì``–``domenica``), sports terms (``tennis``, ``golf``,
+``hockey``, ``rugby``), months (``gennaio``–``dicembre``), seasons
+(``primavera``, ``estate``, ``autunno``, ``inverno``), numbers
+(``due``, ``tre``, ``cinque``, ``sei``, ``sette``, ``nove``, ``dieci``,
+``mille``), and invariable nouns (``sangue``, ``peggio``, ``week-end``).
 """
 
 _RULES = LanguageRules(

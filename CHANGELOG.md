@@ -2,6 +2,30 @@
 
 ## [Unreleased]
 
+## [1.8.2] - 2025-07-13
+
+### Fixed
+
+- Italian `-tà` abstract nouns (`verità`, `felicità`, `libertà`) now invariable via new `à$` plural rule
+- Italian `-ese` nationality words (`inglese`, `francese`, `giapponese`, `cinese`, `portoghese`, `olandese`, `svedese`, `norvegese`, `finlandese`, `danese`) now round-trip correctly via new `esi$ → ese` singular rule
+- Italian round-trip for 27 common `-e` words: `piede`, `fine`, `margine`, `bottone`, `gigante`, `santone`, `difensore`, `attaccante`, `esemplare`, `necessario`, `sufficiente`, `importante`, `evidente`, `intelligente`, `potente`, `urgente`, `simile`, `facile`, `difficile`, `utile`, `inutile`, `possibile`, `impossibile`, `probabile`, `improbabile`, `portatile`, `turbine`
+- `sangue`, `peggio`, `week-end` added to uncountables
+- Months (`gennaio`–`dicembre`), seasons (`primavera`, `estate`, `autunno`, `inverno`), and numbers (`due`, `tre`, `cinque`, `sei`, `sette`, `nove`, `dieci`, `mille`) added to uncountables
+
+### Added
+
+- New plural rule: `à$` → invariable (for abstract nouns ending in `-tà`)
+- New singular rule: `esi$ → ese` (for nationality words)
+- 27 new Italian irregular plurals for common `-e` words
+- 27 new Italian uncountables (months, seasons, numbers, invariable nouns)
+
+### Changed
+
+- Italian irregulars expanded: 239 (was 212)
+- Italian uncountables expanded: 144 (was 117)
+- Italian plural rules: 19 (was 18)
+- Italian singular rules: 12 (was 11)
+
 ## [1.8.1] - 2025-07-13
 
 ### Fixed

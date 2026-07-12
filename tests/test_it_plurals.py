@@ -144,6 +144,18 @@ class TestItalianIrregularPlurals:
         ("zio", "zii"), ("zia", "zie"),
         ("fratello", "fratelli"), ("nonno", "nonni"), ("nonna", "nonne"),
         ("cugino", "cugini"), ("cugina", "cugine"),
+        ("piede", "piedi"), ("fine", "fini"), ("margine", "margini"),
+        ("bottone", "bottoni"), ("gigante", "giganti"), ("santone", "santoni"),
+        ("difensore", "difensori"), ("attaccante", "attaccanti"),
+        ("esemplare", "esemplari"), ("necessario", "necessari"),
+        ("sufficiente", "sufficienti"), ("importante", "importanti"),
+        ("evidente", "evidenti"), ("intelligente", "intelligenti"),
+        ("potente", "potenti"), ("urgente", "urgenti"),
+        ("simile", "simili"), ("facile", "facili"), ("difficile", "difficili"),
+        ("utile", "utili"), ("inutile", "inutili"),
+        ("possibile", "possibili"), ("impossibile", "impossibili"),
+        ("probabile", "probabili"), ("improbabile", "improbabili"),
+        ("portatile", "portatili"), ("turbine", "turbini"),
     ])
     def test_irregular_plural(self, singular: str, plural: str) -> None:
         assert pluralize(singular, lang="it") == plural
@@ -183,6 +195,13 @@ class TestItalianUncountable:
         "cioè", "sé", "lunedì", "martedì",
         "mercoledì", "giovedì", "venerdì",
         "sabato", "domenica",
+        "gennaio", "febbraio", "marzo", "aprile",
+        "maggio", "giugno", "luglio", "agosto",
+        "settembre", "ottobre", "novembre", "dicembre",
+        "primavera", "estate", "autunno", "inverno",
+        "due", "tre", "cinque", "sei",
+        "sette", "nove", "dieci", "mille",
+        "sangue", "peggio", "week-end",
     ])
     def test_uncountable_unchanged(self, word: str) -> None:
         assert pluralize(word, lang="it") == word
