@@ -4,7 +4,7 @@
 
 **Pluralization and singularization for Python**
 
-English · Spanish · Portuguese · French · Italian · Zero dependencies · Type-safe · Extensible
+English · Spanish · Portuguese · French · Italian · Esperanto · Zero dependencies · Type-safe · Extensible
 
 [![PyPI version](https://img.shields.io/pypi/v/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
 [![Python versions](https://img.shields.io/pypi/pyversions/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
@@ -313,6 +313,7 @@ Benchmark: 100,000 calls across 13 mixed-language words (English, Spanish, Portu
 | Portuguese | `pt` | 8 + 13 | 388 + 88 extra singles | 88 | ✅ Complete |
 | French | `fr` | 6 + 4 | 104 + 27 extra singles | 81 | ✅ Complete |
 | Italian | `it` | 19 + 12 | 239 + 0 extra singles | 144 | ✅ Complete |
+| Esperanto | `eo` | 2 + 2 | 0 | 33 | ✅ Complete |
 
 ## Roadmap
 
@@ -330,7 +331,7 @@ Benchmark: 100,000 calls across 13 mixed-language words (English, Spanish, Portu
 | `2.0.0` | Rules restructured into `pluralio/rules/` subpackage, performance optimization | ✅ Released |
 | `2.0.1` | CI fixes, hyphenated dedup, docs update, Python 3.14 support | ✅ Released |
 | `2.0.2` | Simplified is_plural/is_singular, README fixes, release.yml Python 3.14 | ✅ Released |
-| `2.1.0` | Esperanto (`eo`) — trivial `-j` plural | 🔜 Planned |
+| `2.1.0` | Esperanto (`eo`) — trivial `-j` plural | ✅ Released |
 | `2.2.0` | Catalan (`ca`) — Romance, natural fit | 🔜 Planned |
 | `2.3.0` | Dutch (`nl`) — Germanic, `-en` / `-s` patterns | 🔜 Planned |
 | `3.0.0` | German (`de`) — umlauts + multiple plural patterns | 🔜 Planned |

@@ -23,6 +23,7 @@ Supported languages (built-in):
     - Portuguese (``pt``)
     - French (``fr``)
     - Italian (``it``)
+    - Esperanto (``eo``)
 
 .. note::
     Language rules are registered as a side effect of importing this
@@ -40,6 +41,8 @@ Example:
     'gatos'
     >>> pluralio.singularize("cities")
     'city'
+    >>> pluralio.pluralize("libro", lang="eo")
+    'libroj'
 """
 
 import re

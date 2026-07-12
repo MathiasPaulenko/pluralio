@@ -2,6 +2,19 @@
 
 ## [Unreleased]
 
+## [2.1.0] - 2025-07-13
+
+### Added
+
+- Esperanto (`eo`) language support — simplest pluralization system: `-j` suffix for plural, `-jn` for accusative plural. Zero irregulars, zero exceptions.
+- Esperanto uncountables: pronouns (`mi`, `vi`, `li`, `ŝi`, `ĝi`, `ni`, `ili`, `oni`, `si`), correlatives (`kio`, `tio`, `ĉio`, `nenio`, `iom`), particles (`kaj`, `aŭ`, `sed`, `la`, etc.)
+- Tests: `test_eo_plurals.py`, `test_eo_singles.py`, round-trip tests
+
+### Changed
+
+- `pyproject.toml` description updated to include `EO`
+- Keywords updated with `esperanto`
+
 ## [2.0.2] - 2025-07-13
 
 ### Changed

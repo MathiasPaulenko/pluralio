@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pluralio"
-version = "2.0.0"
-description = "Pluralization and singularization for Python — EN/ES/PT/FR/IT, zero deps, type-safe"
+version = "2.1.0"
+description = "Pluralization and singularization for Python — EN/ES/PT/FR/IT/EO, zero deps, type-safe"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
 authors = [{ name = "Mathias Paulenko", email = "mathias.paulenko@outlook.com" }]
-keywords = ["pluralize", "singularize", "plural", "portuguese", "spanish", "english", "french", "italian", "inflection"]
+keywords = ["pluralize", "singularize", "plural", "portuguese", "spanish", "english", "french", "italian", "esperanto", "inflection"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",

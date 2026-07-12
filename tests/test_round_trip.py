@@ -139,6 +139,19 @@ PORTUGUESE_WORDS = [
 ]
 
 
+ESPERANTO_WORDS = [
+    # Basic nouns
+    "libro", "hundo", "kato", "floro", "domo", "akvo",
+    "pano", "kafo", "teksto", "lingvo",
+    "amiko", "familio", "urbo", "lando",
+    "instruisto", "studento", "lernejo", "laboro",
+    # Adjectives
+    "bona", "granda", "malgranda",
+    # Accusative
+    "libron", "hundon", "bonan", "grandan",
+]
+
+
 class TestRoundTrip:
     @pytest.mark.parametrize("word", ENGLISH_WORDS)
     def test_en_singularize_pluralize(self, word: str) -> None:
@@ -151,3 +164,7 @@ class TestRoundTrip:
     @pytest.mark.parametrize("word", PORTUGUESE_WORDS)
     def test_pt_singularize_pluralize(self, word: str) -> None:
         assert singularize(pluralize(word, lang="pt"), lang="pt") == word
+
+    @pytest.mark.parametrize("word", ESPERANTO_WORDS)
+    def test_eo_singularize_pluralize(self, word: str) -> None:
+        assert singularize(pluralize(word, lang="eo"), lang="eo") == word

@@ -10,10 +10,11 @@ triggers registration of all built-in languages.
 
 from pluralio.rules import (  # noqa: F401 — triggers registration
     en,
+    eo,
     es,
     fr,
     it,
     pt,
 )
 
-__all__ = ["en", "es", "fr", "it", "pt"]
+__all__ = ["en", "eo", "es", "fr", "it", "pt"]
