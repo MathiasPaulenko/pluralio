@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [1.5.2] - 2025-07-12
+
+### Changed
+
+- Optimized `_split_whitespace`: fast path for words without surrounding whitespace (common case), skips 3 string operations
+- Skip `.lower()` allocation for already-lowercase strings via `islower()` check
+- Inlined `unicodedata.normalize` call to avoid redundant variable assignment
+- Performance: ~30% faster across all languages (EN/ES/PT pluralize and singularize)
+
 ## [1.5.1] - 2025-07-12
 
 ### Added

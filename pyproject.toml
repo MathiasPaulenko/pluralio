@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pluralio"
-version = "1.5.1"
+version = "1.5.2"
 description = "Pluralization and singularization for Python — EN/ES/PT, zero deps, type-safe"
 readme = "README.md"
 license = { text = "MIT" }
