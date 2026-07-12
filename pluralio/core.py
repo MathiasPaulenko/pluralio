@@ -217,6 +217,67 @@ _IT_HYPHEN_SKIP: frozenset[str] = frozenset({
 })
 
 
+def _transform_hyphenated(
+    word: str,
+    lang: str,
+    is_plural: bool,
+    count: int | None = None,
+) -> str:
+    """Transform the appropriate segment(s) of a hyphenated word.
+
+    Shared logic for pluralization and singularization of hyphenated
+    compounds. See :func:`_pluralize_hyphenated` and
+    :func:`_singularize_hyphenated` for language-specific behavior.
+
+    Args:
+        word: The hyphenated word (e.g. ``"mother-in-law"``).
+        lang: Language code to pass through.
+        is_plural: ``True`` for pluralization, ``False`` for singularization.
+        count: Count value (only used for pluralization).
+
+    Returns:
+        The word with the appropriate segment transformed.
+    """
+    parts = word.split("-")
+    # Find the first non-empty segment.
+    idx = 0
+    while idx < len(parts) and not parts[idx]:
+        idx += 1
+    if idx >= len(parts):
+        return word
+
+    first = parts[idx].lower()
+
+    # Check if the last segment should be transformed instead of the first
+    if first in _LAST_SEGMENT_PLURAL_FIRST_WORDS:
+        last_idx = len(parts) - 1
+        while last_idx >= 0 and not parts[last_idx]:
+            last_idx -= 1
+        if last_idx >= 0:
+            if is_plural:
+                parts[last_idx] = pluralize(parts[last_idx], lang=lang, count=count)
+            else:
+                parts[last_idx] = singularize(parts[last_idx], lang=lang)
+        return "-".join(parts)
+
+    # French/Italian: transform all noun segments (skip function words)
+    if lang in ("fr", "it"):
+        skip = _FR_HYPHEN_SKIP if lang == "fr" else _IT_HYPHEN_SKIP
+        for i, part in enumerate(parts):
+            if part and part.lower() not in skip:
+                if is_plural:
+                    parts[i] = pluralize(part, lang=lang, count=count)
+                else:
+                    parts[i] = singularize(part, lang=lang)
+        return "-".join(parts)
+
+    if is_plural:
+        parts[idx] = pluralize(parts[idx], lang=lang, count=count)
+    else:
+        parts[idx] = singularize(parts[idx], lang=lang)
+    return "-".join(parts)
+
+
 def _pluralize_hyphenated(word: str, lang: str, count: int | None) -> str:
     """Pluralize the appropriate segment(s) of a hyphenated word.
 
@@ -235,35 +296,7 @@ def _pluralize_hyphenated(word: str, lang: str, count: int | None) -> str:
     Returns:
         The word with the appropriate segment pluralized.
     """
-    parts = word.split("-")
-    # Find the first non-empty segment.
-    idx = 0
-    while idx < len(parts) and not parts[idx]:
-        idx += 1
-    if idx >= len(parts):
-        return word
-
-    first = parts[idx].lower()
-
-    # Check if the last segment should be pluralized instead of the first
-    if first in _LAST_SEGMENT_PLURAL_FIRST_WORDS:
-        last_idx = len(parts) - 1
-        while last_idx >= 0 and not parts[last_idx]:
-            last_idx -= 1
-        if last_idx >= 0:
-            parts[last_idx] = pluralize(parts[last_idx], lang=lang, count=count)
-        return "-".join(parts)
-
-    # French/Italian: pluralize all noun segments (skip function words)
-    if lang in ("fr", "it"):
-        skip = _FR_HYPHEN_SKIP if lang == "fr" else _IT_HYPHEN_SKIP
-        for i, part in enumerate(parts):
-            if part and part.lower() not in skip:
-                parts[i] = pluralize(part, lang=lang, count=count)
-        return "-".join(parts)
-
-    parts[idx] = pluralize(parts[idx], lang=lang, count=count)
-    return "-".join(parts)
+    return _transform_hyphenated(word, lang, is_plural=True, count=count)
 
 
 def _singularize_hyphenated(word: str, lang: str) -> str:
@@ -283,37 +316,7 @@ def _singularize_hyphenated(word: str, lang: str) -> str:
     Returns:
         The word with the appropriate segment singularized.
     """
-    parts = word.split("-")
-    # Find the first non-empty segment.
-    idx = 0
-    while idx < len(parts) and not parts[idx]:
-        idx += 1
-    if idx >= len(parts):
-        return word
-
-    first = parts[idx].lower()
-
-    # If the first word indicates last-segment pluralization,
-    # singularize the last non-empty segment instead.
-    if first in _LAST_SEGMENT_PLURAL_FIRST_WORDS:
-        last_idx = len(parts) - 1
-        while last_idx >= 0 and not parts[last_idx]:
-            last_idx -= 1
-        if last_idx >= 0:
-            parts[last_idx] = singularize(parts[last_idx], lang=lang)
-        return "-".join(parts)
-
-    # French/Italian: singularize all noun segments (skip function words)
-    if lang in ("fr", "it"):
-        skip = _FR_HYPHEN_SKIP if lang == "fr" else _IT_HYPHEN_SKIP
-        for i, part in enumerate(parts):
-            if part and part.lower() not in skip:
-                parts[i] = singularize(part, lang=lang)
-        return "-".join(parts)
-
-    if idx < len(parts):
-        parts[idx] = singularize(parts[idx], lang=lang)
-    return "-".join(parts)
+    return _transform_hyphenated(word, lang, is_plural=False)
 
 
 def _transform(

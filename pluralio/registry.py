@@ -11,7 +11,7 @@ at runtime via :func:`register` or :func:`pluralio.register_language`.
 Example:
     >>> from pluralio.registry import supported_languages
     >>> supported_languages()
-    ['en', 'es', 'pt']
+    ['en', 'es', 'fr', 'it', 'pt']
 """
 
 from __future__ import annotations
@@ -118,12 +118,12 @@ def supported_languages() -> list[str]:
     """Return a sorted list of all registered language codes.
 
     Returns:
-        Sorted list of ISO 639-1 codes (e.g. ``["en", "es", "pt"]``).
+        Sorted list of ISO 639-1 codes (e.g. ``["en", "es", "fr", "it", "pt"]``).
 
     Example:
         >>> from pluralio.registry import supported_languages
         >>> supported_languages()
-        ['en', 'es', 'pt']
+        ['en', 'es', 'fr', 'it', 'pt']
     """
     return sorted(_REGISTRY)
 
