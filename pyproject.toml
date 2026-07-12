@@ -58,6 +58,10 @@ strict = true
 module = "hypothesis"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = "tests.test_property"
+warn_unused_ignores = false
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--cov=pluralio --cov-report=term-missing --cov-fail-under=95"
