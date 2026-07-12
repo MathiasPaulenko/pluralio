@@ -2,6 +2,25 @@
 
 ## [Unreleased]
 
+## [1.6.1] - 2025-07-13
+
+### Fixed
+
+- `bleu`, `pneu`, `émeu` now pluralize to `bleus`, `pneus`, `émeus` instead of `bleux`, `pneux`, `émeux` (were incorrectly caught by `eu$ → eux` regex; added as irregulars with `+s`)
+- `tuyau`, `noyau`, `boyau`, `sarrau` now pluralize to `tuyaux`, `noyaux`, `boyaux`, `sarraux` instead of `tuyaus`, `noyaus`, etc. (added `au$ → aux` regex rule and irregular mappings)
+- `tuyaux`, `noyaux`, `boyaux`, `sarraux` now singularize back to `tuyau`, `noyau`, `boyau`, `sarrau` instead of `tuyal`, `noyal`, etc. (added to `_EXTRA_SINGLES`)
+- `bail` now pluralizes to `baux` instead of `bails` (was missing from `-ail → -aux` irregulars)
+- `endroit` removed from uncountable — now correctly pluralizes to `endroits`
+- `paris` removed from uncountable — now correctly singularizes to `pari`
+- `fils` added to uncountable (pluralia tantum) — no longer singularizes to `fil`
+- `ideaux`, `émaux` (accentless variants) now singularize to `ideal`, `email` via `_EXTRA_SINGLES`
+
+### Added
+
+- `au$ → aux` pluralization regex rule (between `eau$` and `eu$`)
+- Accentless variant mappings for `ideaux → ideal` and `emaux → email`
+- Tests for all new irregulars and fixed cases
+
 ## [1.6.0] - 2025-07-13
 
 ### Added
