@@ -118,6 +118,11 @@ class TestItalianIrregularSingles:
         ("abbracci", "abbraccio"), ("obblighi", "obbligo"),
         ("torri", "torre"), ("corti", "corte"), ("sorti", "sorte"),
         ("morti", "morte"), ("canzoni", "canzone"),
+        ("bicchieri", "bicchiere"), ("giornali", "giornale"), ("mari", "mare"),
+        ("padri", "padre"), ("madri", "madre"), ("rei", "re"),
+        ("zii", "zio"), ("zie", "zia"),
+        ("fratelli", "fratello"), ("nonni", "nonno"), ("nonne", "nonna"),
+        ("cugini", "cugino"), ("cugine", "cugina"),
     ])
     def test_irregular_single(self, plural: str, singular: str) -> None:
         assert singularize(plural, lang="it") == singular
@@ -163,6 +168,11 @@ class TestItalianRoundTrip:
         "sorella", "frusta", "braccio", "lenzuolo", "ciglio",
         "laccio", "straccio", "sacrificio", "abbraccio", "obbligo",
         "torre", "corte", "sorte", "morte", "canzone",
+        "bicchiere", "giornale", "mare",
+        "padre", "madre", "re",
+        "zio", "zia",
+        "fratello", "nonno", "nonna",
+        "cugino", "cugina",
     ])
     def test_roundtrip(self, word: str) -> None:
         assert singularize(pluralize(word, lang="it"), lang="it") == word

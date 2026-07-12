@@ -2,6 +2,23 @@
 
 ## [Unreleased]
 
+## [1.8.1] - 2025-07-13
+
+### Fixed
+
+- Italian round-trip for `bicchiere`, `giornale`, `mare`, `padre`, `madre`, `re` (masculine `-e` words that singularized to `-o` instead of `-e`)
+- Italian round-trip for `zio` → `zii` (was singularizing to `zo`)
+- `società` added to uncountables (invariable noun, was being pluralized incorrectly)
+
+### Added
+
+- 13 new Italian irregular plurals: `bicchiere`, `giornale`, `mare`, `padre`, `madre`, `re`, `zio`, `zia`, `fratello`, `nonno`, `nonna`, `cugino`, `cugina`
+
+### Changed
+
+- Italian irregulars expanded: 212 (was 199)
+- Italian uncountables expanded: 117 (was 116)
+
 ## [1.8.0] - 2025-07-13
 
 ### Added

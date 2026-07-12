@@ -2737,6 +2737,11 @@ class TestItIdempotency:
         "sorelle", "fruste", "braccia", "lenzuola", "ciglia",
         "lacci", "stracci", "sacrifici", "abbracci", "obblighi",
         "torri", "corti", "sorti", "morti", "canzoni",
+        "bicchieri", "giornali", "mari",
+        "padri", "madri", "rei",
+        "zii", "zie",
+        "fratelli", "nonni", "nonne",
+        "cugini", "cugine",
         "film", "bar", "bus", "computer", "sport",
     ])
     def test_it_pluralize_already_plural(self, word: str) -> None:
@@ -2791,6 +2796,11 @@ class TestItRoundTrip:
         "sorella", "frusta", "braccio", "lenzuolo", "ciglio",
         "laccio", "straccio", "sacrificio", "abbraccio", "obbligo",
         "torre", "corte", "sorte", "morte", "canzone",
+        "bicchiere", "giornale", "mare",
+        "padre", "madre", "re",
+        "zio", "zia",
+        "fratello", "nonno", "nonna",
+        "cugino", "cugina",
     ])
     def test_it_roundtrip(self, word: str) -> None:
         plural = pluralize(word, lang="it")

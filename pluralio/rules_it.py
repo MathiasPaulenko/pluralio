@@ -137,6 +137,11 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "abbraccio": "abbracci", "obbligo": "obblighi",
     "torre": "torri", "corte": "corti", "sorte": "sorti",
     "morte": "morti", "canzone": "canzoni",
+    "bicchiere": "bicchieri", "giornale": "giornali", "mare": "mari",
+    "padre": "padri", "madre": "madri", "re": "rei",
+    "zio": "zii", "zia": "zie",
+    "fratello": "fratelli", "nonno": "nonni", "nonna": "nonne",
+    "cugino": "cugini", "cugina": "cugine",
 }
 """Mapping of singular → plural for irregular Italian words.
 
@@ -244,7 +249,7 @@ _UNCOUNTABLE: set[str] = {
     "brindisi", "analisi", "tesi", "crisi",
     "oasi", "sintesi", "ipotesi", "diagnosi",
     "paralisi", "catarsi",
-    "specie", "serie",
+    "specie", "serie", "società",
     "caffè", "noir",
     "occhiali", "forbici", "pantaloni",
     "soldi", "nozze", "stoviglie",

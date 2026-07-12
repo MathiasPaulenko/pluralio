@@ -139,6 +139,11 @@ class TestItalianIrregularPlurals:
         ("abbraccio", "abbracci"), ("obbligo", "obblighi"),
         ("torre", "torri"), ("corte", "corti"), ("sorte", "sorti"),
         ("morte", "morti"), ("canzone", "canzoni"),
+        ("bicchiere", "bicchieri"), ("giornale", "giornali"), ("mare", "mari"),
+        ("padre", "padri"), ("madre", "madri"), ("re", "rei"),
+        ("zio", "zii"), ("zia", "zie"),
+        ("fratello", "fratelli"), ("nonno", "nonni"), ("nonna", "nonne"),
+        ("cugino", "cugini"), ("cugina", "cugine"),
     ])
     def test_irregular_plural(self, singular: str, plural: str) -> None:
         assert pluralize(singular, lang="it") == plural
@@ -156,7 +161,7 @@ class TestItalianUncountable:
         "brindisi", "analisi", "tesi", "crisi",
         "oasi", "sintesi", "ipotesi", "diagnosi",
         "paralisi", "catarsi",
-        "specie", "serie",
+        "specie", "serie", "società",
         "occhiali", "forbici", "pantaloni",
         "soldi", "nozze", "stoviglie",
         "vettovaglie",
