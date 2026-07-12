@@ -2726,6 +2726,17 @@ class TestItIdempotency:
         "piogge", "valigie", "rocce", "fasce", "asce",
         "problemi", "temi", "sistemi", "climi", "drammi",
         "programmi", "telegrammi",
+        "schemi", "dogmi", "emblemi", "idiomi", "fantasmi",
+        "pirati", "poeti", "colleghi", "atleti", "artisti",
+        "autisti", "giornalisti", "linguisti", "turisti", "astronauti",
+        "fiumi", "ponti", "clienti", "residenti", "presidenti",
+        "generali", "animali", "fossili", "fucili", "cortili",
+        "volgari", "regolari", "singolari", "particolari",
+        "borse", "coppie", "porte", "torte", "tazze",
+        "sale", "ruote", "penne", "palle", "tele",
+        "sorelle", "fruste", "braccia", "lenzuola", "ciglia",
+        "lacci", "stracci", "sacrifici", "abbracci", "obblighi",
+        "torri", "corti", "sorti", "morti", "canzoni",
         "film", "bar", "bus", "computer", "sport",
     ])
     def test_it_pluralize_already_plural(self, word: str) -> None:
@@ -2769,6 +2780,17 @@ class TestItRoundTrip:
         "pioggia", "valigia", "roccia", "fascia", "ascia",
         "problema", "tema", "sistema", "clima", "dramma",
         "programma", "telegramma",
+        "schema", "dogma", "emblema", "idioma", "fantasma",
+        "pirata", "poeta", "collega", "atleta", "artista",
+        "autista", "giornalista", "linguista", "turista", "astronauta",
+        "fiume", "ponte", "cliente", "residente", "presidente",
+        "generale", "animale", "fossile", "fucile", "cortile",
+        "volgare", "regolare", "singolare", "particolare",
+        "borsa", "coppia", "porta", "torta", "tazza",
+        "sala", "ruota", "penna", "palla", "tela",
+        "sorella", "frusta", "braccio", "lenzuolo", "ciglio",
+        "laccio", "straccio", "sacrificio", "abbraccio", "obbligo",
+        "torre", "corte", "sorte", "morte", "canzone",
     ])
     def test_it_roundtrip(self, word: str) -> None:
         plural = pluralize(word, lang="it")

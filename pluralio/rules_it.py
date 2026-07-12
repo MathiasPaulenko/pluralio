@@ -118,6 +118,25 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "problema": "problemi", "tema": "temi", "sistema": "sistemi",
     "poema": "poemi", "clima": "climi", "dramma": "drammi",
     "programma": "programmi", "telegramma": "telegrammi",
+    "schema": "schemi", "dogma": "dogmi", "emblema": "emblemi",
+    "idioma": "idiomi", "fantasma": "fantasmi", "pirata": "pirati",
+    "poeta": "poeti", "collega": "colleghi", "atleta": "atleti",
+    "artista": "artisti", "autista": "autisti", "giornalista": "giornalisti",
+    "linguista": "linguisti", "turista": "turisti", "astronauta": "astronauti",
+    "fiume": "fiumi", "ponte": "ponti", "cliente": "clienti",
+    "residente": "residenti", "presidente": "presidenti",
+    "generale": "generali", "animale": "animali", "fossile": "fossili",
+    "fucile": "fucili", "cortile": "cortili", "volgare": "volgari",
+    "regolare": "regolari", "singolare": "singolari", "particolare": "particolari",
+    "borsa": "borse", "coppia": "coppie", "porta": "porte",
+    "torta": "torte", "tazza": "tazze", "sala": "sale",
+    "ruota": "ruote", "penna": "penne", "palla": "palle",
+    "tela": "tele", "sorella": "sorelle", "frusta": "fruste",
+    "braccio": "braccia", "lenzuolo": "lenzuola", "ciglio": "ciglia",
+    "laccio": "lacci", "straccio": "stracci", "sacrificio": "sacrifici",
+    "abbraccio": "abbracci", "obbligo": "obblighi",
+    "torre": "torri", "corte": "corti", "sorte": "sorti",
+    "morte": "morti", "canzone": "canzoni",
 }
 """Mapping of singular → plural for irregular Italian words.
 
@@ -232,14 +251,33 @@ _UNCOUNTABLE: set[str] = {
     "vettovaglie",
     "foto", "moto", "radio", "cinema",
     "auto", "biliardo",
+    "streaming", "download", "upload", "post",
+    "hashtag", "follower", "like", "share",
+    "tweet", "link", "click", "login",
+    "logout", "reset", "backup", "input",
+    "output", "format", "record", "report",
+    "budget", "shock", "stop", "start",
+    "loop", "cross", "short", "spot",
+    "sketch", "show", "preview", "trailer",
+    "remake", "sequel", "break", "flop",
+    "tennis", "golf", "hockey", "rugby",
+    "match", "round", "ring", "volley",
+    "sprint", "set", "staff",
+    "città", "virtù", "tè", "perché",
+    "cioè", "sé", "lunedì", "martedì",
+    "mercoledì", "giovedì", "venerdì",
+    "sabato", "domenica",
 }
 """Set of Italian uncountable/invariable words.
 
-Includes foreign loanwords (``film``, ``bar``, ``computer``),
-Greek-origin forms in ``-i`` (``analisi``, ``crisi``, ``tesi``),
-pluralia tantum (``occhiali``, ``forbici``, ``pantaloni``),
-invariable ``-e`` words (``specie``, ``serie``),
-and truncated forms (``foto``, ``moto``, ``auto``).
+Includes foreign loanwords (``film``, ``bar``, ``computer``, ``streaming``,
+``download``, ``link``, ``click``), Greek-origin forms in ``-i``
+(``analisi``, ``crisi``, ``tesi``), pluralia tantum (``occhiali``,
+``forbici``, ``pantaloni``), invariable ``-e`` words (``specie``,
+``serie``), truncated forms (``foto``, ``moto``, ``auto``), accented
+invariables (``città``, ``virtù``, ``tè``, ``perché``), days of the week
+(``lunedì``–``domenica``), and sports terms (``tennis``, ``golf``,
+``hockey``, ``rugby``).
 """
 
 _RULES = LanguageRules(

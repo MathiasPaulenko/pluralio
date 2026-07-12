@@ -99,6 +99,25 @@ class TestItalianIrregularSingles:
         ("problemi", "problema"), ("temi", "tema"), ("sistemi", "sistema"),
         ("poemi", "poema"), ("climi", "clima"), ("drammi", "dramma"),
         ("programmi", "programma"), ("telegrammi", "telegramma"),
+        ("schemi", "schema"), ("dogmi", "dogma"), ("emblemi", "emblema"),
+        ("idiomi", "idioma"), ("fantasmi", "fantasma"), ("pirati", "pirata"),
+        ("poeti", "poeta"), ("colleghi", "collega"), ("atleti", "atleta"),
+        ("artisti", "artista"), ("autisti", "autista"), ("giornalisti", "giornalista"),
+        ("linguisti", "linguista"), ("turisti", "turista"), ("astronauti", "astronauta"),
+        ("fiumi", "fiume"), ("ponti", "ponte"), ("clienti", "cliente"),
+        ("residenti", "residente"), ("presidenti", "presidente"),
+        ("generali", "generale"), ("animali", "animale"), ("fossili", "fossile"),
+        ("fucili", "fucile"), ("cortili", "cortile"), ("volgari", "volgare"),
+        ("regolari", "regolare"), ("singolari", "singolare"), ("particolari", "particolare"),
+        ("borse", "borsa"), ("coppie", "coppia"), ("porte", "porta"),
+        ("torte", "torta"), ("tazze", "tazza"), ("sale", "sala"),
+        ("ruote", "ruota"), ("penne", "penna"), ("palle", "palla"),
+        ("tele", "tela"), ("sorelle", "sorella"), ("fruste", "frusta"),
+        ("braccia", "braccio"), ("lenzuola", "lenzuolo"), ("ciglia", "ciglio"),
+        ("lacci", "laccio"), ("stracci", "straccio"), ("sacrifici", "sacrificio"),
+        ("abbracci", "abbraccio"), ("obblighi", "obbligo"),
+        ("torri", "torre"), ("corti", "corte"), ("sorti", "sorte"),
+        ("morti", "morte"), ("canzoni", "canzone"),
     ])
     def test_irregular_single(self, plural: str, singular: str) -> None:
         assert singularize(plural, lang="it") == singular
@@ -133,6 +152,17 @@ class TestItalianRoundTrip:
         "pioggia", "valigia", "roccia", "fascia", "ascia",
         "problema", "tema", "sistema", "clima", "dramma",
         "programma", "telegramma",
+        "schema", "dogma", "emblema", "idioma", "fantasma",
+        "pirata", "poeta", "collega", "atleta", "artista",
+        "autista", "giornalista", "linguista", "turista", "astronauta",
+        "fiume", "ponte", "cliente", "residente", "presidente",
+        "generale", "animale", "fossile", "fucile", "cortile",
+        "volgare", "regolare", "singolare", "particolare",
+        "borsa", "coppia", "porta", "torta", "tazza",
+        "sala", "ruota", "penna", "palla", "tela",
+        "sorella", "frusta", "braccio", "lenzuolo", "ciglio",
+        "laccio", "straccio", "sacrificio", "abbraccio", "obbligo",
+        "torre", "corte", "sorte", "morte", "canzone",
     ])
     def test_roundtrip(self, word: str) -> None:
         assert singularize(pluralize(word, lang="it"), lang="it") == word

@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [1.8.0] - 2025-07-13
+
+### Added
+
+- 54 new Italian irregular plurals: Greek-origin masculine `-a` (`schema`, `dogma`, `emblema`, `idioma`, `fantasma`), profession nouns in `-ista` (`artista`, `autista`, `giornalista`, `linguista`, `turista`, `astronauta`), masculine `-e` nouns (`fiume`, `ponte`, `cliente`, `residente`, `presidente`, `generale`, `animale`, `fossile`, `fucile`, `cortile`), adjectives in `-are` (`volgare`, `regolare`, `singolare`, `particolare`), feminine `-a` nouns (`borsa`, `coppia`, `porta`, `torta`, `tazza`, `sala`, `ruota`, `penna`, `palla`, `tela`, `sorella`, `frusta`), body part irregulars (`braccio → braccia`, `lenzuolo → lenzuola`, `ciglio → ciglia`), `-cio` words (`laccio`, `straccio`, `sacrificio`, `abbraccio`), `-go` piana (`obbligo → obblighi`), and feminine `-e` nouns (`torre`, `corte`, `sorte`, `morte`, `canzone`)
+- 60 new Italian uncountables: tech loanwords (`streaming`, `download`, `upload`, `hashtag`, `follower`, `like`, `share`, `tweet`, `link`, `click`, `login`, `logout`, `reset`, `backup`, `input`, `output`, `format`, `record`, `report`, `budget`), media terms (`show`, `preview`, `trailer`, `remake`, `sequel`, `break`, `flop`, `sketch`, `spot`), sports (`tennis`, `golf`, `hockey`, `rugby`, `match`, `round`, `ring`, `volley`, `sprint`, `set`), accented invariables (`città`, `virtù`, `tè`, `perché`, `cioè`, `sé`), days of the week (`lunedì`–`domenica`), and misc (`shock`, `stop`, `start`, `loop`, `cross`, `short`, `staff`)
+
+### Changed
+
+- Italian irregulars expanded: 199 (was 145)
+- Italian uncountables expanded: 116 (was 56)
+
 ## [1.7.2] - 2025-07-13
 
 ### Fixed
