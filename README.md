@@ -293,7 +293,7 @@ How does pluralio compare to other Python inflection libraries?
 | Spanish | `es` | 9 + 8 | 352 + 81 extra singles | 92 | ✅ Complete |
 | Portuguese | `pt` | 8 + 13 | 388 + 88 extra singles | 88 | ✅ Complete |
 | French | `fr` | 6 + 4 | 104 + 27 extra singles | 81 | ✅ Complete |
-| Italian | `it` | 15 + 8 | 121 + 0 extra singles | 56 | ✅ Complete |
+| Italian | `it` | 18 + 11 | 145 + 0 extra singles | 56 | ✅ Complete |
 
 ## Roadmap
 

@@ -2,6 +2,27 @@
 
 ## [Unreleased]
 
+## [1.7.2] - 2025-07-13
+
+### Fixed
+
+- Italian masculine `-e` words (`cuore`, `studente`, `dente`, `nome`, `sole`, `colore`, `valore`, `dottore`, `signore`, `attore`, `professore`, `imperatore`, `scultore`, `pittore`, `scrittore`) now round-trip correctly
+- Italian feminine `-zione`/`-sione` words (`nazione`, `stazione`, `lezione`, `funzione`, etc.) now round-trip correctly via `-ioni → -ione` singular rule
+- Italian masculine `-tore` words now singularize correctly via `-tori → -tore` regex rule
+- Italian feminine `-cia`/`-gia` words after consonant (`pioggia → piogge`, `roccia → rocce`, `fascia → fasce`, `ascia → asce`) now pluralize correctly via consonant-aware regex
+- Italian feminine `-cia`/`-gia` words after vowel (`valigia → valigie`, `camicia → camicie`) now pluralize correctly via vowel-aware regex
+- Italian `-ie` feminine words (`superficie → superfici`, `effigie → effigi`) now pluralize correctly via `-ie → -i` regex rule
+- Italian Greek-origin masculine `-a` words (`problema → problemi`, `sistema → sistemi`, `clima → climi`, `dramma → drammi`, `programma → programmi`, etc.) now pluralize correctly as irregulars
+- Italian masculine `-io` words (`studio → studi`, `esercizio → esercizi`) now round-trip correctly as irregulars
+- Italian feminine `-a` plurals (`sedie`, `chiavi`, `isole`, `stelle`, `barche`, etc.) now idempotent as irregulars
+- `is_singular`/`is_plural` now correct for masculine `-e` words (`cuore`, `studente`, etc.)
+- Removed 19 loanwords from `_IRREGULAR_PLURALS` (already in `_UNCOUNTABLE`, no duplication needed)
+
+### Changed
+
+- Italian regex rules expanded: 18 plural rules (was 15), 11 singular rules (was 8)
+- Italian irregulars expanded: 145 (was 121)
+
 ## [1.7.1] - 2025-07-13
 
 ### Fixed

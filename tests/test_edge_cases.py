@@ -2719,6 +2719,13 @@ class TestItIdempotency:
         "case", "scuole", "banane", "gatte", "paste", "piante",
         "famiglie", "squadre", "feste", "donne", "ragazze",
         "macchine", "piazze", "pizze", "bambine",
+        "sedie", "chiavi", "isole", "stelle", "barche",
+        "cuori", "studenti", "denti", "nomi", "soli",
+        "colori", "dottori", "signori", "attori", "professori",
+        "superfici", "effigi", "studi", "esercizi",
+        "piogge", "valigie", "rocce", "fasce", "asce",
+        "problemi", "temi", "sistemi", "climi", "drammi",
+        "programmi", "telegrammi",
         "film", "bar", "bus", "computer", "sport",
     ])
     def test_it_pluralize_already_plural(self, word: str) -> None:
@@ -2755,6 +2762,13 @@ class TestItRoundTrip:
         "casa", "scuola", "banana", "gatta", "pasta", "pianta",
         "famiglia", "squadra", "festa", "donna", "ragazza",
         "macchina", "piazza", "pizza", "bambina",
+        "sedia", "chiave", "isola", "stella", "barca",
+        "cuore", "studente", "dente", "nome", "sole",
+        "colore", "dottore", "signore", "attore", "professore",
+        "superficie", "effigie", "studio", "esercizio",
+        "pioggia", "valigia", "roccia", "fascia", "ascia",
+        "problema", "tema", "sistema", "clima", "dramma",
+        "programma", "telegramma",
     ])
     def test_it_roundtrip(self, word: str) -> None:
         plural = pluralize(word, lang="it")

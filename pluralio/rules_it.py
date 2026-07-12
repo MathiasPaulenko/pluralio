@@ -102,15 +102,22 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "famiglia": "famiglie", "squadra": "squadre", "festa": "feste",
     "donna": "donne", "ragazza": "ragazze", "macchina": "macchine",
     "piazza": "piazze", "pizza": "pizze", "bambina": "bambine",
-    "film": "film", "bar": "bar", "bus": "bus",
-    "computer": "computer", "sport": "sport",
-    "taxi": "taxi", "metro": "metro",
-    "weekend": "weekend", "meeting": "meeting",
-    "club": "club", "leader": "leader",
-    "test": "test", "code": "code",
-    "server": "server", "framework": "framework",
-    "token": "token", "container": "container",
-    "docker": "docker", "script": "script",
+    "sedia": "sedie", "chiave": "chiavi", "isola": "isole",
+    "forchetta": "forchette", "spina": "spine", "pietra": "pietre",
+    "roba": "robe", "camicia": "camicie", "montagna": "montagne",
+    "stella": "stelle", "barca": "barche",
+    "cuore": "cuori", "studente": "studenti", "dente": "denti",
+    "nome": "nomi", "sole": "soli", "colore": "colori", "valore": "valori",
+    "dottore": "dottori", "signore": "signori", "attore": "attori",
+    "professore": "professori", "imperatore": "imperatori",
+    "scultore": "scultori", "pittore": "pittori", "scrittore": "scrittori",
+    "superficie": "superfici", "effigie": "effigi",
+    "studio": "studi", "esercizio": "esercizi",
+    "pioggia": "piogge", "valigia": "valigie",
+    "roccia": "rocce", "fascia": "fasce", "ascia": "asce",
+    "problema": "problemi", "tema": "temi", "sistema": "sistemi",
+    "poema": "poemi", "clima": "climi", "dramma": "drammi",
+    "programma": "programmi", "telegramma": "telegrammi",
 }
 """Mapping of singular → plural for irregular Italian words.
 
@@ -118,7 +125,9 @@ Includes sdrucciola ``-co`` → ``-ci`` and ``-go`` → ``-gi`` words,
 piana ``-go`` → ``-ghi`` explicit mappings, completely irregular
 words, common feminine ``-e`` singulars, masculine ``-io``/``-cio``
 /``-gio`` words, feminine ``-a`` words for plural idempotency,
-and foreign loanwords. All keys and values are lowercase.
+masculine ``-e`` words for round-trip, Greek-origin masculine ``-a``
+words, ``-ie`` feminine words, and additional feminine ``-a`` words
+for plural idempotency. All keys and values are lowercase.
 """
 
 _IRREGULAR_SINGLES: dict[str, str] = {v: k for k, v in _IRREGULAR_PLURALS.items()}
@@ -143,7 +152,10 @@ _PLURAL_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"ghi$"), r"\g<0>"),
     (re.compile(r"io$"), "i"),
     (re.compile(r"o$"), "i"),
+    (re.compile(r"([bcdfghlmnpqrstvz])([cg])ia$"), r"\1\2e"),
+    (re.compile(r"([aeiou])([cg])ia$"), r"\1\2ie"),
     (re.compile(r"a$"), "e"),
+    (re.compile(r"ie$"), "i"),
     (re.compile(r"e$"), "i"),
     (re.compile(r"i$"), r"\g<0>"),
     (re.compile(r"[sx]$"), r"\g<0>"),
@@ -160,13 +172,14 @@ Order matters: more specific patterns must come before generic ones.
    sdrucciola exceptions in irregulars).
 5-8. Words ending in ``che``, ``ghe``, ``chi``, ``ghi`` → invariable
    (already plural, idempotency).
-9. Words ending in ``io`` → replace with ``i`` (vizio → vizi).
 10. Words ending in ``o`` → replace with ``i`` (libro → libri).
-11. Words ending in ``a`` → replace with ``e`` (casa → case).
-12. Words ending in ``e`` → replace with ``i`` (cane → cani).
-13. Words ending in ``i`` → invariable (already plural, idempotency).
-14. Words ending in ``s`` or ``x`` → invariable (no change).
-15. Default → append ``i``.
+11. Consonant + ``ia`` → replace with ``e`` (pioggia → piogge).
+12. Words ending in ``a`` → replace with ``e`` (casa → case).
+13. Words ending in ``ie`` → replace with ``i`` (superficie → superfici).
+14. Words ending in ``e`` → replace with ``i`` (cane → cani).
+15. Words ending in ``i`` → invariable (already plural, idempotency).
+16. Words ending in ``s`` or ``x`` → invariable (no change).
+17. Default → append ``i``.
 """
 
 _SINGULAR_RULES: list[tuple[re.Pattern[str], str]] = [
@@ -174,8 +187,11 @@ _SINGULAR_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"ghe$"), "ga"),
     (re.compile(r"chi$"), "co"),
     (re.compile(r"ghi$"), "go"),
+    (re.compile(r"([bcdfghlmnpqrstvz])([cg])e$"), r"\1\2ia"),
     (re.compile(r"ci$"), "ce"),
     (re.compile(r"gi$"), "ge"),
+    (re.compile(r"ioni$"), "ione"),
+    (re.compile(r"tori$"), "tore"),
     (re.compile(r"i$"), "o"),
     (re.compile(r"e$"), "a"),
 ]
@@ -186,12 +202,16 @@ Order matters: more specific patterns must come before generic ones.
 2. Words ending in ``ghe`` → replace with ``ga`` (leghe → lega).
 3. Words ending in ``chi`` → replace with ``co`` (banchi → banco).
 4. Words ending in ``ghi`` → replace with ``go`` (laghi → lago).
-5. Words ending in ``ci`` → replace with ``ce`` (luci → luce;
+5. Consonant + ``ce`` → replace with ``cia`` (rocce → roccia).
+6. Consonant + ``ge`` → replace with ``gia`` (piogge → pioggia).
+7. Words ending in ``ci`` → replace with ``ce`` (luci → luce;
    ``-co`` words handled by extra singles).
-6. Words ending in ``gi`` → replace with ``ge``.
-7. Words ending in ``i`` → replace with ``o`` (libri → libro;
+8. Words ending in ``gi`` → replace with ``ge``.
+9. Words ending in ``ioni`` → replace with ``ione`` (nazioni → nazione).
+10. Words ending in ``tori`` → replace with ``tore`` (dottori → dottore).
+11. Words ending in ``i`` → replace with ``o`` (libri → libro;
    ``-e`` and ``-io`` words handled by extra singles).
-8. Words ending in ``e`` → replace with ``a`` (case → casa).
+12. Words ending in ``e`` → replace with ``a`` (case → casa).
 """
 
 _UNCOUNTABLE: set[str] = {
