@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [2.1.2] - 2025-07-13
+
+### Fixed
+
+- `restore()` now clears the `lru_cache` via lazy import of `_clear_regex_cache`, preventing stale results after registry restoration (critical for test isolation in `conftest.py`)
+- `_match_case()` no longer lowercases target when source contains no uppercase letters (e.g. digit-only sources like `"123"`)
+- `register_language()` removed redundant `_clear_regex_cache()` call — `register()` already handles cache clearing
+
+### Added
+
+- Regression tests for all three bug fixes
+
 ## [2.1.1] - 2025-07-13
 
 ### Fixed

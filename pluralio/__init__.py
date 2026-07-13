@@ -311,7 +311,6 @@ def register_language(
         singular_rules=compiled_singular,
         uncountable={w.lower() for w in (uncountable or set())},
     ))
-    _clear_regex_cache()
 
 
 def is_plural(word: str, lang: str = "en") -> bool:

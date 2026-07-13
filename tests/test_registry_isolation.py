@@ -156,6 +156,19 @@ class TestRegisterLanguage:
         assert pluralize("cat") == "catXYZ"
         restore(state)
 
+    def test_restore_clears_regex_cache(self) -> None:
+        from pluralio.registry import restore, snapshot
+
+        state = snapshot()
+        # Populate cache with default English rules
+        assert pluralize("foo") == "foos"
+        # Add custom rule and populate cache with it
+        add_plural_rule(r"foo$", "FOOBAR")
+        assert pluralize("foo") == "FOOBAR"
+        # Restore should clear cache — foo should go back to "foos"
+        restore(state)
+        assert pluralize("foo") == "foos"
+
 
 class TestMatchCaseEdgeCases:
     def test_empty_target_lowercase_source(self) -> None:
@@ -169,3 +182,9 @@ class TestMatchCaseEdgeCases:
     def test_empty_target_all_caps_source(self) -> None:
         add_irregular("TESTWORD", "")
         assert pluralize("TESTWORD") == ""
+
+    def test_digit_only_source_preserves_target_case(self) -> None:
+        from pluralio.core import _match_case
+
+        assert _match_case("123", "ABC") == "ABC"
+        assert _match_case("42", "Hello") == "Hello"

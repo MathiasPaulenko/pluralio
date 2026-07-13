@@ -158,3 +158,6 @@ def restore(state: dict[str, LanguageRules]) -> None:
     """
     _REGISTRY.clear()
     _REGISTRY.update(state)
+    from pluralio.core import _clear_regex_cache
+
+    _clear_regex_cache()
