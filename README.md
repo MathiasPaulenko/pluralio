@@ -321,22 +321,12 @@ Benchmark: 100,000 calls across 13 mixed-language words (English, Spanish, Portu
 | Version | Goal | Status |
 | --- | --- | --- |
 | `1.0.0` | English + Spanish, core engine, extensibility API | ✅ Released |
-| `1.1.0` | English classical plurals, uncountables, suffix rules | ✅ Released |
-| `1.2.0` | English -che words, compound prefixes, whitespace | ✅ Released |
-| `1.3.0` | English expansion (Latin/Greek, proper nouns, -o words) | ✅ Released |
-| `1.4.0` | Spanish expansion (loanwords, accent restoration, uncountables, idempotency fix) | ✅ Released |
 | `1.5.0` | Portuguese (`pt`) | ✅ Released |
 | `1.6.0` | French (`fr`) | ✅ Released |
 | `1.7.0` | Italian (`it`) | ✅ Released |
-| `1.8.3` | Robustness fixes, code quality improvements, expanded lint rules | ✅ Released |
 | `2.0.0` | Rules restructured into `pluralio/rules/` subpackage, performance optimization | ✅ Released |
-| `2.0.1` | CI fixes, hyphenated dedup, docs update, Python 3.14 support | ✅ Released |
-| `2.0.2` | Simplified is_plural/is_singular, README fixes, release.yml Python 3.14 | ✅ Released |
 | `2.1.0` | Esperanto (`eo`) — trivial `-j` plural | ✅ Released |
-| `2.1.1` | Bug fixes: Esperanto double-plural, register() cache, _match_case empty target | ✅ Released |
-| `2.1.2` | Bug fixes: restore() cache clearing, _match_case digit-only source, register_language redundant call | ✅ Released |
 | `2.2.0` | Catalan (`ca`) — Romance, natural fit | 🔜 Planned |
-| `2.3.0` | Dutch (`nl`) — Germanic, `-en` / `-s` patterns | 🔜 Planned |
 | `3.0.0` | German (`de`) — umlauts + multiple plural patterns | 🔜 Planned |
 
 ## Contributing
