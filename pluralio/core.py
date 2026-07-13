@@ -39,16 +39,17 @@ def _match_case(source: str, target: str) -> str:
     """Apply the casing pattern of ``source`` to ``target``.
 
     Four modes are supported:
-    - **All caps**: if ``source`` is entirely uppercase, ``target``
-      is returned in uppercase.
-    - **Title case**: if only the first character of ``source`` is
-      uppercase and the rest are lowercase, ``target`` is capitalized
-      on its first character.
-    - **Mixed case**: if ``source`` has uppercase letters beyond the
-      first character but is not all caps, each character position in
-      ``target`` mirrors the case of the corresponding position in
-      ``source``. Extra characters in ``target`` default to lowercase.
-    - **Lowercase**: otherwise ``target`` is returned unchanged.
+
+    1. **All caps**: if ``source`` is entirely uppercase, ``target``
+       is returned in uppercase.
+    2. **Title case**: if only the first character of ``source`` is
+       uppercase and the rest are lowercase, ``target`` is capitalized
+       on its first character.
+    3. **Mixed case**: if ``source`` has uppercase letters beyond the
+       first character but is not all caps, each character position in
+       ``target`` mirrors the case of the corresponding position in
+       ``source``. Extra characters in ``target`` default to lowercase.
+    4. **Lowercase**: otherwise ``target`` is returned unchanged.
 
     Args:
         source: The original word whose casing pattern to replicate.

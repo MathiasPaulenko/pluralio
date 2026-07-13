@@ -16,3 +16,4 @@ venv/
 htmlcov/
 .hypothesis/
 ref/
+docs/_build/
