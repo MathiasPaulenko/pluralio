@@ -29,6 +29,7 @@ Homepage = "https://github.com/MathiasPaulenko/pluralio"
 Repository = "https://github.com/MathiasPaulenko/pluralio"
 "Bug Tracker" = "https://github.com/MathiasPaulenko/pluralio/issues"
 Changelog = "https://github.com/MathiasPaulenko/pluralio/blob/main/CHANGELOG.md"
+Documentation = "https://mathiaspaulenko.github.io/pluralio/"
 
 [project.optional-dependencies]
 dev = [

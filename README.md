@@ -14,6 +14,7 @@ English · Spanish · Portuguese · French · Italian · Esperanto · Zero depen
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-261230.svg?style=flat-square)](https://github.com/astral-sh/ruff)
 [![Type checker: mypy](https://img.shields.io/badge/type%20checker-mypy-blue.svg?style=flat-square)](https://github.com/python/mypy)
 [![Downloads](https://img.shields.io/pypi/dm/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
+[![Docs](https://img.shields.io/badge/docs-sphinx-blue.svg?style=flat-square)](https://mathiaspaulenko.github.io/pluralio/)
 
 </div>
 
