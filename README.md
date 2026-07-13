@@ -276,10 +276,15 @@ How does pluralio compare to other Python inflection libraries?
 | --- | --- | --- | --- | --- |
 | Spanish pluralization | ✅ 100% | ❌ 39% | ⚠️ 74% | ❌ 40% |
 | Spanish singularization | ✅ 100% | ❌ 29% | ⚠️ 87% | ❌ N/A |
+| Portuguese pluralization | ✅ 100% | ❌ | ❌ | ❌ |
+| French pluralization | ✅ 100% | ❌ | ❌ | ❌ |
+| Italian pluralization | ✅ 100% | ❌ | ❌ | ❌ |
+| Esperanto pluralization | ✅ 100% | ❌ | ❌ | ❌ |
 | Singularize | ✅ | ✅ | ✅ | ❌ |
 | Count-aware (`count=1`) | ✅ | ✅ | ❌ | ❌ |
 | Case preservation | ✅ | ❌ | ❌ | ✅ |
 | Hyphenated words | ✅ | ❌ | ❌ | ❌ |
+| Unicode normalization (NFC/NFD) | ✅ | ❌ | ❌ | ❌ |
 | Idempotency (ES) | ✅ | ❌ | ❌ | ❌ |
 | Uncountables (ES) | ✅ ~87 | ❌ | ❌ | ❌ |
 | Accent restoration (ES) | ✅ | ❌ | ⚠️ Partial | ❌ |
@@ -287,8 +292,9 @@ How does pluralio compare to other Python inflection libraries?
 | Add custom languages | ✅ | ❌ | ✅ | ❌ |
 | Zero dependencies | ✅ | ❌ | ✅ | ✅ |
 | Type hints (`py.typed`) | ✅ | ✅ | ❌ | ❌ |
+| Sphinx documentation | ✅ | ❌ | ❌ | ❌ |
 | Python 3.10+ | ✅ | ✅ | ✅ | ✅ |
-| Test coverage | 97% | ~95% | ~60% | ~70% |
+| Test coverage | 100% | ~95% | ~60% | ~70% |
 
 [inflect]: https://github.com/jazzband/inflect
 [pluralsingular]: https://pypi.org/project/pluralsingular/
