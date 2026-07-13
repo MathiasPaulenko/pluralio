@@ -2,7 +2,7 @@ Extensibility API
 =================
 
 .. automodule:: pluralio
-   :members: add_irregular, add_plural, add_singular, add_uncountable, add_plural_rule, add_singular_rule, register_language, is_plural, is_singular, supported_languages
+   :members: add_irregular, add_plural, add_singular, add_uncountable, add_plural_rule, add_singular_rule, register_language, is_plural, is_singular, supported_languages, join, ordinal, template
    :show-inheritance:
    :no-index:
 

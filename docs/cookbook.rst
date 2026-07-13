@@ -145,3 +145,55 @@ Checking word forms
    # Multi-language
    assert is_plural("gatos", lang="es")
    assert is_singular("gato", lang="es")
+
+Joining words into a list
+-------------------------
+
+.. code-block:: python
+
+   from pluralio import join
+
+   join(["apple"])                              # "apple"
+   join(["apple", "banana"])                    # "apple and banana"
+   join(["apple", "banana", "carrot"])          # "apple, banana, and carrot"
+   join(["apple", "banana", "carrot"], final_sep="")  # "apple, banana and carrot"
+   join(["apple", "banana", "carrot"], conjunction="or")  # "apple, banana, or carrot"
+
+Converting numbers to ordinals
+------------------------------
+
+.. code-block:: python
+
+   from pluralio import ordinal
+
+   ordinal(1)    # "1st"
+   ordinal(2)    # "2nd"
+   ordinal(3)    # "3rd"
+   ordinal(11)   # "11th"
+   ordinal(21)   # "21st"
+   ordinal(101)  # "101st"
+   ordinal("5")  # "5th"
+
+Template interpolation
+----------------------
+
+.. code-block:: python
+
+   from pluralio import template
+
+   # Count-aware pluralization
+   template("I have {count} {word:pluralize}", count=5, word="cat")  # "I have 5 cats"
+   template("I have {count} {word:pluralize}", count=1, word="cat")  # "I have 1 cat"
+
+   # Singularize
+   template("The {word:singularize} is here", word="mice")  # "The mouse is here"
+
+   # Without count — always plural
+   template("{word:pluralize} arrived", word="box")  # "boxes arrived"
+
+   # Custom count variable
+   template("{num} {word:pluralize:num}", num=1, word="cat")  # "1 cat"
+
+   # Combined with ordinal
+   from pluralio import ordinal
+   template("The {pos} place", pos=ordinal(2))  # "The 2nd place"

@@ -24,9 +24,10 @@ English · Spanish · Portuguese · French · Italian · Esperanto · Zero depen
 
 - **Zero dependencies** — pure Python standard library, nothing else to install
 - **Type-safe** — full type hints, `py.typed` marker included (PEP 561)
-- **100% test coverage** — 7,143 tests, every line is verified
+- **100% test coverage** — 7,188 tests, every line is verified
 - **6 languages** — English, Spanish, Portuguese, French, Italian, Esperanto
 - **Extensible at runtime** — add irregulars, rules, uncountables, or entire languages without touching source code
+- **Utility functions** — `join()`, `ordinal()`, `template()` for common UI tasks
 - **Case preservation** — `"Library"` → `"Libraries"`, `"BOX"` → `"BOXES"`
 - **Count-aware** — `pluralize("item", count=1)` → `"item"`
 - **Hyphenated words** — `"mother-in-law"` → `"mothers-in-law"`
@@ -145,6 +146,22 @@ pluralio.is_singular("cat")           # True
 pluralio.is_plural("sheep")            # True   (uncountable — valid as both)
 pluralio.is_singular("sheep")          # True   (uncountable — valid as both)
 pluralio.is_plural("gatos", lang="es") # True
+
+# ── Join words into a list ────────────────────────────────────
+pluralio.join(["apple", "banana", "carrot"])              # "apple, banana, and carrot"
+pluralio.join(["apple", "banana", "carrot"], final_sep="") # "apple, banana and carrot"
+pluralio.join(["apple", "banana", "carrot"], conjunction="or") # "apple, banana, or carrot"
+
+# ── Ordinals ──────────────────────────────────────────────────
+pluralio.ordinal(1)    # "1st"
+pluralio.ordinal(2)    # "2nd"
+pluralio.ordinal(11)   # "11th"
+pluralio.ordinal(21)   # "21st"
+
+# ── Template interpolation ────────────────────────────────────
+pluralio.template("I have {count} {word:pluralize}", count=5, word="cat")  # "I have 5 cats"
+pluralio.template("I have {count} {word:pluralize}", count=1, word="cat")  # "I have 1 cat"
+pluralio.template("The {word:singularize} is here", word="mice")          # "The mouse is here"
 ```
 
 ## How it works
@@ -195,6 +212,14 @@ Every word goes through a **three-step priority chain**:
 | `is_plural(word, lang="en")` | Check if a word is in plural form. |
 | `is_singular(word, lang="en")` | Check if a word is in singular form. |
 | `supported_languages()` | Return a sorted list of registered language codes. |
+
+### Utility functions
+
+| Function | Description |
+| --- | --- |
+| `join(words, *, conjunction="and", final_sep=", ", sep=", ")` | Join words into a natural-language list. |
+| `ordinal(number)` | Convert a number to its ordinal string (`1` → `"1st"`). |
+| `template(text, **kwargs)` | Interpolate pluralize/singularize into string templates. |
 
 ### Extensibility functions
 
@@ -313,11 +338,11 @@ How does pluralio compare to other Python inflection libraries?
 | Number to words | ❌ | ✅ | ❌ | ❌ |
 | Ordinals (`1` → `1st`) | ❌ | ✅ | ❌ | ❌ |
 | Indefinite articles (`a`/`an`) | ❌ | ✅ | ❌ | ❌ |
-| Join words into a list | ❌ | ✅ | ❌ | ❌ |
+| Join words into a list | ✅ | ✅ | ❌ | ❌ |
 | Present participle | ❌ | ✅ | ❌ | ❌ |
 | Classical pluralization modes | ❌ | ✅ | ❌ | ❌ |
 | Part-of-speech inflection | ❌ | ✅ | ❌ | ❌ |
-| Template interpolation | ❌ | ✅ | ❌ | ❌ |
+| Template interpolation | ✅ | ✅ | ❌ | ❌ |
 | English-only maturity | 6 languages | Deep EN | EN only | EN only |
 
 [inflect]: https://github.com/jazzband/inflect
@@ -356,7 +381,8 @@ Benchmark: 100,000 calls across 13 mixed-language words (English, Spanish, Portu
 | `1.7.0` | Italian (`it`) | ✅ Released |
 | `2.0.0` | Rules restructured into `pluralio/rules/` subpackage, performance optimization | ✅ Released |
 | `2.1.0` | Esperanto (`eo`) — trivial `-j` plural | ✅ Released |
-| `2.2.0` | Catalan (`ca`) — Romance, natural fit | 🔜 Planned |
+| `2.2.0` | Utility functions: `join()`, `ordinal()`, `template()` | ✅ Released |
+| `2.3.0` | Catalan (`ca`) — Romance, natural fit | 🔜 Planned |
 | `3.0.0` | German (`de`) — umlauts + multiple plural patterns | 🔜 Planned |
 
 ## Changelog
@@ -365,6 +391,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full history.
 
 ### Recent releases
 
+- **2.2.0** — Utility functions: `join()`, `ordinal()`, `template()`
 - **2.1.2** — Bug fixes: `restore()` cache clearing, `_match_case` digit-only source, `register_language` redundant call
 - **2.1.1** — Bug fixes: Esperanto double-plural, `register()` cache, `_match_case` empty target
 - **2.1.0** — Esperanto (`eo`) support

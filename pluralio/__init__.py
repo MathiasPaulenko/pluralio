@@ -13,6 +13,9 @@ Public API:
     - :func:`register_language`: Register a new language with its rules.
     - :func:`is_plural`: Check if a word is in plural form.
     - :func:`is_singular`: Check if a word is in singular form.
+    - :func:`join`: Join words into a natural-language list.
+    - :func:`ordinal`: Convert a number to its ordinal string (1 → "1st").
+    - :func:`template`: Interpolate pluralize/singularize into string templates.
     - :class:`LanguageRules`: Dataclass for custom language rules.
     - :func:`register`: Low-level registry registration.
     - :func:`get_rules`: Low-level registry lookup.
@@ -58,6 +61,7 @@ from pluralio.registry import (
     register,
     supported_languages,
 )
+from pluralio.utils import join, ordinal, template
 
 
 def _read_version() -> str:
@@ -92,6 +96,9 @@ __all__ = [
     "register_language",
     "is_plural",
     "is_singular",
+    "join",
+    "ordinal",
+    "template",
     "__version__",
 ]
 

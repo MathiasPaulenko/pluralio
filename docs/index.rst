@@ -66,6 +66,7 @@ Documentation
    api/core
    api/registry
    api/extensibility
+   api/utils
    api/rules
 
 .. toctree::

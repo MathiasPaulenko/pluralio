@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 project = "pluralio"
 author = "Mathias Paulenko"
-release = "2.1.2"
+release = "2.2.0"
 
 extensions = [
     "sphinx.ext.autodoc",
