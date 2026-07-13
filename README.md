@@ -295,6 +295,15 @@ How does pluralio compare to other Python inflection libraries?
 | Sphinx documentation | ✅ | ❌ | ❌ | ❌ |
 | Python 3.10+ | ✅ | ✅ | ✅ | ✅ |
 | Test coverage | 100% | ~95% | ~60% | ~70% |
+| Number to words | ❌ | ✅ | ❌ | ❌ |
+| Ordinals (`1` → `1st`) | ❌ | ✅ | ❌ | ❌ |
+| Indefinite articles (`a`/`an`) | ❌ | ✅ | ❌ | ❌ |
+| Join words into a list | ❌ | ✅ | ❌ | ❌ |
+| Present participle | ❌ | ✅ | ❌ | ❌ |
+| Classical pluralization modes | ❌ | ✅ | ❌ | ❌ |
+| Part-of-speech inflection | ❌ | ✅ | ❌ | ❌ |
+| Template interpolation | ❌ | ✅ | ❌ | ❌ |
+| English-only maturity | 6 languages | Deep EN | EN only | EN only |
 
 [inflect]: https://github.com/jazzband/inflect
 [pluralsingular]: https://pypi.org/project/pluralsingular/
