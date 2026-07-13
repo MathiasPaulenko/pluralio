@@ -153,8 +153,18 @@ def snapshot() -> dict[str, LanguageRules]:
 def restore(state: dict[str, LanguageRules]) -> None:
     """Replace the current registry with a previously snapshotted state.
 
+    Clears the regex application cache to prevent stale results after
+    restoration. This is critical for test isolation — :mod:`conftest`
+    uses ``snapshot`` / ``restore`` around every test.
+
     Args:
         state: A dict previously returned by :func:`snapshot`.
+
+    Example:
+        >>> from pluralio.registry import snapshot, restore
+        >>> state = snapshot()
+        >>> # ... mutations happen ...
+        >>> restore(state)
     """
     _REGISTRY.clear()
     _REGISTRY.update(state)

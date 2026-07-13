@@ -56,6 +56,7 @@ Documentation
    :caption: Guides
 
    usage
+   cookbook
    languages
 
 .. toctree::
@@ -66,6 +67,12 @@ Documentation
    api/registry
    api/extensibility
    api/rules
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Project
+
+   changelog
 
 Indices
 -------

@@ -43,6 +43,7 @@ dev = [
 docs = [
     "sphinx>=7.0",
     "furo>=2024.0",
+    "myst-parser>=3.0",
 ]
 
 [tool.hatch.build.targets.wheel]

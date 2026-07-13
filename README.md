@@ -9,7 +9,7 @@ English · Spanish · Portuguese · French · Italian · Esperanto · Zero depen
 [![PyPI version](https://img.shields.io/pypi/v/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
 [![Python versions](https://img.shields.io/pypi/pyversions/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
 [![CI](https://github.com/MathiasPaulenko/pluralio/actions/workflows/ci.yml/badge.svg?style=flat-square)](https://github.com/MathiasPaulenko/pluralio/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-97%25-brightgreen?style=flat-square)](https://github.com/MathiasPaulenko/pluralio)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?style=flat-square)](https://github.com/MathiasPaulenko/pluralio)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-261230.svg?style=flat-square)](https://github.com/astral-sh/ruff)
 [![Type checker: mypy](https://img.shields.io/badge/type%20checker-mypy-blue.svg?style=flat-square)](https://github.com/python/mypy)
@@ -24,11 +24,14 @@ English · Spanish · Portuguese · French · Italian · Esperanto · Zero depen
 
 - **Zero dependencies** — pure Python standard library, nothing else to install
 - **Type-safe** — full type hints, `py.typed` marker included (PEP 561)
-- **97% test coverage** — 7,066 tests, every line is verified
+- **100% test coverage** — 7,143 tests, every line is verified
+- **6 languages** — English, Spanish, Portuguese, French, Italian, Esperanto
 - **Extensible at runtime** — add irregulars, rules, uncountables, or entire languages without touching source code
 - **Case preservation** — `"Library"` → `"Libraries"`, `"BOX"` → `"BOXES"`
 - **Count-aware** — `pluralize("item", count=1)` → `"item"`
 - **Hyphenated words** — `"mother-in-law"` → `"mothers-in-law"`
+- **Unicode normalization** — NFC/NFD inputs handled transparently
+- **Sphinx documentation** — full API reference at [mathiaspaulenko.github.io/pluralio](https://mathiaspaulenko.github.io/pluralio/)
 - **Python 3.10+** — tested on 3.10, 3.11, 3.12, 3.13, and 3.14
 
 ## Table of contents
@@ -47,6 +50,7 @@ English · Spanish · Portuguese · French · Italian · Esperanto · Zero depen
 - [Performance](#performance)
 - [Supported languages](#supported-languages)
 - [Roadmap](#roadmap)
+- [Changelog](#changelog)
 - [Contributing](#contributing)
 - [Security](#security)
 - [License](#license)
@@ -101,6 +105,18 @@ pluralio.pluralize("bijou", lang="fr")        # "bijoux"
 pluralio.singularize("chevaux", lang="fr")    # "cheval"
 pluralio.singularize("travaux", lang="fr")    # "travail"
 
+# ── Italian ────────────────────────────────────────────────────
+pluralio.pluralize("gatto", lang="it")         # "gatti"
+pluralio.pluralize("amico", lang="it")         # "amici"
+pluralio.pluralize("libro", lang="it")         # "libri"
+pluralio.singularize("amici", lang="it")       # "amico"
+pluralio.singularize("libri", lang="it")       # "libro"
+
+# ── Esperanto ──────────────────────────────────────────────────
+pluralio.pluralize("libro", lang="eo")         # "libroj"
+pluralio.pluralize("librojn", lang="eo")       # "librojn" (already plural)
+pluralio.singularize("libroj", lang="eo")      # "libro"
+
 # ── Count-aware ────────────────────────────────────────────────
 pluralio.pluralize("item", count=1)    # "item"  (singular)
 pluralio.pluralize("item", count=0)    # "items" (plural)
@@ -115,21 +131,20 @@ pluralio.singularize("Libraries")      # "Library"
 pluralio.pluralize("mother-in-law")    # "mothers-in-law"
 pluralio.singularize("mothers-in-law") # "mother-in-law"
 
-# ── Italian ────────────────────────────────────────────────────
-pluralio.pluralize("gatto", lang="it")         # "gatti"
-pluralio.pluralize("amico", lang="it")         # "amici"
-pluralio.pluralize("libro", lang="it")         # "libri"
-pluralio.singularize("amici", lang="it")       # "amico"
-pluralio.singularize("libri", lang="it")       # "libro"
+# ── Unicode normalization ─────────────────────────────────────
+import unicodedata
+nfd = unicodedata.normalize("NFD", "lápiz")  # NFD form
+pluralio.pluralize(nfd, lang="es")     # "lápices" (NFC output)
 
 # ── List supported languages ──────────────────────────────────
-pluralio.supported_languages()         # ["en", "es", "fr", "it", "pt"]
+pluralio.supported_languages()         # ["en", "eo", "es", "fr", "it", "pt"]
 
 # ── Inspect word form ─────────────────────────────────────────
 pluralio.is_plural("cats")             # True
 pluralio.is_singular("cat")           # True
 pluralio.is_plural("sheep")            # True   (uncountable — valid as both)
 pluralio.is_singular("sheep")          # True   (uncountable — valid as both)
+pluralio.is_plural("gatos", lang="es") # True
 ```
 
 ## How it works
@@ -344,6 +359,17 @@ Benchmark: 100,000 calls across 13 mixed-language words (English, Spanish, Portu
 | `2.2.0` | Catalan (`ca`) — Romance, natural fit | 🔜 Planned |
 | `3.0.0` | German (`de`) — umlauts + multiple plural patterns | 🔜 Planned |
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for the full history.
+
+### Recent releases
+
+- **2.1.2** — Bug fixes: `restore()` cache clearing, `_match_case` digit-only source, `register_language` redundant call
+- **2.1.1** — Bug fixes: Esperanto double-plural, `register()` cache, `_match_case` empty target
+- **2.1.0** — Esperanto (`eo`) support
+- **2.0.0** — Rules restructured into `pluralio/rules/` subpackage, performance optimization
+
 ## Contributing
 
 Contributions are welcome! Whether it's a bug report, a new language, or a feature suggestion — please read our guides first:
@@ -364,6 +390,10 @@ pip install -e ".[dev]"
 ruff check pluralio/ tests/
 mypy pluralio/ tests/
 pytest
+
+# Build docs locally
+pip install -e ".[docs]"
+python -m sphinx -b html docs docs/_build/html
 ```
 
 ## Security
