@@ -336,7 +336,7 @@ How does pluralio compare to other Python inflection libraries?
 | Python 3.10+ | ✅ | ✅ | ✅ | ✅ |
 | Test coverage | 100% | ~95% | ~60% | ~70% |
 | Number to words | ❌ | ✅ | ❌ | ❌ |
-| Ordinals (`1` → `1st`) | ❌ | ✅ | ❌ | ❌ |
+| Ordinals (`1` → `1st`) | ✅ | ✅ | ❌ | ❌ |
 | Indefinite articles (`a`/`an`) | ❌ | ✅ | ❌ | ❌ |
 | Join words into a list | ✅ | ✅ | ❌ | ❌ |
 | Present participle | ❌ | ✅ | ❌ | ❌ |
