@@ -10,7 +10,7 @@
 - `ordinal()` — convert a number to its ordinal string representation (1 → "1st", 2 → "2nd", 11 → "11th")
 - `template()` — interpolate pluralize/singularize into string templates with count-aware support
 - `pluralio.utils` module with full docstrings and type hints
-- 45 new tests covering all utility functions
+- 90 tests covering all utility functions, including property-based tests with hypothesis
 - Sphinx documentation page for utility functions
 - Cookbook recipes for join, ordinal, and template
 

@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import pytest
+from hypothesis import given
+from hypothesis import strategies as st
 
 import pluralio
 from pluralio import join, ordinal, template
+from pluralio.utils import _TEMPLATE_PATTERN
 
 
 class TestJoin:
@@ -38,6 +41,45 @@ class TestJoin:
     def test_keyword_only(self) -> None:
         with pytest.raises(TypeError):
             join(["a", "b"], "or")  # type: ignore[misc]
+
+    def test_empty_string_items(self) -> None:
+        assert join(["", ""]) == " and "
+
+    def test_single_empty_string(self) -> None:
+        assert join([""]) == ""
+
+    def test_generator_input(self) -> None:
+        assert join(x for x in ["a", "b", "c"]) == "a, b, and c"
+
+    def test_custom_all_params(self) -> None:
+        result = join(["a", "b", "c"], conjunction="and even", final_sep="; ", sep=" / ")
+        assert result == "a / b; and even c"
+
+    def test_two_items_custom_conjunction(self) -> None:
+        assert join(["a", "b"], conjunction="or") == "a or b"
+
+    def test_two_items_ignores_sep_and_final_sep(self) -> None:
+        assert join(["a", "b"], sep="; ", final_sep="!") == "a and b"
+
+    def test_tuple_input(self) -> None:
+        assert join(("a", "b", "c")) == "a, b, and c"
+
+    def test_one_item_tuple(self) -> None:
+        assert join(("only",)) == "only"
+
+    def test_three_items_no_final_sep_with_custom_sep(self) -> None:
+        assert join(["a", "b", "c"], sep="; ", final_sep="") == "a; b and c"
+
+    @given(st.lists(st.text(min_size=1, max_size=10), min_size=3, max_size=20))  # type: ignore[untyped-decorator]
+    def test_join_always_ends_with_last_item(self, items: list[str]) -> None:
+        result = join(items)
+        assert result.endswith(items[-1])
+
+    @given(st.lists(st.text(min_size=1, max_size=10), min_size=1, max_size=20))  # type: ignore[untyped-decorator]
+    def test_join_contains_all_items(self, items: list[str]) -> None:
+        result = join(items)
+        for item in items:
+            assert item in result
 
 
 class TestOrdinal:
@@ -83,6 +125,18 @@ class TestOrdinal:
     def test_negative(self) -> None:
         assert ordinal(-1) == "-1st"
 
+    def test_negative_two(self) -> None:
+        assert ordinal(-2) == "-2nd"
+
+    def test_negative_three(self) -> None:
+        assert ordinal(-3) == "-3rd"
+
+    def test_negative_eleven(self) -> None:
+        assert ordinal(-11) == "-11th"
+
+    def test_negative_111(self) -> None:
+        assert ordinal(-111) == "-111th"
+
     def test_string_input(self) -> None:
         assert ordinal("5") == "5th"
 
@@ -92,6 +146,9 @@ class TestOrdinal:
     def test_large_number(self) -> None:
         assert ordinal(1000) == "1000th"
 
+    def test_large_number_st(self) -> None:
+        assert ordinal(1001) == "1001st"
+
     def test_111_to_120_all_th(self) -> None:
         for n in range(111, 121):
             assert ordinal(n) == f"{n}th"
@@ -99,6 +156,29 @@ class TestOrdinal:
     def test_invalid_string(self) -> None:
         with pytest.raises(ValueError, match="invalid literal"):
             ordinal("abc")
+
+    def test_very_large_number(self) -> None:
+        assert ordinal(10**6) == "1000000th"
+
+    def test_very_large_number_st(self) -> None:
+        assert ordinal(10**6 + 1) == "1000001st"
+
+    @given(st.integers(min_value=0, max_value=10000))  # type: ignore[untyped-decorator]
+    def test_ordinal_ends_with_valid_suffix(self, n: int) -> None:
+        result = ordinal(n)
+        assert result.endswith(("st", "nd", "rd", "th"))
+
+    @given(st.integers(min_value=0, max_value=10000))  # type: ignore[untyped-decorator]
+    def test_ordinal_starts_with_number(self, n: int) -> None:
+        assert ordinal(n).startswith(str(n))
+
+    @given(st.integers(min_value=4, max_value=20))  # type: ignore[untyped-decorator]
+    def test_teens_are_all_th(self, n: int) -> None:
+        assert ordinal(n) == f"{n}th"
+
+    @given(st.integers(min_value=-10000, max_value=-1))  # type: ignore[untyped-decorator]
+    def test_negative_ordinal_starts_with_number(self, n: int) -> None:
+        assert ordinal(n).startswith(str(n))
 
 
 class TestTemplate:
@@ -151,6 +231,91 @@ class TestTemplate:
         result = template("{word:pluralize} and {word:pluralize}", word="cat")
         assert result == "cats and cats"
 
+    def test_count_as_string(self) -> None:
+        result = template("{count} {word:pluralize}", count="5", word="cat")
+        assert result == "5 cats"
+
+    def test_count_string_one(self) -> None:
+        result = template("{count} {word:pluralize}", count="1", word="cat")
+        assert result == "1 cat"
+
+    def test_custom_count_var_not_in_kwargs(self) -> None:
+        result = template("{num} {word:pluralize:missing}", num=5, word="cat")
+        assert result == "5 cats"
+
+    def test_empty_template(self) -> None:
+        assert template("") == ""
+
+    def test_braces_not_placeholders(self) -> None:
+        assert template("not a {placeholder}", placeholder="value") == "not a value"
+
+    def test_int_value_pluralize(self) -> None:
+        result = template("{word:pluralize}", word=123)
+        assert result == "123s"
+
+    def test_float_value_plain(self) -> None:
+        result = template("Value: {v}", v=3.14)
+        assert result == "Value: 3.14"
+
+    def test_count_zero_is_plural(self) -> None:
+        result = template("{count} {word:pluralize}", count=0, word="mouse")
+        assert result == "0 mice"
+
+    def test_negative_count_is_plural(self) -> None:
+        result = template("{count} {word:pluralize}", count=-1, word="cat")
+        assert result == "-1 cats"
+
+    def test_template_with_irregular(self) -> None:
+        result = template("{count} {word:pluralize}", count=2, word="child")
+        assert result == "2 children"
+
+    def test_template_singularize_irregular(self) -> None:
+        result = template("The {word:singularize}", word="children")
+        assert result == "The child"
+
+    def test_template_pluralize_with_lang(self) -> None:
+        result = template("{word:pluralize}", word="gato")
+        # default lang is "en", so "gato" → "gatoes" (English rule)
+        assert "gato" in result
+
+    def test_mixed_plain_and_transform(self) -> None:
+        result = template(
+            "Dear {name}, you have {count} {word:pluralize}",
+            name="Alice",
+            count=3,
+            word="message",
+        )
+        assert result == "Dear Alice, you have 3 messages"
+
+    def test_adjacent_placeholders(self) -> None:
+        result = template("{a}{b}", a="hello", b="world")
+        assert result == "helloworld"
+
+    def test_template_pattern_matches_pluralize(self) -> None:
+        match = _TEMPLATE_PATTERN.match("{word:pluralize}")
+        assert match is not None
+        assert match.group(1) == "word"
+        assert match.group(2) == "pluralize"
+
+    def test_template_pattern_matches_singularize(self) -> None:
+        match = _TEMPLATE_PATTERN.match("{word:singularize}")
+        assert match is not None
+        assert match.group(2) == "singularize"
+
+    def test_template_pattern_matches_custom_count(self) -> None:
+        match = _TEMPLATE_PATTERN.match("{word:pluralize:n}")
+        assert match is not None
+        assert match.group(3) == "n"
+
+    def test_template_pattern_matches_plain(self) -> None:
+        match = _TEMPLATE_PATTERN.match("{word}")
+        assert match is not None
+        assert match.group(2) is None
+
+    def test_template_pattern_no_match_text(self) -> None:
+        match = _TEMPLATE_PATTERN.match("plain text")
+        assert match is None
+
 
 class TestIntegration:
     def test_join_with_pluralize(self) -> None:
@@ -169,3 +334,29 @@ class TestIntegration:
     def test_join_with_template(self) -> None:
         items = [template("{word:pluralize}", word=w) for w in ["cat", "box"]]
         assert join(items) == "cats and boxes"
+
+    def test_ordinal_in_template(self) -> None:
+        result = template("The {pos} place", pos=ordinal(1))
+        assert result == "The 1st place"
+
+    def test_full_sentence_with_all_utils(self) -> None:
+        items = [pluralio.pluralize(w) for w in ["cat", "box", "child"]]
+        joined = join(items)
+        result = template(
+            "On the {pos} day, {count} {items} arrived",
+            pos=ordinal(3),
+            count=len(items),
+            items=joined,
+        )
+        assert result == "On the 3rd day, 3 cats, boxes, and children arrived"
+
+    def test_join_with_pluralize_count_aware(self) -> None:
+        words = [pluralio.pluralize(w, count=c) for w, c in [("cat", 1), ("dog", 2)]]
+        assert join(words) == "cat and dogs"
+
+    def test_template_with_multilang_pluralize(self) -> None:
+        result_es = pluralio.pluralize("gato", lang="es")
+        result_en = pluralio.pluralize("cat")
+        joined = join([result_es, result_en])
+        assert joined == "gatos and cats"
+

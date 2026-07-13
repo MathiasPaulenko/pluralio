@@ -24,7 +24,7 @@ English · Spanish · Portuguese · French · Italian · Esperanto · Zero depen
 
 - **Zero dependencies** — pure Python standard library, nothing else to install
 - **Type-safe** — full type hints, `py.typed` marker included (PEP 561)
-- **100% test coverage** — 7,188 tests, every line is verified
+- **100% test coverage** — 7,233 tests, every line is verified
 - **6 languages** — English, Spanish, Portuguese, French, Italian, Esperanto
 - **Extensible at runtime** — add irregulars, rules, uncountables, or entire languages without touching source code
 - **Utility functions** — `join()`, `ordinal()`, `template()` for common UI tasks
