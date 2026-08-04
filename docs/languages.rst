@@ -26,19 +26,19 @@ registered automatically when you ``import pluralio``.
    * - Spanish
      - ``es``
      - 9 + 8
-     - 352 + 81
+     - 354
      - 92
      - Complete
    * - Portuguese
      - ``pt``
      - 8 + 13
-     - 388 + 88
+     - 388
      - 88
      - Complete
    * - French
      - ``fr``
      - 6 + 4
-     - 104 + 27
+     - 104
      - 81
      - Complete
    * - Italian
@@ -51,7 +51,7 @@ registered automatically when you ``import pluralio``.
      - ``eo``
      - 4 + 2
      - 0
-     - 33
+     - 39
      - Complete
 
 Language-specific notes
@@ -72,14 +72,11 @@ Spanish (``es``)
 
 - Accent restoration: singulars that lose an accent in the plural are
   handled via irregular mappings (e.g. ``joven`` → ``jóvenes``).
-- 81 extra singular-only entries for accent restoration that cannot
-  be derived from regex rules.
 - 92 uncountables.
 
 Portuguese (``pt``)
 ~~~~~~~~~~~~~~~~~~~
 
-- 88 extra singular-only entries for accent restoration.
 - Hyphenated compound handling for verb+noun constructions
   (``quebra-mar`` → ``quebra-mares``).
 
@@ -103,7 +100,7 @@ Esperanto (``eo``)
 - Simplest pluralization system: ``-j`` suffix for nominative plural,
   ``-jn`` for accusative plural.
 - Zero irregulars — the language is perfectly regular by design.
-- 33 uncountables: pronouns, correlatives, and particles.
+- 39 uncountables: pronouns, correlatives, and particles.
 
 Roadmap
 -------
@@ -114,11 +111,8 @@ Roadmap
    * - Version
      - Goal
      - Status
-   * - ``2.2.0``
-     - Catalan (``ca``)
-     - Planned
    * - ``2.3.0``
-     - Dutch (``nl``)
+     - Catalan (``ca``)
      - Planned
    * - ``3.0.0``
      - German (``de``)

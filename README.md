@@ -4,7 +4,7 @@
 
 **Pluralization and singularization for Python**
 
-English · Spanish · Portuguese · French · Italian · Esperanto · Zero dependencies · Type-safe · Extensible
+6 languages · 7,233 tests · Zero dependencies · Type-safe · Extensible at runtime
 
 [![PyPI version](https://img.shields.io/pypi/v/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
 [![Python versions](https://img.shields.io/pypi/pyversions/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
@@ -365,11 +365,11 @@ Benchmark: 100,000 calls across 13 mixed-language words (English, Spanish, Portu
 | Language | Code | Regex rules | Irregulars | Uncountables | Status |
 | --- | --- | --- | --- | --- | --- |
 | English | `en` | 7 + 22 | 684 | 219 | ✅ Complete |
-| Spanish | `es` | 9 + 8 | 352 + 81 extra singles | 92 | ✅ Complete |
-| Portuguese | `pt` | 8 + 13 | 388 + 88 extra singles | 88 | ✅ Complete |
-| French | `fr` | 6 + 4 | 104 + 27 extra singles | 81 | ✅ Complete |
-| Italian | `it` | 19 + 12 | 239 + 0 extra singles | 144 | ✅ Complete |
-| Esperanto | `eo` | 2 + 2 | 0 | 33 | ✅ Complete |
+| Spanish | `es` | 9 + 8 | 354 | 92 | ✅ Complete |
+| Portuguese | `pt` | 8 + 13 | 388 | 88 | ✅ Complete |
+| French | `fr` | 6 + 4 | 104 | 81 | ✅ Complete |
+| Italian | `it` | 19 + 12 | 239 | 144 | ✅ Complete |
+| Esperanto | `eo` | 4 + 2 | 0 | 39 | ✅ Complete |
 
 ## Roadmap
 
