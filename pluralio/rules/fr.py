@@ -48,8 +48,6 @@ Known limitations:
 - **``-al`` vs ``-als``**: Most ``-al`` words take ``-aux``, but
   ~7 exceptions take ``-als`` (``bal → bals``). These are in
   irregulars.
-
-Reference: ``ref/rules.md`` for the full rules documentation.
 """
 
 from __future__ import annotations
@@ -66,6 +64,9 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "fatal": "fatals",
     "étal": "étals", "val": "vals",
     "gal": "gals", "recal": "recals",
+    # Accentless forms of the -als exceptions
+    "regal": "regals", "recital": "recitals",
+    "email": "emails",
     # ── -ail → -aux (exceptions to the +s rule) ───────────────────
     "travail": "travaux", "vitrail": "vitraux",
     "soupirail": "soupiraux", "corail": "coraux",
@@ -146,14 +147,10 @@ _EXTRA_SINGLES: dict[str, str] = {
     # -aux → -al (for words where singularization regex might not catch)
     "nationaux": "national", "rationaux": "rational",
     "internationaux": "international",
-    # Accentless variants for robustness
-    "ideaux": "ideal", "emaux": "email",
-    "generaux": "general", "hopitaux": "hopital",
-    "metaux": "metal", "signaux": "signal",
-    "regaux": "regal", "recitaux": "recital",
-    "voeux": "voeu",
     # Compound component: "aux" from "au" (e.g. pots-aux-feux → pot-au-feu)
     "aux": "au",
+    # Invariable compound: correct the wrongly-pluralized form
+    "porte-monnaies": "porte-monnaie",
 }
 """Additional plural → singular mappings for French.
 
@@ -163,7 +160,23 @@ should singularize to ``"travail"`` (not ``"traval"``), and
 ``"yeux"`` should singularize to ``"œil"`` (not ``"yeul"``).
 """
 
+_ACCENTLESS_SINGLES: dict[str, str] = {
+    "ideaux": "ideal", "emaux": "email",
+    "generaux": "general", "hopitaux": "hopital",
+    "metaux": "metal", "signaux": "signal",
+    "regaux": "regal", "recitaux": "recital",
+    "voeux": "voeu",
+}
+"""Accentless plural → singular variants for robustness.
+
+Unlike ``_EXTRA_SINGLES``, these are **not** back-propagated into
+``_IRREGULAR_PLURALS``: the unaccented singulars pluralize
+differently (``email`` → ``emails``, ``regal`` → ``regals``,
+``recital`` → ``recitals`` — see the ``-als`` exceptions).
+"""
+
 _IRREGULAR_SINGLES.update(_EXTRA_SINGLES)
+_IRREGULAR_SINGLES.update(_ACCENTLESS_SINGLES)
 
 for _plural, _singular in _EXTRA_SINGLES.items():
     _IRREGULAR_PLURALS.setdefault(_singular, _plural)
@@ -239,6 +252,11 @@ _UNCOUNTABLE: set[str] = {
     "pincettes", "arrérages", "ambages",
     "fraîtures", "mœurs",
     "condoléances", "frais", "gens",
+    # Verb+noun compounds (invariable)
+    "porte-monnaie", "porte-avions", "porte-parole",
+    "porte-bagages", "porte-clés", "porte-documents",
+    "brise-glace", "chauffe-eau", "gagne-pain",
+    "presse-papiers", "abat-jour",
 }
 """Set of French uncountable/invariable words.
 

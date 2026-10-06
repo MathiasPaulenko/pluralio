@@ -54,6 +54,11 @@ class TestFrenchPluralRules:
         for word in ["chats", "livres", "maisons", "bateaux", "chevaux"]:
             assert pluralize(word, lang="fr") == word
 
+    def test_accentless_als_exceptions(self) -> None:
+        for singular, plural in [("email", "emails"), ("regal", "regals"),
+                                 ("recital", "recitals")]:
+            assert pluralize(singular, lang="fr") == plural
+
 
 class TestFrenchIrregularPlurals:
     @pytest.mark.parametrize(("singular", "plural"), [
@@ -151,6 +156,11 @@ class TestFrenchUncountable:
         "pincettes", "arrérages", "ambages",
         "fraîtures", "mœurs",
         "condoléances", "frais", "gens",
+        # Invariable verb+noun compounds
+        "porte-monnaie", "porte-avions", "porte-parole",
+        "porte-bagages", "porte-clés", "porte-documents",
+        "brise-glace", "chauffe-eau", "gagne-pain",
+        "presse-papiers", "abat-jour",
     ])
     def test_uncountable_unchanged(self, word: str) -> None:
         assert pluralize(word, lang="fr") == word

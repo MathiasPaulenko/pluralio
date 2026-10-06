@@ -57,6 +57,7 @@ class TestFrHyphenated:
         ("chou-fleur", "choux-fleurs"),
         ("pot-au-feu", "pots-aux-feux"),
         ("arc-en-ciel", "arcs-en-ciel"),
+        ("vice-président", "vice-présidents"),
     ])
     def test_fr_hyphenated_pluralize(self, word: str, expected: str) -> None:
         assert pluralize(word, lang="fr") == expected
@@ -68,6 +69,8 @@ class TestFrHyphenated:
         ("choux-fleurs", "chou-fleur"),
         ("pots-aux-feux", "pot-au-feu"),
         ("arcs-en-ciel", "arc-en-ciel"),
+        ("vice-présidents", "vice-président"),
+        ("porte-monnaies", "porte-monnaie"),
     ])
     def test_fr_hyphenated_singularize(self, word: str, expected: str) -> None:
         assert singularize(word, lang="fr") == expected

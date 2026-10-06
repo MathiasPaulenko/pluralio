@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from pluralio import pluralize
+from pluralio import pluralize, singularize
 
 
 class TestItalianPluralRules:
@@ -194,14 +194,41 @@ class TestItalianUncountable:
         "città", "virtù", "tè", "perché",
         "cioè", "sé", "lunedì", "martedì",
         "mercoledì", "giovedì", "venerdì",
-        "sabato", "domenica",
-        "gennaio", "febbraio", "marzo", "aprile",
-        "maggio", "giugno", "luglio", "agosto",
-        "settembre", "ottobre", "novembre", "dicembre",
-        "primavera", "estate", "autunno", "inverno",
         "due", "tre", "cinque", "sei",
         "sette", "nove", "dieci", "mille",
         "sangue", "peggio", "week-end",
     ])
     def test_uncountable_unchanged(self, word: str) -> None:
         assert pluralize(word, lang="it") == word
+
+
+class TestItalianCalendarWords:
+    """Days, months, and seasons that do have plural forms."""
+
+    @pytest.mark.parametrize(("singular", "plural"), [
+        ("sabato", "sabati"), ("domenica", "domeniche"),
+        ("gennaio", "gennai"), ("febbraio", "febbrai"),
+        ("marzo", "marzi"), ("aprile", "aprili"),
+        ("maggio", "maggi"), ("giugno", "giugni"),
+        ("luglio", "lugli"), ("agosto", "agosti"),
+        ("settembre", "settembri"), ("ottobre", "ottobri"),
+        ("novembre", "novembri"), ("dicembre", "dicembri"),
+        ("primavera", "primavere"), ("estate", "estati"),
+        ("autunno", "autunni"), ("inverno", "inverni"),
+    ])
+    def test_plural(self, singular: str, plural: str) -> None:
+        assert pluralize(singular, lang="it") == plural
+
+    @pytest.mark.parametrize(("plural", "singular"), [
+        ("sabati", "sabato"), ("domeniche", "domenica"),
+        ("gennai", "gennaio"), ("febbrai", "febbraio"),
+        ("marzi", "marzo"), ("aprili", "aprile"),
+        ("maggi", "maggio"), ("giugni", "giugno"),
+        ("lugli", "luglio"), ("agosti", "agosto"),
+        ("settembri", "settembre"), ("ottobri", "ottobre"),
+        ("novembri", "novembre"), ("dicembri", "dicembre"),
+        ("primavere", "primavera"), ("estati", "estate"),
+        ("autunni", "autunno"), ("inverni", "inverno"),
+    ])
+    def test_singular(self, plural: str, singular: str) -> None:
+        assert singularize(plural, lang="it") == singular

@@ -49,8 +49,11 @@ Known limitations:
   by extra singles for common words.
 - **-es → strip s**: ``portugueses → portuguê`` (should be
   ``português``). Covered by extra singles.
-
-Reference: ``ref/rules.md`` for the full rules documentation.
+- **-ns is ambiguous**: ``-em → -ens`` and ``-en → -ens`` produce
+  the same plural ending. Singularization ``ns$ → m`` covers the
+  common ``-em`` case; ``-én``/``-ín`` words (``hífen → hifens``) are
+  in irregulars. Rare unaccented ``-n`` loanwords (``wagon → wagons``)
+  pluralize correctly but singularize back to ``-m``.
 """
 
 from __future__ import annotations
@@ -149,6 +152,9 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "cor": "cores", "mar": "mares", "paz": "pazes",
     "luz": "luzes", "cruz": "cruzes", "rapaz": "rapazes",
     "arroz": "arrozes",
+    # ── -n (accent drops in plural; regex n$ → ns alone is not enough)
+    "hífen": "hifens", "abdómen": "abdomens", "pólen": "pólens",
+    "gérmen": "germens", "líquen": "líquens",
     # ── Foreign loanwords (+s, not +es) ────────────────────────────
     "club": "clubs", "chip": "chips", "bit": "bits",
     "email": "emails", "link": "links", "banner": "banners",
@@ -358,6 +364,7 @@ _PLURAL_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"r$"), "res"),
     (re.compile(r"z$"), "zes"),
     (re.compile(r"x$"), "x"),
+    (re.compile(r"n$"), "ns"),
     (re.compile(r"([aeiouáéíóúâêôãõ])$"), r"\1s"),
 ]
 """Ordered Portuguese pluralization regex rules (first match wins).
@@ -370,7 +377,9 @@ Order matters: more specific patterns must come before generic ones.
 5. Words ending in ``r`` → append ``es`` (``r`` + ``es``).
 6. Words ending in ``z`` → replace with ``zes``.
 7. Words ending in ``x`` → invariable (no change).
-8. Words ending in a vowel (including accented) → append ``s``.
+8. Words ending in ``n`` → replace with ``ns`` (accented ``-én``/``-ín``
+   words like ``hífen`` are in irregulars, where the accent is dropped).
+9. Words ending in a vowel (including accented) → append ``s``.
 
 Note: Words ending in ``s`` are handled by irregulars (accented
 singulars like ``gás``, ``país``) or are already plural (``casas``,

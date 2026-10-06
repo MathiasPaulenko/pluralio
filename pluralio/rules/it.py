@@ -49,8 +49,6 @@ Known limitations:
 - **Stress detection**: Italian stress is not marked orthographically.
   Regex can't detect stress position, so the ``-co``/``-go`` split
   relies on irregulars.
-
-Reference: ``ref/rules.md`` for the full rules documentation.
 """
 
 from __future__ import annotations
@@ -170,13 +168,29 @@ for plural idempotency. All keys and values are lowercase.
 _IRREGULAR_SINGLES: dict[str, str] = {v: k for k, v in _IRREGULAR_PLURALS.items()}
 """Auto-generated inverse mapping (plural → singular) for irregulars."""
 
-_EXTRA_SINGLES: dict[str, str] = {}
+_EXTRA_SINGLES: dict[str, str] = {
+    # Months: -io → -i / -e → -i plurals the regex cannot
+    # singularize back correctly (i$ → o would produce "gennao",
+    # "aprilo", etc.)
+    "gennai": "gennaio", "febbrai": "febbraio",
+    "maggi": "maggio", "lugli": "luglio",
+    "aprili": "aprile", "settembri": "settembre",
+    "ottobri": "ottobre", "novembri": "novembre",
+    "dicembri": "dicembre",
+    # Season: -e → -i plural ("estati" → regex would give "estato")
+    "estati": "estate",
+}
 """Additional plural → singular mappings for Italian.
 
-All necessary mappings are auto-generated from the inverse of
-``_IRREGULAR_PLURALS``. This dict is kept empty for structural
-consistency with other language modules.
+These cover plurals of month and season names, whose singulars
+end in ``-io`` or ``-e`` and cannot be reconstructed by the
+generic ``i$ → o`` rule.
 """
+
+_IRREGULAR_SINGLES.update(_EXTRA_SINGLES)
+
+for _plural, _singular in _EXTRA_SINGLES.items():
+    _IRREGULAR_PLURALS.setdefault(_singular, _plural)
 
 _PLURAL_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"ca$"), "che"),
@@ -210,6 +224,7 @@ Order matters: more specific patterns must come before generic ones.
    sdrucciola exceptions in irregulars).
 5-8. Words ending in ``che``, ``ghe``, ``chi``, ``ghi`` → invariable
    (already plural, idempotency).
+9. Words ending in ``io`` → replace with ``i`` (vizio → vizi).
 10. Words ending in ``o`` → replace with ``i`` (libro → libri).
 11. Consonant + ``ia`` → replace with ``e`` (pioggia → piogge).
 12. Vowel + ``ia`` → replace with ``ie`` (valigia → valigie).
@@ -289,11 +304,6 @@ _UNCOUNTABLE: set[str] = {
     "città", "virtù", "tè", "perché",
     "cioè", "sé", "lunedì", "martedì",
     "mercoledì", "giovedì", "venerdì",
-    "sabato", "domenica",
-    "gennaio", "febbraio", "marzo", "aprile",
-    "maggio", "giugno", "luglio", "agosto",
-    "settembre", "ottobre", "novembre", "dicembre",
-    "primavera", "estate", "autunno", "inverno",
     "due", "tre", "cinque", "sei",
     "sette", "nove", "dieci", "mille",
     "sangue", "peggio", "week-end",
@@ -305,10 +315,10 @@ Includes foreign loanwords (``film``, ``bar``, ``computer``, ``streaming``,
 (``analisi``, ``crisi``, ``tesi``), pluralia tantum (``occhiali``,
 ``forbici``, ``pantaloni``), invariable ``-e`` words (``specie``,
 ``serie``), truncated forms (``foto``, ``moto``, ``auto``), accented
-invariables (``città``, ``virtù``, ``tè``, ``perché``), days of the week
-(``lunedì``–``domenica``), sports terms (``tennis``, ``golf``,
-``hockey``, ``rugby``), months (``gennaio``–``dicembre``), seasons
-(``primavera``, ``estate``, ``autunno``, ``inverno``), numbers
+invariables (``città``, ``virtù``, ``tè``, ``perché``), accented days
+of the week (``lunedì``–``venerdì`` — ``sabato``/``domenica`` do
+pluralize: ``sabati``, ``domeniche``), sports terms (``tennis``,
+``golf``, ``hockey``, ``rugby``), numbers
 (``due``, ``tre``, ``cinque``, ``sei``, ``sette``, ``nove``, ``dieci``,
 ``mille``), and invariable nouns (``sangue``, ``peggio``, ``week-end``).
 """

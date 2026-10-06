@@ -55,6 +55,9 @@ class TestPortugueseSingularRules:
 
 class TestPortugueseIrregularSingles:
     @pytest.mark.parametrize(("plural", "singular"), [
+        # -én/-ín → -ens (accent drops in plural)
+        ("hifens", "hífen"), ("abdomens", "abdómen"), ("pólens", "pólen"),
+        ("germens", "gérmen"), ("líquens", "líquen"),
         # -ões → -ão
         ("corações", "coração"), ("canções", "canção"), ("balões", "balão"),
         ("feijões", "feijão"), ("limões", "limão"), ("leões", "leão"),

@@ -39,6 +39,12 @@ class TestPortuguesePluralRules:
         for word in ["tórax", "lápis"]:
             assert pluralize(word, lang="pt") == word
 
+    def test_n_to_ns(self) -> None:
+        for singular, plural in [("wagon", "wagons"), ("hífen", "hifens"),
+                                 ("abdómen", "abdomens"), ("pólen", "pólens"),
+                                 ("gérmen", "germens"), ("líquen", "líquens")]:
+            assert pluralize(singular, lang="pt") == plural
+
     def test_consonant_e_plural(self) -> None:
         for singular, plural in [("nome", "nomes"), ("filme", "filmes"), ("noite", "noites"),
                                  ("chave", "chaves"), ("chefe", "chefes"), ("peixe", "peixes")]:
