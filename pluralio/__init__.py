@@ -30,11 +30,12 @@ Supported languages (built-in):
 
 .. note::
     Language rules are registered as a side effect of importing this
-    package. Always use ``import pluralio`` (or
-    ``from pluralio import pluralize``) rather than importing from
-    submodules directly, e.g. avoid ``from pluralio.core import pluralize``,
-    because the latter bypasses registration and will raise
-    ``ValueError`` for any non-default language.
+    package. Any normal import of a submodule (e.g.
+    ``from pluralio.core import pluralize``) also executes the package
+    ``__init__``, so registration always happens. Only file-level
+    loading outside the package (e.g. ``importlib`` on a bare path)
+    bypasses registration and would raise ``ValueError`` for any
+    non-default language.
 
 Example:
     >>> import pluralio
@@ -286,6 +287,7 @@ def register_language(
         uncountable: Set of invariable words. Normalized to lowercase.
 
     Example:
+        >>> state = snapshot()
         >>> register_language(
         ...     "fr",
         ...     plural_rules=[(r"$", "s")],
@@ -301,6 +303,7 @@ def register_language(
         'cheval'
         >>> pluralize("information", lang="fr")
         'information'
+        >>> restore(state)
     """
     plurals = {k.lower(): v.lower() for k, v in (irregular_plurals or {}).items()}
     singles = {k.lower(): v.lower() for k, v in (irregular_singles or {}).items()}
@@ -351,10 +354,11 @@ def is_plural(word: str, lang: str = "en") -> bool:
     """
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
+    rules = get_rules(lang)
     stripped = unicodedata.normalize("NFC", word.strip())
     if not stripped:
         return False
-    if stripped.lower() in get_rules(lang).uncountable:
+    if stripped.lower() in rules.uncountable:
         return True
     return singularize(stripped, lang=lang).lower() != stripped.lower()
 
@@ -390,9 +394,10 @@ def is_singular(word: str, lang: str = "en") -> bool:
     """
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
+    rules = get_rules(lang)
     stripped = unicodedata.normalize("NFC", word.strip())
     if not stripped:
         return False
-    if stripped.lower() in get_rules(lang).uncountable:
+    if stripped.lower() in rules.uncountable:
         return True
     return pluralize(stripped, lang=lang).lower() != stripped.lower()

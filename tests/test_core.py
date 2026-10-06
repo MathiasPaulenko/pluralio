@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import pytest
+
+from pluralio import add_singular_rule
 from pluralio.core import pluralize, singularize
 from pluralio.registry import LanguageRules, register
 
@@ -19,6 +22,13 @@ class TestPluralize:
 
     def test_count_two_returns_plural(self) -> None:
         assert pluralize("item", count=2) == "items"
+
+    def test_count_string_one_returns_singular(self) -> None:
+        assert pluralize("item", count="1") == "item"  # type: ignore[arg-type]
+
+    def test_invalid_lang_raises_on_empty_word(self) -> None:
+        with pytest.raises(ValueError, match="Unsupported language"):
+            pluralize("", lang="zz")
 
     def test_uncountable_returns_unchanged(self) -> None:
         assert pluralize("sheep") == "sheep"
@@ -57,3 +67,11 @@ class TestSingularize:
 
     def test_empty_string_returns_empty(self) -> None:
         assert singularize("") == ""
+
+    def test_invalid_lang_raises_on_empty_word(self) -> None:
+        with pytest.raises(ValueError, match="Unsupported language"):
+            singularize("", lang="zz")
+
+    def test_rule_producing_empty_string_is_honored(self) -> None:
+        add_singular_rule(r"onlys$", "")
+        assert singularize("onlys") == ""

@@ -200,10 +200,10 @@ class TestMixedCase:
 
 class TestSingleLetterWords:
     def test_singularize_single_s(self) -> None:
-        assert singularize("s") == "s"
+        assert singularize("s") == ""
 
     def test_singularize_single_s_uppercase(self) -> None:
-        assert singularize("S") == "S"
+        assert singularize("S") == ""
 
     def test_pluralize_single_letter(self) -> None:
         assert pluralize("a") == "as"

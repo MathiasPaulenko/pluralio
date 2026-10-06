@@ -158,7 +158,7 @@ def _apply_rules(
         The transformed word with original casing preserved.
     """
     result = _apply_regex_to_word(lower, rules.code, is_plural)
-    if not result or result == lower:
+    if result == lower:
         return word
     return _match_case(word, result)
 
@@ -207,6 +207,8 @@ _FR_HYPHEN_SKIP: frozenset[str] = frozenset({
     "pour", "par", "sur", "sous", "avec", "sans", "dans",
     # Fixed parts in certain compounds
     "vie", "ciel",
+    # Invariable prefixes (vice-président → vice-présidents)
+    "vice",
 })
 
 # Italian compound words: both nouns are pluralized, but function words
@@ -348,14 +350,16 @@ def _transform(
     """
     if not isinstance(word, str):
         raise TypeError(f"word must be str, got {type(word).__name__}")
+    rules = get_rules(lang)
     leading, stripped, trailing = _split_whitespace(word)
     if not stripped:
         return word
     if not stripped.isascii():
         stripped = unicodedata.normalize("NFC", stripped)
-    if is_plural and count is not None and count == 1:
+    if is_plural and count is not None and (
+        count == 1 or (isinstance(count, str) and count.strip() == "1")
+    ):
         return leading + stripped + trailing
-    rules = get_rules(lang)
     lower = stripped if stripped.islower() else stripped.lower()
     if lower in rules.uncountable:
         return leading + stripped + trailing
@@ -391,10 +395,10 @@ def pluralize(word: str, lang: str = "en", count: int | None = None) -> str:
     Args:
         word: The singular word to pluralize.
         lang: ISO 639-1 language code. Defaults to ``"en"``.
-        count: Optional integer count. When ``count == 1`` the word
-            is returned unchanged (singular form). Any other value
-            (including ``0``, negative numbers, and ``None``) produces
-            the plural form.
+        count: Optional count. When ``count == 1`` (or the string
+            ``"1"``) the word is returned unchanged (singular form).
+            Any other value (including ``0``, negative numbers, and
+            ``None``) produces the plural form.
 
     Returns:
         The plural form of ``word``, with original casing preserved.
