@@ -31,21 +31,21 @@ registered automatically when you ``import pluralio``.
      - Complete
    * - Portuguese
      - ``pt``
-     - 8 + 13
-     - 388
+     - 9 + 13
+     - 393
      - 88
      - Complete
    * - French
      - ``fr``
      - 6 + 4
-     - 104
-     - 81
+     - 100
+     - 92
      - Complete
    * - Italian
      - ``it``
      - 19 + 12
-     - 239
-     - 144
+     - 249
+     - 126
      - Complete
    * - Esperanto
      - ``eo``
@@ -60,10 +60,10 @@ Language-specific notes
 English (``en``)
 ~~~~~~~~~~~~~~~~
 
-- 684 irregulars covering Latin/Greek plurals, compound words, and
-  special cases.
-- Regex rules handle ``-s``, ``-es``, ``-ies``, ``-ves``, ``-oes``,
-  ``-oes``, and classical plurals (``-i``, ``-a``, ``-ae``, ``-ina``).
+- 684 irregulars covering Latin/Greek plurals (``-i``, ``-a``,
+  ``-ae``, ``-ina``), compound words, and special cases.
+- Regex rules handle ``-s``, ``-es``, ``-ies``, ``-ves``, and
+  ``-oes`` endings.
 - 219 uncountables including mass nouns, non-noun words, and
   invariable terms.
 
@@ -84,8 +84,11 @@ French (``fr``)
 ~~~~~~~~~~~~~~~
 
 - Both segments of hyphenated compounds are pluralized, skipping
-  function words (articles, prepositions).
-- ``-al`` → ``-aux``, ``-ail`` → ``-aux``, ``-euil`` → ``-euils``.
+  function words (articles, prepositions) and invariable compounds
+  (``porte-monnaie``).
+- ``-al`` → ``-aux``, ``-au``/``-eau`` → ``-aux``/``-eaux``,
+  ``-eu`` → ``-eux``; the ``-als``/``-ails``/``-eus``/``-ous``
+  exceptions live in the irregular tables.
 
 Italian (``it``)
 ~~~~~~~~~~~~~~~~

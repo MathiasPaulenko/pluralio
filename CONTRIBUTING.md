@@ -35,9 +35,11 @@ pluralio/
 │   ├── __init__.py        # Public API + extensibility functions
 │   ├── core.py            # pluralize(), singularize(), _match_case(), hyphens
 │   ├── registry.py        # LanguageRules dataclass, register(), get_rules()
+│   ├── utils.py           # join(), ordinal(), template()
 │   ├── rules/             # Language rule modules (subpackage)
 │   │   ├── __init__.py    # Imports all modules to trigger registration
 │   │   ├── en.py          # English rules
+│   │   ├── eo.py          # Esperanto rules
 │   │   ├── es.py          # Spanish rules
 │   │   ├── fr.py          # French rules
 │   │   ├── it.py          # Italian rules
@@ -52,8 +54,12 @@ pluralio/
 │   ├── test_property.py
 │   ├── test_round_trip.py
 │   ├── test_inspect.py
+│   ├── test_utils.py
+│   ├── test_version.py
 │   ├── test_en_plurals.py
 │   ├── test_en_singles.py
+│   ├── test_eo_plurals.py
+│   ├── test_eo_singles.py
 │   ├── test_es_plurals.py
 │   ├── test_es_singles.py
 │   ├── test_fr_plurals.py
@@ -68,7 +74,7 @@ pluralio/
 │   ├── test_fr_edge_cases.py
 │   ├── test_it_edge_cases.py
 │   └── test_pt_edge_cases.py
-├── ref/                   # Design docs, rules reference, development plan
+├── docs/                  # Sphinx documentation
 ├── .github/workflows/     # CI + release workflows
 ├── pyproject.toml
 ├── CHANGELOG.md

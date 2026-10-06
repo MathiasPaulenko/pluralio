@@ -4,7 +4,7 @@
 
 **Pluralization and singularization for Python**
 
-6 languages · 7,233 tests · Zero dependencies · Type-safe · Extensible at runtime
+6 languages · 7,280 tests · Zero dependencies · Type-safe · Extensible at runtime
 
 [![PyPI version](https://img.shields.io/pypi/v/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
 [![Python versions](https://img.shields.io/pypi/pyversions/pluralio.svg?style=flat-square)](https://pypi.org/project/pluralio/)
@@ -24,7 +24,7 @@
 
 - **Zero dependencies** — pure Python standard library, nothing else to install
 - **Type-safe** — full type hints, `py.typed` marker included (PEP 561)
-- **100% test coverage** — 7,233 tests, every line is verified
+- **100% test coverage** — 7,280 tests, every line is verified
 - **6 languages** — English, Spanish, Portuguese, French, Italian, Esperanto
 - **Extensible at runtime** — add irregulars, rules, uncountables, or entire languages without touching source code
 - **Utility functions** — `join()`, `ordinal()`, `template()` for common UI tasks
@@ -240,6 +240,8 @@ Every word goes through a **three-step priority chain**:
 | `LanguageRules` | Dataclass holding all rules for a language. |
 | `register(rules)` | Register a `LanguageRules` instance. |
 | `get_rules(lang)` | Retrieve rules for a language (raises `ValueError` if not found). |
+| `snapshot()` | Deep-copy the current registry state (test isolation). |
+| `restore(state)` | Restore a registry state returned by `snapshot()`. |
 
 ## Extending rules
 
@@ -326,7 +328,7 @@ How does pluralio compare to other Python inflection libraries?
 | Hyphenated words | ✅ | ❌ | ❌ | ❌ |
 | Unicode normalization (NFC/NFD) | ✅ | ❌ | ❌ | ❌ |
 | Idempotency (ES) | ✅ | ❌ | ❌ | ❌ |
-| Uncountables (ES) | ✅ ~87 | ❌ | ❌ | ❌ |
+| Uncountables (ES) | ✅ ~92 | ❌ | ❌ | ❌ |
 | Accent restoration (ES) | ✅ | ❌ | ⚠️ Partial | ❌ |
 | Runtime extensibility | ✅ | ❌ | ❌ | ✅ |
 | Add custom languages | ✅ | ❌ | ✅ | ❌ |
@@ -366,9 +368,9 @@ Benchmark: 100,000 calls across 13 mixed-language words (English, Spanish, Portu
 | --- | --- | --- | --- | --- | --- |
 | English | `en` | 7 + 22 | 684 | 219 | ✅ Complete |
 | Spanish | `es` | 9 + 8 | 354 | 92 | ✅ Complete |
-| Portuguese | `pt` | 8 + 13 | 388 | 88 | ✅ Complete |
-| French | `fr` | 6 + 4 | 104 | 81 | ✅ Complete |
-| Italian | `it` | 19 + 12 | 239 | 144 | ✅ Complete |
+| Portuguese | `pt` | 9 + 13 | 393 | 88 | ✅ Complete |
+| French | `fr` | 6 + 4 | 100 | 92 | ✅ Complete |
+| Italian | `it` | 19 + 12 | 249 | 126 | ✅ Complete |
 | Esperanto | `eo` | 4 + 2 | 0 | 39 | ✅ Complete |
 
 ## Roadmap

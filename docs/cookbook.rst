@@ -35,14 +35,14 @@ Multi-language support
 
    from pluralio import pluralize, supported_languages
 
-   word = "libro"
+   word = "estudio"
    for lang in supported_languages():
        if lang in ("en", "eo", "es", "it"):
            print(f"{lang}: {pluralize(word, lang=lang)}")
-   # en: libros
-   # eo: libroj
-   # es: libros
-   # it: libri
+   # en: estudios
+   # eo: estudioj
+   # es: estudios
+   # it: estudi
 
 Adding domain-specific vocabulary
 ---------------------------------
@@ -67,7 +67,7 @@ Marking words as uncountable
    from pluralio import add_uncountable, pluralize, singularize
 
    # Domain-specific uncountables
-   for word in ("feedback", "metadata", "metadata"):
+   for word in ("feedback", "metadata", "upstream"):
        add_uncountable(word)
 
    pluralize("feedback")    # "feedback"
@@ -118,8 +118,8 @@ Test isolation with snapshot/restore
 
    state = snapshot()
    try:
-       add_irregular("foo", "foos")
-       assert pluralize("foo") == "foos"
+       add_irregular("foo", "fooos")
+       assert pluralize("foo") == "fooos"
    finally:
        restore(state)
    # After restore, "foo" is back to normal rules

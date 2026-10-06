@@ -5,7 +5,7 @@ Pluralization and singularization for Python — 6 languages, zero dependencies,
 type-safe, extensible.
 
 Supports English, Spanish, Portuguese, French, Italian, and Esperanto with
-100% test coverage across 7,233 tests.
+100% test coverage across 7,280 tests.
 
 .. image:: https://img.shields.io/pypi/v/pluralio.svg
    :target: https://pypi.org/project/pluralio/

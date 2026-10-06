@@ -51,14 +51,18 @@ The output mirrors the casing of the input:
 Hyphenated words
 ----------------
 
-Only the head noun is pluralized (first segment by default, last segment
-for known prefixes):
+For English, Spanish, and Portuguese only the head noun is pluralized
+(first segment by default, last segment for known prefixes like
+``forget-`` or ``quebra-``). French and Italian pluralize every noun
+segment, skipping articles, prepositions, and invariable compounds:
 
 .. code-block:: python
 
    pluralize("mother-in-law")     # "mothers-in-law"
    pluralize("forget-me-not")     # "forget-me-nots"
+   pluralize("quebra-mar", lang="pt")    # "quebra-mares"
    pluralize("café-théâtre", lang="fr")  # "cafés-théâtres"
+   pluralize("porte-monnaie", lang="fr") # "porte-monnaie" (invariable)
 
 Whitespace preservation
 -----------------------

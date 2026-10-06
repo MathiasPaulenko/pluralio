@@ -1,6 +1,6 @@
 """Language rule modules for pluralio.
 
-Each submodule (``en``, ``es``, ``fr``, ``it``, ``pt``) defines the
+Each submodule (``en``, ``es``, ``fr``, ``it``, ``pt``, ``eo``) defines the
 complete pluralization/singularization rules for one language and
 registers them at import time.
 

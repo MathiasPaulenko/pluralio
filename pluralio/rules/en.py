@@ -18,8 +18,6 @@ The rules are organized into three categories:
 3. **Uncountable words**: Words that are invariable — their plural
    form is identical to their singular form (e.g. ``"sheep"``,
    ``"information"``, ``"rice"``).
-
-Reference: ``ref/rules.md`` for the full rules documentation.
 """
 
 from __future__ import annotations

@@ -17,7 +17,7 @@ The rules are organized into four categories:
 2. **Extra singulars**: Additional plural → singular mappings that
    cannot be derived from the irregular plurals. These handle cases
    where the singular form requires an accent that the plural does
-   not have (e.g. ``"alemanes" → "alemán"``, ``"inglés" → "ingleses"``).
+   not have (e.g. ``"alemanes" → "alemán"``, ``"ingleses" → "inglés"``).
 
 3. **Regex rules**: Ordered patterns applied to words that are not
    in the irregular or uncountable lists. The first matching rule
@@ -32,7 +32,6 @@ The rules are organized into four categories:
    the week ending in ``s``, words ending in ``x``, Greek-origin
    words ending in ``is``, compound words, and foreign loanwords.
 
-Reference: ``ref/rules.md`` for the full rules documentation.
 """
 
 from __future__ import annotations

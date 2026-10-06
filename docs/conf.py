@@ -7,9 +7,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+import pluralio  # noqa: E402
+
 project = "pluralio"
 author = "Mathias Paulenko"
-release = "2.2.0"
+release = pluralio.__version__
 
 extensions = [
     "sphinx.ext.autodoc",
@@ -56,5 +58,17 @@ intersphinx_mapping = {
 }
 
 doctest_global_setup = """
-import pluralio
+from pluralio import (
+    add_irregular, add_plural, add_plural_rule, add_singular,
+    add_singular_rule, add_uncountable, get_rules, is_plural,
+    is_singular, join, ordinal, pluralize, register_language,
+    singularize, supported_languages, template,
+)
+from pluralio.core import _match_case
+from pluralio.registry import LanguageRules, register, restore, snapshot
+
+try:
+    restore(_PRISTINE_REGISTRY)
+except NameError:
+    _PRISTINE_REGISTRY = snapshot()
 """
