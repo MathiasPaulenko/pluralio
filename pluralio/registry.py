@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import copy
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 __all__ = ["LanguageRules", "register", "get_rules", "supported_languages", "snapshot", "restore"]
 
@@ -26,24 +26,6 @@ __all__ = ["LanguageRules", "register", "get_rules", "supported_languages", "sna
 @dataclass(frozen=True)
 class LanguageRules:
     """Container for all pluralization/singularization rules of a language.
-
-    Attributes:
-        code: ISO 639-1 language code (e.g. ``"en"``, ``"es"``, ``"fr"``).
-        irregular_plurals: Mapping of singular → plural for words that
-            do not follow regex rules. Keys and values are lowercase.
-            Checked **before** regex rules during pluralization.
-        irregular_singles: Mapping of plural → singular for words that
-            do not follow regex rules. Keys and values are lowercase.
-            Checked **before** regex rules during singularization.
-            Typically the inverse of ``irregular_plurals``, but may
-            include extra entries (e.g. Spanish accent restoration).
-        plural_rules: Ordered list of ``(compiled_regex, replacement)``
-            tuples applied during pluralization. First match wins.
-        singular_rules: Ordered list of ``(compiled_regex, replacement)``
-            tuples applied during singularization. First match wins.
-        uncountable: Set of lowercase words that are invariable — both
-            ``pluralize`` and ``singularize`` return them unchanged.
-            Checked **first**, before irregulars and regex.
 
     .. warning::
         ``frozen=True`` prevents reassigning attributes
@@ -57,11 +39,30 @@ class LanguageRules:
     """
 
     code: str
+    """ISO 639-1 language code (e.g. ``"en"``, ``"es"``, ``"fr"``)."""
+
     irregular_plurals: dict[str, str] = field(default_factory=dict)
+    """Singular → plural mapping for words that do not follow regex rules.
+    Keys and values are lowercase. Checked **before** regex rules during
+    pluralization."""
+
     irregular_singles: dict[str, str] = field(default_factory=dict)
+    """Plural → singular mapping for words that do not follow regex rules.
+    Keys and values are lowercase. Checked **before** regex rules during
+    singularization. Typically the inverse of ``irregular_plurals``, but
+    may include extra entries (e.g. Spanish accent restoration)."""
+
     plural_rules: list[tuple[re.Pattern[str], str]] = field(default_factory=list)
+    """Ordered ``(compiled_regex, replacement)`` tuples applied during
+    pluralization. First match wins."""
+
     singular_rules: list[tuple[re.Pattern[str], str]] = field(default_factory=list)
+    """Ordered ``(compiled_regex, replacement)`` tuples applied during
+    singularization. First match wins."""
+
     uncountable: set[str] = field(default_factory=set)
+    """Lowercase invariable words — both ``pluralize`` and ``singularize``
+    return them unchanged. Checked **first**, before irregulars and regex."""
 
 
 _REGISTRY: dict[str, LanguageRules] = {}
@@ -74,19 +75,28 @@ def register(rules: LanguageRules) -> None:
     If a language with the same ``code`` already exists, it is overwritten.
     The regex application cache is cleared to prevent stale results.
 
+    The code is normalized (stripped and lowercased) before registration,
+    so ``LanguageRules(code=" EN ")`` is registered as ``"en"``. When the
+    code needs normalization, a normalized copy of ``rules`` is stored.
+
     Args:
         rules: The :class:`LanguageRules` instance to register.
 
     Raises:
-        ValueError: If ``rules.code`` is empty.
+        ValueError: If ``rules.code`` is empty or whitespace-only.
 
     Example:
         >>> from pluralio.registry import LanguageRules, register
+        >>> state = snapshot()
         >>> register(LanguageRules(code="xx"))
+        >>> "xx" in supported_languages()
+        True
+        >>> restore(state)
     """
-    if not rules.code or not rules.code.strip():
+    code = rules.code.strip().lower() if isinstance(rules.code, str) else rules.code
+    if not code:
         raise ValueError("Language code cannot be empty")
-    _REGISTRY[rules.code] = rules
+    _REGISTRY[code] = rules if rules.code == code else replace(rules, code=code)
     from pluralio.core import _clear_regex_cache
 
     _clear_regex_cache()
@@ -94,6 +104,9 @@ def register(rules: LanguageRules) -> None:
 
 def get_rules(lang: str) -> LanguageRules:
     """Retrieve the rules for a given language code.
+
+    The lookup is normalized the same way as :func:`register` —
+    ``get_rules(" EN ")`` resolves to ``"en"``.
 
     Args:
         lang: ISO 639-1 language code (e.g. ``"en"``, ``"es"``).
@@ -111,11 +124,12 @@ def get_rules(lang: str) -> LanguageRules:
         >>> rules.code
         'en'
     """
-    if lang not in _REGISTRY:
+    key = lang.strip().lower() if isinstance(lang, str) else lang
+    if key not in _REGISTRY:
         raise ValueError(
             f"Unsupported language: {lang!r}. Supported: {sorted(_REGISTRY)}"
         )
-    return _REGISTRY[lang]
+    return _REGISTRY[key]
 
 
 def supported_languages() -> list[str]:

@@ -24,6 +24,12 @@ class TestRegister:
         with pytest.raises(ValueError, match="cannot be empty"):
             register(LanguageRules(code="   "))
 
+    def test_register_normalizes_code(self) -> None:
+        register(LanguageRules(code=" Xx "))
+        assert "xx" in supported_languages()
+        assert get_rules("xx").code == "xx"
+        assert " Xx " not in supported_languages()
+
 
 class TestFrozenRules:
     def test_frozen_cannot_set_attribute(self) -> None:
@@ -52,6 +58,9 @@ class TestGetRules:
         msg = str(exc_info.value)
         assert "en" in msg
         assert "es" in msg
+
+    def test_get_rules_normalizes_lookup(self) -> None:
+        assert get_rules(" EN ").code == "en"
 
 
 class TestSupportedLanguages:
