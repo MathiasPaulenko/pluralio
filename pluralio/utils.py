@@ -74,7 +74,8 @@ def ordinal(number: int | str) -> str:
         The ordinal string (e.g. ``"1st"``, ``"2nd"``, ``"3rd"``, ``"11th"``).
 
     Raises:
-        ValueError: If ``number`` cannot be converted to an integer.
+        ValueError: If ``number`` cannot be converted to an integer,
+            or is a non-integral float.
 
     Example:
         >>> ordinal(1)
@@ -93,6 +94,8 @@ def ordinal(number: int | str) -> str:
         '0th'
     """
     n = int(number)
+    if not isinstance(number, int | str) and n != number:
+        raise ValueError(f"ordinal() requires an integer, got {number!r}")
     abs_n = abs(n)
     suffix = "th" if 10 <= abs_n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(abs_n % 10, "th")
     return f"{n}{suffix}"
@@ -118,6 +121,8 @@ def template(text: str, **kwargs: object) -> str:
             is present, it is used for count-aware pluralization. A custom
             count variable can be specified in the placeholder syntax
             (e.g. ``{word:pluralize:n}`` uses ``kwargs["n"]`` as the count).
+            If the named count variable is absent, ``count`` is used as a
+            fallback; if neither is present, the word is always pluralized.
 
     Returns:
         The interpolated string.

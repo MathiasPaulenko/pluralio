@@ -157,6 +157,13 @@ class TestOrdinal:
         with pytest.raises(ValueError, match="invalid literal"):
             ordinal("abc")
 
+    def test_non_integral_float_raises(self) -> None:
+        with pytest.raises(ValueError, match="requires an integer"):
+            ordinal(3.7)  # type: ignore[arg-type]
+
+    def test_integral_float(self) -> None:
+        assert ordinal(3.0) == "3rd"  # type: ignore[arg-type]
+
     def test_very_large_number(self) -> None:
         assert ordinal(10**6) == "1000000th"
 
