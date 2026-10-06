@@ -2,6 +2,27 @@
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-10-06
+
+### Fixed
+
+- `register()` now normalizes language codes (`strip` + lowercase), so `LanguageRules(code=" xx ")` registers as `"xx"`; `get_rules()` applies the same normalization, making `lang=" EN "` work everywhere
+- `pluralize()` / `singularize()` / `is_plural()` / `is_singular()` now validate `lang` even for empty words (documented `ValueError`)
+- Regex rules that produce an empty string are now honored instead of being silently discarded (consistent with `add_irregular("x", "")`)
+- `count="1"` (string) now returns the singular form, consistent with `template()`'s `int(str(...))` coercion
+- `ordinal()` raises `ValueError` for non-integral floats instead of silently truncating (`3.7` was `"3rd"`)
+- French: accentless `-aux`/`-eux` singulars (`emaux`, `regaux`, …) no longer leak into `irregular_plurals` — `pluralize("email")` now correctly returns `"emails"`; `regal`/`recital` follow the `-als` exceptions
+- French: invariable verb+noun compounds (`porte-monnaie`, `porte-avions`, `brise-glace`, …) and the `vice-` prefix in hyphenated compounds
+- Italian: `sabato`, `domenica`, months, and seasons are no longer treated as invariable (`sabati`, `domeniche`, `estati`, …) with correct singularization round-trips
+- Portuguese: added `n$` → `ns` rule (`wagon` → `wagons`) and irregulars for accented `-n` words (`hífen` → `hifens`, `abdómen` → `abdomens`, `pólen`, `gérmen`, `líquen`)
+
+### Changed
+
+- `LanguageRules` attributes moved to PEP 224 docstrings, fixing duplicate object description warnings in the Sphinx build
+- `docs/conf.py` reads `release` from the package version instead of a hardcoded string
+- `doctest_global_setup` now imports the public API and restores a pristine registry snapshot per document — `sphinx -b doctest` runs all 123 docstring examples cleanly
+- `SECURITY.md` supported versions updated to `2.x`
+
 ## [2.2.0] - 2025-07-13
 
 ### Added
@@ -447,3 +468,35 @@
 - CI workflow (lint + type check + test on Python 3.10–3.13)
 - Release workflow (trusted publishing to PyPI)
 - 95% coverage requirement enforced in CI
+
+[Unreleased]: https://github.com/MathiasPaulenko/pluralio/compare/v2.3.0...HEAD
+[2.3.0]: https://github.com/MathiasPaulenko/pluralio/compare/v2.2.0...v2.3.0
+[2.2.0]: https://github.com/MathiasPaulenko/pluralio/compare/v2.1.2...v2.2.0
+[2.1.2]: https://github.com/MathiasPaulenko/pluralio/compare/v2.1.1...v2.1.2
+[2.1.1]: https://github.com/MathiasPaulenko/pluralio/compare/v2.1.0...v2.1.1
+[2.1.0]: https://github.com/MathiasPaulenko/pluralio/compare/v2.0.2...v2.1.0
+[2.0.2]: https://github.com/MathiasPaulenko/pluralio/compare/v2.0.1...v2.0.2
+[2.0.1]: https://github.com/MathiasPaulenko/pluralio/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/MathiasPaulenko/pluralio/compare/v1.8.3...v2.0.0
+[1.8.3]: https://github.com/MathiasPaulenko/pluralio/compare/v1.8.2...v1.8.3
+[1.8.2]: https://github.com/MathiasPaulenko/pluralio/compare/v1.8.1...v1.8.2
+[1.8.1]: https://github.com/MathiasPaulenko/pluralio/compare/v1.8.0...v1.8.1
+[1.8.0]: https://github.com/MathiasPaulenko/pluralio/compare/v1.7.2...v1.8.0
+[1.7.2]: https://github.com/MathiasPaulenko/pluralio/compare/v1.7.1...v1.7.2
+[1.7.1]: https://github.com/MathiasPaulenko/pluralio/compare/v1.7.0...v1.7.1
+[1.7.0]: https://github.com/MathiasPaulenko/pluralio/compare/v1.6.2...v1.7.0
+[1.6.2]: https://github.com/MathiasPaulenko/pluralio/compare/v1.6.1...v1.6.2
+[1.6.1]: https://github.com/MathiasPaulenko/pluralio/compare/v1.6.0...v1.6.1
+[1.6.0]: https://github.com/MathiasPaulenko/pluralio/compare/v1.5.5...v1.6.0
+[1.5.5]: https://github.com/MathiasPaulenko/pluralio/compare/v1.5.4...v1.5.5
+[1.5.4]: https://github.com/MathiasPaulenko/pluralio/compare/v1.5.3...v1.5.4
+[1.5.3]: https://github.com/MathiasPaulenko/pluralio/compare/v1.5.2...v1.5.3
+[1.5.2]: https://github.com/MathiasPaulenko/pluralio/compare/v1.5.1...v1.5.2
+[1.5.1]: https://github.com/MathiasPaulenko/pluralio/compare/v1.5.0...v1.5.1
+[1.5.0]: https://github.com/MathiasPaulenko/pluralio/compare/v1.4.2...v1.5.0
+[1.4.2]: https://github.com/MathiasPaulenko/pluralio/compare/v1.4.1...v1.4.2
+[1.4.1]: https://github.com/MathiasPaulenko/pluralio/compare/v1.4.0...v1.4.1
+[1.4.0]: https://github.com/MathiasPaulenko/pluralio/compare/v1.3.0...v1.4.0
+[1.3.0]: https://github.com/MathiasPaulenko/pluralio/compare/v1.2.0...v1.3.0
+[1.2.0]: https://github.com/MathiasPaulenko/pluralio/compare/v0.1.0...v1.2.0
+[0.1.0]: https://github.com/MathiasPaulenko/pluralio/releases/tag/v0.1.0

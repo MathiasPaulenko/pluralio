@@ -115,6 +115,9 @@ Roadmap
      - Goal
      - Status
    * - ``2.3.0``
+     - Bug fixes and documentation corrections
+     - Released
+   * - ``2.4.0``
      - Catalan (``ca``)
      - Planned
    * - ``3.0.0``

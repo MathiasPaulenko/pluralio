@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pluralio"
-version = "2.2.0"
+version = "2.3.0"
 description = "Pluralization and singularization for Python — 6 languages (EN/ES/PT/FR/IT/EO), zero deps, type-safe, 100% test coverage"
 readme = "README.md"
 license = { text = "MIT" }
@@ -20,6 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]

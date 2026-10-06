@@ -28,7 +28,7 @@ What actually happened.
 
 ## Environment
 
-- **pluralio version**: [e.g. 2.2.0]
+- **pluralio version**: [e.g. 2.3.0]
 - **Python version**: [e.g. 3.12]
 - **OS**: [e.g. Ubuntu 24.04, Windows 11, macOS 14]
 
