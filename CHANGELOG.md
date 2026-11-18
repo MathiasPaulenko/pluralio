@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [2.3.1] - 2026-11-18
 
 ### Fixed
 
@@ -499,7 +499,8 @@
 - Release workflow (trusted publishing to PyPI)
 - 95% coverage requirement enforced in CI
 
-[Unreleased]: https://github.com/MathiasPaulenko/pluralio/compare/v2.3.0...HEAD
+[Unreleased]: https://github.com/MathiasPaulenko/pluralio/compare/v2.3.1...HEAD
+[2.3.1]: https://github.com/MathiasPaulenko/pluralio/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/MathiasPaulenko/pluralio/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/MathiasPaulenko/pluralio/compare/v2.1.2...v2.2.0
 [2.1.2]: https://github.com/MathiasPaulenko/pluralio/compare/v2.1.1...v2.1.2

@@ -385,6 +385,7 @@ Benchmark: 100,000 calls across 13 mixed-language words (English, Spanish, Portu
 | `2.1.0` | Esperanto (`eo`) — trivial `-j` plural | ✅ Released |
 | `2.2.0` | Utility functions: `join()`, `ordinal()`, `template()` | ✅ Released |
 | `2.3.0` | Bug fixes: language-code normalization, rule corrections (FR/IT/PT), docs | ✅ Released |
+| `2.3.1` | Bug fixes: EN `-us`/`-fe`/`-o` rules, ES/FR/IT corrections, validation hardening | ✅ Released |
 | `2.4.0` | Catalan (`ca`) — Romance, natural fit | 🔜 Planned |
 | `3.0.0` | German (`de`) — umlauts + multiple plural patterns | 🔜 Planned |
 
@@ -394,6 +395,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full history.
 
 ### Recent releases
 
+- **2.3.1** — Bug fixes: EN `-us`/`-fe`/`-o` rules, ES/FR/IT corrections, validation hardening
 - **2.3.0** — Bug fixes: language-code normalization, rule corrections (FR/IT/PT), doctests
 - **2.2.0** — Utility functions: `join()`, `ordinal()`, `template()`
 - **2.1.2** — Bug fixes: `restore()` cache clearing, `_match_case` digit-only source, `register_language` redundant call

@@ -117,6 +117,9 @@ Roadmap
    * - ``2.3.0``
      - Bug fixes and documentation corrections
      - Released
+   * - ``2.3.1``
+     - Bug fixes: EN ``-us``/``-fe``/``-o`` rules, ES/FR/IT corrections, validation hardening
+     - Released
    * - ``2.4.0``
      - Catalan (``ca``)
      - Planned
