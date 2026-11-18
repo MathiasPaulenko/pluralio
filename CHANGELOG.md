@@ -2,6 +2,36 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- English: `-us` nouns whose plural is `+es` now round-trip — `geniuses → genius`, `focuses → focus`, `apparatuses → apparatus` (the `ses$` rule produced `geniuse`); `pluralize("genius")` now returns `"geniuses"` via a new `(us)$` rule instead of returning the word unchanged
+- English: `-use` words ending in `uses` (`houses`, `amuses`, `confuses`, `refuses`, …) are protected from the new `uses$` rule by explicit irregulars
+- English: compound `-shoe` words singularize correctly (`horseshoes → horseshoe`, `snowshoes`); the `oes` rule produced `horsesho`
+- English: `-afe` words take `+s` (`carafe → carafes`); the `fe$` rule produced `caraves`
+- English: only `l+f` takes `-ves` (`wolf → wolves`); other consonant+`f` words take `+s` (`barf → barfs`, `nerf → nerfs`); `scarf`/`wharf` compounds keep `-ves` (`headscarf → headscarves`)
+- English: consonant+`o` loanwords that take `+s` added (`limo`, `nacho`, `bimbo`, `bro`, `promo`, `jello`, `afro`, `mambo`, `matzo`); `menu` takes plain `+s` and `kudos` is invariable
+- English: `singularize("taxis")` → `"taxi"` and `singularize("taxies")` → `"taxi"`
+- Spanish: `jersey → jerséis` (RAE), with idempotent `pluralize("jerséis")` and `singularize("jerseis") → "jersey"`; `peones → peón` accent restoration
+- French: `pot-au-feu → pots-au-feu` and `coq-au-vin → coqs-au-vin` — the `au` preposition and fixed compounds no longer pluralize every segment
+- French: `-s` invariable nouns added (`mois`, `relais`, `repas`, `matelas`, `os`, `obus`, `vernis`, `puits`, `châssis`, `maquis`, `dais`, `débris`, `autobus`, `bus`, `iris`); `landau → landaus`
+- Italian: missing sdrucciola `-co`/`-go` words added (`sindaco → sindaci`, `chimico`, `fisico`, `critico`, `greco`, `geologo`, `antropologo`, …); `-ista` professions pluralize in `-i` (`pianista → pianisti`); Greek masculine `-a` words (`diploma`, `sintoma`, `idiota`)
+- Italian: invariable additions (`video`, `sms`, `pc`, `tv`, `cd`, `dvd`, `grù`, `cento`, numbers `undici`–`novanta`); `singularize("pesi") → "peso"`, `singularize("bracci") → "braccio"`
+- `register()` raises `TypeError` for non-string codes instead of poisoning the registry (which broke `supported_languages()` sorting)
+- `get_rules()` raises the documented `ValueError` for non-string languages instead of `TypeError: unhashable type`
+- `add_irregular()` / `add_plural()` / `add_singular()` / `add_uncountable()` / `add_plural_rule()` / `add_singular_rule()` validate their arguments (`TypeError` with the offending parameter name) instead of raising raw `AttributeError`
+- `ordinal()` raises the documented `ValueError` for `None` and `float("inf")` instead of `TypeError` / `OverflowError`
+- `template()` treats `count=None` as "no count" (always pluralize) instead of crashing with `ValueError: invalid literal for int()`
+- `join()` no longer emits double spaces when `conjunction=""`
+- String counts are normalized via `int()` in the core (`count="01"` now means one, consistent with `count=1`)
+
+### Changed
+
+- `register_language` doctest imports `snapshot`/`restore` explicitly, so `pytest --doctest-modules` passes without the Sphinx global setup
+
+### Added
+
+- 236 regression tests pinning every fix above (`tests/test_audit_regressions.py`); suite grew from 7,280 to 7,516 tests, coverage stays at 100%
+
 ## [2.3.0] - 2026-10-06
 
 ### Fixed

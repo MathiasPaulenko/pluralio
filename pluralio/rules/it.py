@@ -153,6 +153,23 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "probabile": "probabili", "improbabile": "improbabili",
     "portatile": "portatili",
     "turbine": "turbini",
+    # Sdrucciola -co/-go words missing from the base list
+    "sindaco": "sindaci", "chimico": "chimici", "fisico": "fisici",
+    "critico": "critici", "tipico": "tipici", "classico": "classici",
+    "cattolico": "cattolici", "alcolico": "alcolici", "epico": "epici",
+    "etnico": "etnici", "lirico": "lirici", "arsenico": "arsenici",
+    "greco": "greci", "geologo": "geologi", "antropologo": "antropologi",
+    "etnologo": "etnologi", "astrologo": "astrologi", "cosmologo": "cosmologi",
+    # -ista profession/role words (masculine plural in -i)
+    "pianista": "pianisti", "dentista": "dentisti", "barista": "baristi",
+    "ciclista": "ciclisti", "tassista": "tassisti", "chitarrista": "chitarristi",
+    "violinista": "violinisti", "cellista": "cellisti", "solista": "solisti",
+    "ottimista": "ottimisti", "pessimista": "pessimisti", "fascista": "fascisti",
+    "comunista": "comunisti", "capitalista": "capitalisti", "socialista": "socialisti",
+    "materialista": "materialisti", "idealista": "idealisti", "arrivista": "arrivisti",
+    "animista": "animisti",
+    # Greek-origin masculine -a words
+    "diploma": "diplomi", "sintoma": "sintomi", "idiota": "idioti",
 }
 """Mapping of singular → plural for irregular Italian words.
 
@@ -179,6 +196,8 @@ _EXTRA_SINGLES: dict[str, str] = {
     "dicembri": "dicembre",
     # Season: -e → -i plural ("estati" → regex would give "estato")
     "estati": "estate",
+    # Alternative plurals the generic rules mis-singularize
+    "bracci": "braccio", "pesi": "peso",
 }
 """Additional plural → singular mappings for Italian.
 
@@ -306,7 +325,13 @@ _UNCOUNTABLE: set[str] = {
     "mercoledì", "giovedì", "venerdì",
     "due", "tre", "cinque", "sei",
     "sette", "nove", "dieci", "mille",
-    "sangue", "peggio", "week-end",
+    # Higher numbers (invariable)
+    "undici", "dodici", "tredici", "quattordici", "quindici", "sedici",
+    "diciassette", "diciotto", "diciannove", "venti", "trenta", "quaranta",
+    "cinquanta", "sessanta", "settanta", "ottanta", "novanta", "cento",
+    # Tech abbreviations and loanwords (invariable)
+    "video", "sms", "pc", "tv", "cd", "dvd",
+    "sangue", "peggio", "week-end", "grù",
 }
 """Set of Italian uncountable/invariable words.
 

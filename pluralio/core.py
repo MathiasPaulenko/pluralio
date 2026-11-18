@@ -134,6 +134,21 @@ def _clear_regex_cache() -> None:
     _apply_regex_to_word.cache_clear()
 
 
+def _is_count_one(count: object) -> bool:
+    """Return ``True`` when ``count`` represents exactly one item.
+
+    Accepts ints (and bools, as an ``int`` subclass) equal to 1, and
+    strings that parse to 1 (e.g. ``"1"``, ``" 1 "``, ``"01"``).
+    Unparseable strings are treated as "not one".
+    """
+    if isinstance(count, str):
+        try:
+            count = int(count.strip())
+        except ValueError:
+            return False
+    return count == 1
+
+
 def _apply_rules(
     word: str,
     lower: str,
@@ -205,10 +220,18 @@ _LAST_SEGMENT_PLURAL_FIRST_WORDS: frozenset[str] = frozenset({
 _FR_HYPHEN_SKIP: frozenset[str] = frozenset({
     "de", "du", "des", "la", "le", "les", "en", "et", "ou",
     "pour", "par", "sur", "sous", "avec", "sans", "dans",
+    # Preposition in compounds like pot-au-feu, coq-au-vin
+    "au",
     # Fixed parts in certain compounds
     "vie", "ciel",
     # Invariable prefixes (vice-président → vice-présidents)
     "vice",
+})
+
+# Fixed idiomatic compounds where only the head (first segment) inflects
+# (pot-au-feu → pots-au-feu, coq-au-vin → coqs-au-vin)
+_FIRST_SEGMENT_ONLY: frozenset[str] = frozenset({
+    "pot-au-feu", "coq-au-vin",
 })
 
 # Italian compound words: both nouns are pluralized, but function words
@@ -250,6 +273,14 @@ def _transform_hyphenated(
         return word
 
     first = parts[idx].lower()
+
+    # Fixed idiomatic compounds: only the head segment inflects
+    if word.lower() in _FIRST_SEGMENT_ONLY:
+        if is_plural:
+            parts[idx] = pluralize(parts[idx], lang=lang, count=count)
+        else:
+            parts[idx] = singularize(parts[idx], lang=lang)
+        return "-".join(parts)
 
     # Check if the last segment should be transformed instead of the first
     if first in _LAST_SEGMENT_PLURAL_FIRST_WORDS:
@@ -356,9 +387,7 @@ def _transform(
         return word
     if not stripped.isascii():
         stripped = unicodedata.normalize("NFC", stripped)
-    if is_plural and count is not None and (
-        count == 1 or (isinstance(count, str) and count.strip() == "1")
-    ):
+    if is_plural and count is not None and _is_count_one(count):
         return leading + stripped + trailing
     lower = stripped if stripped.islower() else stripped.lower()
     if lower in rules.uncountable:

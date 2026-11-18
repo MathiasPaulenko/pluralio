@@ -215,6 +215,12 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     "passerby": "passersby",
     # Words ending in s (not ss) that need +es
     "walrus": "walruses", "iris": "irises",
+    # -us nouns taking +es that the (us)$ rule must not hijack
+    "menu": "menus",
+    # Consonant + o loanwords taking +s (not -oes)
+    "limo": "limos", "nacho": "nachos", "bimbo": "bimbos",
+    "bro": "bros", "promo": "promos", "jello": "jellos",
+    "afro": "afros", "mambo": "mambos", "matzo": "matzos",
     # Fase 6: Additional singular -s words that need +es
     "acropolis": "acropolises", "aegis": "aegises", "alias": "aliases",
     "asbestos": "asbestoses", "bathos": "bathoses", "caddis": "caddises",
@@ -679,6 +685,17 @@ _EXTRA_SINGLES: dict[str, str] = {
     # ois → oi (nombres propios, lowercase)
     "bolshois": "bolshoi",
     "hanois": "hanoi",
+    # -us + es words the ses$ rule would turn into "…use"
+    "houses": "house", "amuses": "amuse", "bemuses": "bemuse",
+    "confuses": "confuse", "refuses": "refuse", "diffuses": "diffuse",
+    "infuses": "infuse", "defuses": "defuse", "effuses": "effuse",
+    "accuses": "accuse", "arouses": "arouse", "rouses": "rouse",
+    "espouses": "espouse", "disuses": "disuse",
+    "louses": "louse", "mouses": "mouse",
+    # -ies that come from -i stems (ies→y would give the wrong stem)
+    "taxies": "taxi",
+    # Plural of taxi (the is$ protection rule would keep it unchanged)
+    "taxis": "taxi",
 }
 _IRREGULAR_SINGLES.update(_EXTRA_SINGLES)
 
@@ -687,29 +704,46 @@ _PLURAL_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"([^aeiou])y$"), r"\1ies"),
     # Compound exceptions to f→ves: just add s
     (re.compile(r"(.+)(dwarf|golf|gulf|turf|strife)$"), r"\1\2s"),
+    # -afe words take +s (carafe → carafes); fe→ves only for the wife/knife class
+    (re.compile(r"afe$"), "afes"),
     (re.compile(r"fe$"), "ves"),
-    (re.compile(r"([^aeiou])(?<!f)f$"), r"\1ves"),
+    # scarf/wharf compounds take -ves (headscarf → headscarves)
+    (re.compile(r"(.+)(scar|whar)f$"), r"\1\2ves"),
+    # Only l+f takes -ves (wolf→wolves); other consonant+f takes +s (barf→barfs)
+    (re.compile(r"(l)f$"), r"\1ves"),
     (re.compile(r"([^aeiou])o$"), r"\1oes"),
+    # -us nouns take +es (genius→geniuses); exceptions live in irregulars
+    (re.compile(r"(us)$"), r"\1es"),
     (re.compile(r"([^s])$"), r"\1s"),
 ]
 """Ordered English pluralization regex rules (first match wins).
 
 Order matters: more specific patterns must come before generic ones.
-1. Words ending in ``s``, ``ss``, ``sh``, ``ch``, ``x``, ``z`` → add ``es``.
+1. Words ending in ``ss``, ``sh``, ``ch``, ``x``, ``z`` → add ``es``.
 2. Words ending in consonant + ``y`` → replace ``y`` with ``ies``.
 3. Compound ``f``-exceptions (``dwarf``, ``golf``, ``gulf``, ``turf``,
    ``strife``) → just add ``s``. Base words handled by irregulars.
-4. Words ending in ``fe`` → replace with ``ves``.
-5. Words ending in consonant + ``f`` → replace ``f`` with ``ves``.
-6. Words ending in consonant + ``o`` → replace ``o`` with ``oes``.
-7. Default: append ``s``.
+4. Words ending in ``afe`` → add ``s`` (``carafe → carafes``).
+5. Words ending in ``fe`` → replace with ``ves``.
+6. Words ending in ``l`` + ``f`` → replace ``f`` with ``ves``
+   (``wolf → wolves``). Other consonant + ``f`` words fall through to
+   rule 9 (``barf → barfs``).
+7. Words ending in consonant + ``o`` → replace ``o`` with ``oes``.
+8. Words ending in ``us`` → append ``es`` (``genius → geniuses``).
+   Words that take plain ``+s`` (``menu``) are in irregulars.
+9. Default: append ``s``.
 """
 
 _SINGULAR_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(.+)([^aeiou])ies$"), r"\1\2y"),
     (re.compile(r"(ss|sh|ch|x|zz)es$"), r"\1"),
+    # -us + es → -us (geniuses → genius); -use words are protected by irregulars
+    (re.compile(r"uses$"), "us"),
     (re.compile(r"ses$"), "se"),
     (re.compile(r"zes$"), "ze"),
+    # Compound -shoe words take +s (horseshoes → horseshoe); the oes rule
+    # would wrongly produce "horsesho"
+    (re.compile(r"(.+)shoes$"), r"\1shoe"),
     (re.compile(r"([^aeiou])oes$"), r"\1o"),
     # Protect Latin/Greek singular endings from having s stripped
     (re.compile(r"(is|us|ness)$"), r"\1"),
@@ -740,18 +774,23 @@ Order matters: more specific patterns must come before generic ones.
    → strip ``es`` (e.g. ``"beaches" → "beach"``, ``"boxes" → "box"``).
    Words ending in ``-che`` (e.g. ``"caches"``) are handled by
    irregulars, not this rule.
-3. Words ending in ``ses`` → replace with ``se``.
-4. Words ending in ``zes`` → replace with ``ze``.
-5. Words ending in consonant + ``oes`` → replace with consonant + ``o``.
-6. Words ending in ``is``, ``us``, ``ness`` → unchanged (Latin/Greek singular).
-7. Compound ``f→ves`` words → singularize back to ``f`` form
+3. Words ending in ``uses`` → replace with ``us``
+   (``"geniuses" → "genius"``). ``-use`` words (``"houses"``) are
+   protected by irregulars.
+4. Words ending in ``ses`` → replace with ``se``.
+5. Words ending in ``zes`` → replace with ``ze``.
+6. Compound words ending in ``shoes`` → strip ``s``
+   (``"horseshoes" → "horseshoe"``).
+7. Words ending in consonant + ``oes`` → replace with consonant + ``o``.
+8. Words ending in ``is``, ``us``, ``ness`` → unchanged (Latin/Greek singular).
+9. Compound ``f→ves`` words → singularize back to ``f`` form
    (e.g. ``"afterlives" → "afterlife"``, ``"housewives" → "housewife"``).
    Base words (``life``, ``wife``, etc.) are handled by irregulars.
    The ``[^aeiou]`` guard on ``lives$`` prevents false positives
    like ``"olives" → "olife"``.
-8. Words ending in ``ss`` → unchanged (already singular, e.g. ``"glass"``,
+10. Words ending in ``ss`` → unchanged (already singular, e.g. ``"glass"``,
    ``"dress"``, ``"loss"``).
-9. Default: strip trailing ``s``.
+11. Default: strip trailing ``s``.
 
 Note:
     The ``ves → f`` rule was removed because it caused false positives
@@ -779,7 +818,7 @@ _UNCOUNTABLE: set[str] = {
     "series", "species", "police", "cattle", "offspring",
     "measles", "diabetes", "chaos", "staff", "personnel",
     "means", "aircraft", "spacecraft", "watercraft", "hovercraft",
-    "baggage",
+    "baggage", "kudos",
     # Plural-only nouns ending in -es (would be broken by vowel+ches rule)
     "riches", "breeches", "britches",
     "jodhpurbreeches", "kneebreeches", "ridingbreeches",

@@ -57,11 +57,17 @@ def join(
     if len(items) == 1:
         return items[0]
     if len(items) == 2:
-        return f"{items[0]} {conjunction} {items[1]}"
+        if conjunction:
+            return f"{items[0]} {conjunction} {items[1]}"
+        return f"{items[0]} {items[1]}"
     head = sep.join(items[:-1])
+    if conjunction:
+        if final_sep:
+            return f"{head}{final_sep}{conjunction} {items[-1]}"
+        return f"{head} {conjunction} {items[-1]}"
     if final_sep:
-        return f"{head}{final_sep}{conjunction} {items[-1]}"
-    return f"{head} {conjunction} {items[-1]}"
+        return f"{head}{final_sep}{items[-1]}"
+    return f"{head} {items[-1]}"
 
 
 def ordinal(number: int | str) -> str:
@@ -93,12 +99,28 @@ def ordinal(number: int | str) -> str:
         >>> ordinal(0)
         '0th'
     """
-    n = int(number)
+    try:
+        n = int(number)
+    except (TypeError, OverflowError) as e:
+        raise ValueError(f"ordinal() requires an integer, got {number!r}") from e
     if not isinstance(number, int | str) and n != number:
         raise ValueError(f"ordinal() requires an integer, got {number!r}")
     abs_n = abs(n)
     suffix = "th" if 10 <= abs_n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(abs_n % 10, "th")
     return f"{n}{suffix}"
+
+
+def _to_count(value: object) -> int | None:
+    """Convert a template ``count`` value to ``int | None``.
+
+    ``None`` means "no count" (always pluralize). Ints pass through;
+    other values are parsed from their string form.
+    """
+    if value is None:
+        return None
+    if isinstance(value, int):
+        return value
+    return int(str(value))
 
 
 _TEMPLATE_PATTERN = re.compile(
@@ -159,9 +181,9 @@ def template(text: str, **kwargs: object) -> str:
         if transform == "pluralize":
             count: int | None = None
             if count_var and count_var in kwargs:
-                count = int(str(kwargs[count_var]))
+                count = _to_count(kwargs[count_var])
             elif "count" in kwargs:
-                count = int(str(kwargs["count"]))
+                count = _to_count(kwargs["count"])
             return pluralize(value, count=count)
 
         if transform == "singularize":

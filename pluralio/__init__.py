@@ -72,7 +72,9 @@ def _read_version() -> str:
         pass
     pyproject = Path(__file__).resolve().parent.parent / "pyproject.toml"
     if pyproject.is_file():
-        match = re.search(r'^version\s*=\s*"([^"]+)"', pyproject.read_text(), re.M)
+        match = re.search(
+            r'^version\s*=\s*"([^"]+)"', pyproject.read_text(encoding="utf-8"), re.M
+        )
         if match:
             return match.group(1)
     return "0.0.0+unknown"
@@ -80,6 +82,12 @@ def _read_version() -> str:
 
 __version__ = _read_version()
 """Package version string (read from installed package metadata or pyproject.toml)."""
+
+
+def _require_str(name: str, value: object) -> None:
+    """Raise ``TypeError`` unless ``value`` is a string."""
+    if not isinstance(value, str):
+        raise TypeError(f"{name} must be str, got {type(value).__name__}")
 
 __all__ = [
     "pluralize",
@@ -125,6 +133,8 @@ def add_irregular(singular: str, plural: str, lang: str = "en") -> None:
         >>> singularize("people")
         'person'
     """
+    _require_str("singular", singular)
+    _require_str("plural", plural)
     rules = get_rules(lang)
     rules.irregular_plurals[singular.lower()] = plural.lower()
     rules.irregular_singles[plural.lower()] = singular.lower()
@@ -151,6 +161,8 @@ def add_plural(singular: str, plural: str, lang: str = "en") -> None:
         >>> pluralize("joven", lang="es")
         'jóvenes'
     """
+    _require_str("singular", singular)
+    _require_str("plural", plural)
     rules = get_rules(lang)
     rules.irregular_plurals[singular.lower()] = plural.lower()
     _clear_regex_cache()
@@ -176,6 +188,8 @@ def add_singular(plural: str, singular: str, lang: str = "en") -> None:
         >>> singularize("alemanes", lang="es")
         'alemán'
     """
+    _require_str("plural", plural)
+    _require_str("singular", singular)
     rules = get_rules(lang)
     rules.irregular_singles[plural.lower()] = singular.lower()
     _clear_regex_cache()
@@ -199,6 +213,7 @@ def add_uncountable(word: str, lang: str = "en") -> None:
         >>> singularize("data")
         'data'
     """
+    _require_str("word", word)
     rules = get_rules(lang)
     rules.uncountable.add(word.lower())
     _clear_regex_cache()
@@ -221,6 +236,8 @@ def add_plural_rule(pattern: str, replacement: str, lang: str = "en") -> None:
         >>> pluralize("cactus")
         'cacti'
     """
+    _require_str("pattern", pattern)
+    _require_str("replacement", replacement)
     rules = get_rules(lang)
     rules.plural_rules.insert(0, (re.compile(pattern), replacement))
     _clear_regex_cache()
@@ -243,6 +260,8 @@ def add_singular_rule(pattern: str, replacement: str, lang: str = "en") -> None:
         >>> singularize("cacti")
         'cactus'
     """
+    _require_str("pattern", pattern)
+    _require_str("replacement", replacement)
     rules = get_rules(lang)
     rules.singular_rules.insert(0, (re.compile(pattern), replacement))
     _clear_regex_cache()
@@ -287,6 +306,7 @@ def register_language(
         uncountable: Set of invariable words. Normalized to lowercase.
 
     Example:
+        >>> from pluralio.registry import restore, snapshot
         >>> state = snapshot()
         >>> register_language(
         ...     "fr",
@@ -310,8 +330,14 @@ def register_language(
     for singular, plural in plurals.items():
         singles.setdefault(plural, singular)
 
-    compiled_plural = [(re.compile(p), r) for p, r in (plural_rules or [(r"$", "s")])]
-    compiled_singular = [(re.compile(p), r) for p, r in (singular_rules or [(r"s$", "")])]
+    compiled_plural = [
+        (re.compile(p), r)
+        for p, r in (plural_rules if plural_rules is not None else [(r"$", "s")])
+    ]
+    compiled_singular = [
+        (re.compile(p), r)
+        for p, r in (singular_rules if singular_rules is not None else [(r"s$", "")])
+    ]
 
     register(LanguageRules(
         code=lang,

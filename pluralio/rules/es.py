@@ -85,6 +85,8 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     # Words ending in -y (invariable or -yes)
     "ley": "leyes", "rey": "reyes", "buey": "bueyes",
     "hoy": "hoyes", "convoy": "convoyes",
+    # -ey taking accented -éis (RAE: jersey → jerséis)
+    "jersey": "jerséis",
     # More common non-tech loanwords (just +s)
     "sandwich": "sandwiches", "whisky": "whiskies",
     "ponche": "ponches", "parche": "parches",
@@ -236,6 +238,8 @@ _EXTRA_SINGLES: dict[str, str] = {
     "canciones": "canción",
     # Words where vowel+consonant+e pattern breaks rule 7
     "peines": "peine",
+    # -ón accent restoration (too short for the (.{3,})ones$ regex rule)
+    "peones": "peón",
 }
 """Additional plural → singular mappings for Spanish.
 
@@ -249,6 +253,10 @@ _IRREGULAR_SINGLES.update(_EXTRA_SINGLES)
 
 for _plural, _singular in _EXTRA_SINGLES.items():
     _IRREGULAR_PLURALS.setdefault(_singular, _plural)
+
+# Unaccented plural variant of jerséis (must not back-propagate into
+# _IRREGULAR_PLURALS: "jerséis" is already plural and must stay idempotent)
+_IRREGULAR_SINGLES["jerseis"] = "jersey"
 
 _PLURAL_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"z$"), "ces"),

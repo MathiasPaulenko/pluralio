@@ -55,7 +55,7 @@ class TestFrHyphenated:
         ("eau-de-vie", "eaux-de-vie"),
         ("garde-manger", "gardes-mangers"),
         ("chou-fleur", "choux-fleurs"),
-        ("pot-au-feu", "pots-aux-feux"),
+        ("pot-au-feu", "pots-au-feu"),
         ("arc-en-ciel", "arcs-en-ciel"),
         ("vice-président", "vice-présidents"),
     ])
@@ -67,7 +67,7 @@ class TestFrHyphenated:
         ("eaux-de-vie", "eau-de-vie"),
         ("gardes-mangers", "garde-manger"),
         ("choux-fleurs", "chou-fleur"),
-        ("pots-aux-feux", "pot-au-feu"),
+        ("pots-au-feu", "pot-au-feu"),
         ("arcs-en-ciel", "arc-en-ciel"),
         ("vice-présidents", "vice-président"),
         ("porte-monnaies", "porte-monnaie"),

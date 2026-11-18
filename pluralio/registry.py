@@ -93,7 +93,9 @@ def register(rules: LanguageRules) -> None:
         True
         >>> restore(state)
     """
-    code = rules.code.strip().lower() if isinstance(rules.code, str) else rules.code
+    if not isinstance(rules.code, str):
+        raise TypeError(f"Language code must be str, got {type(rules.code).__name__}")
+    code = rules.code.strip().lower()
     if not code:
         raise ValueError("Language code cannot be empty")
     _REGISTRY[code] = rules if rules.code == code else replace(rules, code=code)
@@ -124,7 +126,11 @@ def get_rules(lang: str) -> LanguageRules:
         >>> rules.code
         'en'
     """
-    key = lang.strip().lower() if isinstance(lang, str) else lang
+    if not isinstance(lang, str):
+        raise ValueError(
+            f"Unsupported language: {lang!r}. Supported: {sorted(_REGISTRY)}"
+        )
+    key = lang.strip().lower()
     if key not in _REGISTRY:
         raise ValueError(
             f"Unsupported language: {lang!r}. Supported: {sorted(_REGISTRY)}"

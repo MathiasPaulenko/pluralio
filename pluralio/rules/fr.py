@@ -81,6 +81,8 @@ _IRREGULAR_PLURALS: dict[str, str] = {
     # ── -au → -aux (common words needing explicit mapping) ────────
     "tuyau": "tuyaux", "noyau": "noyaux", "boyau": "boyaux",
     "sarrau": "sarraux",
+    # -au taking regular +s (landau → landaus)
+    "landau": "landaus",
     # ── -eu → -eux (exceptions: most -eu words take -eux, but some take +s) ──
     "jeu": "jeux", "feu": "feux", "vœu": "vœux",
     # ── -eu → +s (exceptions to the -eux rule) ───────────────────
@@ -238,6 +240,10 @@ _UNCOUNTABLE: set[str] = {
     # -s invariable
     "fois", "souris", "brebis",
     "poids", "rhinocéros", "virus",
+    # More -s invariable nouns (singular == plural)
+    "mois", "relais", "repas", "matelas", "os", "obus", "vernis",
+    "puits", "châssis", "chassis", "maquis", "dais", "débris",
+    "plus", "sas", "autobus", "bus", "iris",
     # -x invariable
     "croix", "voix", "noix",
     "choix", "prix",
